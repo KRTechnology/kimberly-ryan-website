@@ -15,10 +15,10 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-semibold mb-6 text-[#181D27] leading-tight">
               Your People & Your Business Are Our Business
             </h1>
-            <p className="text-lg text-slate-600 mb-8">
+            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
               We excel at empowering businesses with tailored HR Solutions for
               optimal growth and success.
             </p>
@@ -42,15 +42,22 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden">
-              <Image
-                src="/images/hero-image.jpg"
-                alt="Business professionals in a meeting"
-                fill
-                style={{ objectFit: "cover" }}
-                className="rounded-lg"
-                priority
-              />
+            <div className="relative h-[400px] md:h-[500px] w-full max-w-md mx-auto">
+              <div
+                className="w-full h-full relative overflow-hidden bg-gray-200"
+                style={{
+                  borderRadius: "50% 50% 21px 21px",
+                }}
+              >
+                <Image
+                  src="/images/hero-image.jpg"
+                  alt="Business professionals in a meeting"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </motion.div>
         </div>
