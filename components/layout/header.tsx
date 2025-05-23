@@ -71,7 +71,10 @@ const Header = () => {
             <DesktopNav />
 
             {/* Tablet Navigation */}
-            <TabletNav onMenuClick={() => setIsMobileMenuOpen(true)} />
+            <TabletNav
+              isMobileMenuOpen={isMobileMenuOpen}
+              onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
 
             {/* CTA Button */}
             <Link

@@ -25,9 +25,9 @@ const DesktopNav = () => {
           {item.dropdownItems && (
             <motion.div
               className="absolute left-0 mt-2 w-64 bg-[#FAFAFA] shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
+              // initial={{ opacity: 0, y: 10 }}
+              // animate={{ opacity: 1, y: 0 }}
+              // exit={{ opacity: 0, y: 10 }}
             >
               <div className="py-2">
                 {item.dropdownItems.map((dropdownItem, dropdownIndex) => {

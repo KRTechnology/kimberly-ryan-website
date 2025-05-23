@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { navItems } from "./nav-items";
 
 interface TabletNavProps {
+  isMobileMenuOpen: boolean;
   onMenuClick: () => void;
 }
 
-const TabletNav = ({ onMenuClick }: TabletNavProps) => {
+const TabletNav = ({ isMobileMenuOpen, onMenuClick }: TabletNavProps) => {
   return (
     <div className="hidden md:flex lg:hidden items-center space-x-4">
       {navItems.slice(0, 4).map((item, index) => (
@@ -53,8 +54,15 @@ const TabletNav = ({ onMenuClick }: TabletNavProps) => {
         </div>
       ))}
 
-      <button className="p-2 text-[#414651]" onClick={onMenuClick}>
-        <Menu className="w-5 h-5" />
+      <button
+        className="p-2 text-[#414651] z-[60] relative"
+        onClick={onMenuClick}
+      >
+        {isMobileMenuOpen ? (
+          <X className="w-5 h-5" />
+        ) : (
+          <Menu className="w-5 h-5" />
+        )}
       </button>
     </div>
   );
