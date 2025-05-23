@@ -39,11 +39,11 @@ const Footer = () => {
           <div className="space-y-6">
             <Link href="/" className="inline-block">
               <Image
-                src="/images/kr-logo.svg"
+                src="/images/kr-logo-white.svg"
                 alt="Kimberly Ryan Logo"
                 width={150}
                 height={40}
-                className="invert"
+                // className="invert"
               />
             </Link>
             <p className="text-sm text-gray-300">
