@@ -118,7 +118,7 @@ const Hero = () => {
 
   return (
     <section
-      className="relative min-h-screen pt-20 flex items-center"
+      className="relative py-24 flex items-center"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
