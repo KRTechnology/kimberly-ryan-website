@@ -62,7 +62,7 @@ const Hero = () => {
 
     const interval = setInterval(() => {
       nextSlide();
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, nextSlide]);
