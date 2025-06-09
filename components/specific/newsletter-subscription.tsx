@@ -98,7 +98,7 @@ const NewsletterSubscription = () => {
             <div>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-[6px]">
                 {/* Email Input and Button - Desktop: side by side, Mobile: stacked */}
-                <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex flex-col md:flex-row md:items-start gap-4">
                   <div className="flex-1">
                     <input
                       {...register("email")}
@@ -119,7 +119,7 @@ const NewsletterSubscription = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-8 py-3 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 font-semibold whitespace-nowrap"
+                    className="px-8 py-3 h-12 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 font-semibold whitespace-nowrap flex-shrink-0"
                   >
                     {isSubmitting ? "Subscribing..." : "Subscribe"}
                   </button>
