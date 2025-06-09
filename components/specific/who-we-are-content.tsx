@@ -14,7 +14,7 @@ const WhoWeAreContent = () => {
         >
           {/* Main heading */}
           <motion.h1
-            className="text-[30px] md:text-[36px] font-semibold mb-8 md:mb-12 leading-tight font-plex text-[#181D27]"
+            className="text-[30px] md:text-[36px] font-semibold text-left md:text-center mb-8 md:mb-12 leading-tight font-plex text-[#181D27]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -24,12 +24,12 @@ const WhoWeAreContent = () => {
 
           {/* Introductory paragraph */}
           <motion.div
-            className="mb-12 md:mb-16"
+            className="text-left md:text-center mb-12 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <p className="text-[18px] md:text-[20px] leading-relaxed text-[#535862] font-inter">
+            <p className="text-[18px] md:text-[20px] leading-relaxed text-[#535862] font-inter md:max-w-4xl md:mx-auto">
               Kimberly Ryan Limited is a leading HR consulting firm in Africa
               with a global footprint across Nigeria, Ghana, Kenya, Sierra
               Leone, Uganda, and the United Kingdom.
