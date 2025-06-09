@@ -3,6 +3,7 @@ import WhoWeAreContent from "@/components/specific/who-we-are-content";
 import CompanyIntroductionVideo from "@/components/specific/company-introduction-video";
 import VisionMissionSection from "@/components/specific/vision-mission-section";
 import CoreValuesSection from "@/components/specific/core-values-section";
+import WhyChooseUsSection from "@/components/specific/why-choose-us-section";
 
 export default function WhoWeArePage() {
   return (
@@ -11,6 +12,7 @@ export default function WhoWeArePage() {
       <CompanyIntroductionVideo />
       <VisionMissionSection />
       <CoreValuesSection />
+      <WhyChooseUsSection />
       <NewsletterSubscription />
     </>
   );
