@@ -69,7 +69,7 @@ export const navItems: NavItem[] = [
   },
   {
     label: "Insights",
-    href: "/insights",
+    href: "#",
     dropdownItems: [
       {
         label: "Blog",
