@@ -2,6 +2,7 @@ import NewsletterSubscription from "@/components/specific/newsletter-subscriptio
 import WhoWeAreContent from "@/components/specific/who-we-are-content";
 import CompanyIntroductionVideo from "@/components/specific/company-introduction-video";
 import VisionMissionSection from "@/components/specific/vision-mission-section";
+import CoreValuesSection from "@/components/specific/core-values-section";
 
 export default function WhoWeArePage() {
   return (
@@ -9,6 +10,7 @@ export default function WhoWeArePage() {
       <WhoWeAreContent />
       <CompanyIntroductionVideo />
       <VisionMissionSection />
+      <CoreValuesSection />
       <NewsletterSubscription />
     </>
   );
