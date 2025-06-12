@@ -59,12 +59,12 @@ export const navItems: NavItem[] = [
         icon: Building2,
         description: "Streamline operations with our expert services",
       },
-      {
-        label: "HR Management Templates",
-        href: "/services/templates",
-        icon: FileText,
-        description: "Ready-to-use HR documents and templates",
-      },
+      // {
+      //   label: "HR Management Templates",
+      //   href: "/services/templates",
+      //   icon: FileText,
+      //   description: "Ready-to-use HR documents and templates",
+      // },
     ],
   },
   {
