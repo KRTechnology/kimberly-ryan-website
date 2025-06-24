@@ -113,13 +113,13 @@ export const navItems: NavItem[] = [
     dropdownItems: [
       {
         label: "Kracada",
-        href: "/solutions/kracada",
+        href: "https://www.kracada.com/",
         icon: Laptop,
         description: "Comprehensive digital platform for modern businesses",
       },
       {
         label: "Kracada TV",
-        href: "/solutions/kracada-tv",
+        href: "https://www.youtube.com/@kracada01",
         icon: PlayCircle,
         description: "Interactive learning and entertainment platform",
       },

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import NewsletterSubscriptionForm from "./newsletter-subscription-form";
 
-export default function CustomerStoriesHero() {
+export default function GalleryHero() {
   return (
     <section className="bg-sunset-600 text-white">
       <div className="container mx-auto px-4 lg:px-8 pt-32 pb-16 lg:pt-40 lg:pb-24">
@@ -13,15 +13,15 @@ export default function CustomerStoriesHero() {
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
-          {/* 1. Testimonials heading */}
+          {/* 1. Gallery heading */}
           <p className="text-base font-semibold tracking-wide text-amberwood-50">
-            Testimonials
+            Gallery
           </p>
 
-          {/* 2. Flexed row - Client Testimonials + Subscribe text (desktop) or just Client Testimonials (mobile) */}
+          {/* 2. Flexed row - Events & Galleries + Subscribe text (desktop) or just Events & Galleries (mobile) */}
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
             <h1 className="text-4xl lg:text-5xl font-bold font-plex leading-tight">
-              Client Testimonials
+              Events & Galleries
             </h1>
 
             {/* Subscribe text - only on desktop */}

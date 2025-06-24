@@ -11,7 +11,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function CustomerStoriesForm() {
+export default function NewsletterSubscriptionForm() {
   const {
     register,
     handleSubmit,
