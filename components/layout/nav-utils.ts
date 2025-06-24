@@ -6,6 +6,13 @@ export interface ActiveStates {
 }
 
 /**
+ * Checks if a link is external (starts with http:// or https://)
+ */
+export const isExternalLink = (href: string): boolean => {
+  return href.startsWith("http://") || href.startsWith("https://");
+};
+
+/**
  * Determines if a main navigation section and its dropdown items are active
  * based on the current pathname
  */

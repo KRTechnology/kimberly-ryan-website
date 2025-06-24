@@ -9,6 +9,7 @@ import {
   getActiveStates,
   getMainNavClasses,
   getDropdownItemClasses,
+  isExternalLink,
 } from "./nav-utils";
 
 const DesktopNav = () => {
@@ -57,6 +58,16 @@ const DesktopNav = () => {
                           isDropdownItemActive,
                           "flex items-center px-4 py-2 text-sm text-[#181D27] font-semibold transition-colors duration-200 relative"
                         )}
+                        target={
+                          isExternalLink(dropdownItem.href)
+                            ? "_blank"
+                            : undefined
+                        }
+                        rel={
+                          isExternalLink(dropdownItem.href)
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
                       >
                         <Icon
                           className={`w-5 h-5 mr-3 ${

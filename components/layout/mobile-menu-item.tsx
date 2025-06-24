@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { NavItem } from "./nav-items";
-import { getActiveStates } from "./nav-utils";
+import { getActiveStates, isExternalLink } from "./nav-utils";
 
 interface MobileMenuItemProps {
   item: NavItem;
@@ -52,6 +52,8 @@ const MobileMenuItem = ({
           className={`text-lg font-semibold block ${
             isMainSectionActive ? "text-sunset-200" : "text-[#181D27]"
           }`}
+          target={isExternalLink(item.href) ? "_blank" : undefined}
+          rel={isExternalLink(item.href) ? "noopener noreferrer" : undefined}
           onClick={onItemClick}
         >
           {item.label}
@@ -82,6 +84,14 @@ const MobileMenuItem = ({
                         ? "text-sunset-200"
                         : "text-[#181D27] hover:text-sunset-200"
                     }`}
+                    target={
+                      isExternalLink(dropdownItem.href) ? "_blank" : undefined
+                    }
+                    rel={
+                      isExternalLink(dropdownItem.href)
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
                     onClick={onItemClick}
                   >
                     <Icon

@@ -9,6 +9,7 @@ import {
   getActiveStates,
   getMainNavClasses,
   getDropdownItemClasses,
+  isExternalLink,
 } from "./nav-utils";
 
 interface TabletNavProps {
@@ -67,6 +68,16 @@ const TabletNav = ({ isMobileMenuOpen, onMenuClick }: TabletNavProps) => {
                           isDropdownItemActive,
                           "flex items-center px-4 py-2 text-sm text-[#181D27] font-semibold transition-colors duration-200 relative"
                         )}
+                        target={
+                          isExternalLink(dropdownItem.href)
+                            ? "_blank"
+                            : undefined
+                        }
+                        rel={
+                          isExternalLink(dropdownItem.href)
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
                       >
                         <Icon
                           className={`w-4 h-4 mr-3 ${
