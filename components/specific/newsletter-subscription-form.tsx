@@ -11,7 +11,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function NewsletterSubscriptionForm() {
+interface NewsletterSubscriptionFormProps {
+  privacyTextColor?: string;
+}
+
+export default function NewsletterSubscriptionForm({
+  privacyTextColor = "text-amberwood-50",
+}: NewsletterSubscriptionFormProps) {
   const {
     register,
     handleSubmit,
@@ -81,11 +87,11 @@ export default function NewsletterSubscriptionForm() {
         )}
       </form>
 
-      <p className="text-sm text-amberwood-50">
+      <p className={`text-sm ${privacyTextColor}`}>
         We care about your data in our{" "}
         <a
           href="/privacy-policy"
-          className="underline hover:text-white transition-colors"
+          className="underline hover:opacity-80 transition-opacity"
         >
           privacy policy
         </a>
