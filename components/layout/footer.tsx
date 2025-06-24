@@ -6,7 +6,7 @@ const Footer = () => {
   const services = [
     { name: "HR Advisory", href: "/services/hr-advisory" },
     { name: "Learning & Development", href: "/services/learning-development" },
-    { name: "Recruitment & Selection", href: "/services/recruitment" },
+    { name: "Recruitment Solution", href: "/services/recruitment" },
     { name: "Outsourcing", href: "/services/outsourcing" },
     { name: "Careers", href: "/services/careers" },
   ];
@@ -23,11 +23,9 @@ const Footer = () => {
   ];
 
   const solutions = [
-    { name: "Kracada lifestyle", href: "/solutions/kracada-lifestyle" },
-    { name: "KRIS - HRMS", href: "/solutions/kris-hrms" },
-    { name: "Kracada TV", href: "/solutions/kracada-tv" },
-    { name: "Help centre", href: "/solutions/help-centre" },
-    { name: "Tutorials", href: "/solutions/tutorials" },
+    { name: "Kracada Web", href: "https://www.kracada.com/" },
+    { name: "KRISHR", href: "/solutions/krishr" },
+    { name: "Kracada TV", href: "https://www.youtube.com/@kracada01" },
     { name: "Support", href: "/solutions/support" },
   ];
 
@@ -50,7 +48,7 @@ const Footer = () => {
               Kimberly Ryan - At the forefront of innovative HR solutions.
             </p>
             <div className="space-y-2">
-              <p className="text-sm">Phone: +234 818 453 2278</p>
+              <p className="text-sm">Phone: +234(0)9135827236</p>
               <p className="text-sm">Email: info@kimberly-ryan.com</p>
             </div>
           </div>
