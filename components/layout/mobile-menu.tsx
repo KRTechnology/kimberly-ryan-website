@@ -40,34 +40,6 @@ const MobileMenu = ({
               ))}
             </div>
 
-            {/* Footer Links */}
-            <div className="mt-8 grid grid-cols-2 gap-y-4 text-sm text-[#4B5563]">
-              <Link href="/about" onClick={onClose}>
-                About us
-              </Link>
-              <Link href="/support" onClick={onClose}>
-                Support
-              </Link>
-              <Link href="/press" onClick={onClose}>
-                Press
-              </Link>
-              <Link href="/contact" onClick={onClose}>
-                Contact
-              </Link>
-              <Link href="/careers" onClick={onClose}>
-                Careers
-              </Link>
-              <Link href="/sitemap" onClick={onClose}>
-                Sitemap
-              </Link>
-              <Link href="/legal" onClick={onClose}>
-                Legal
-              </Link>
-              <Link href="/cookies" onClick={onClose}>
-                Cookie settings
-              </Link>
-            </div>
-
             <div className="mt-8">
               <Link
                 href="/consultation"

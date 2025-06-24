@@ -72,38 +72,24 @@ export const navItems: NavItem[] = [
     href: "#",
     dropdownItems: [
       {
-        label: "Blog",
-        href: "/insights/blog",
+        label: "Blogs",
+        href: "/insights/blogs",
         icon: BookOpen,
         description:
-          "The latest industry new and guides curated by our expert team.",
+          "The latest industry news and guides curated by our expert team.",
       },
       {
-        label: "Customer stories",
-        href: "/insights/customer-stories",
+        label: "Case Studies",
+        href: "/insights/case-studies",
         icon: History,
-        description:
-          "Learn how our customers are using Untitled UI to 10x their growth.",
+        description: "Real-world success stories and client achievements.",
       },
       {
-        label: "Video tutorials",
-        href: "/insights/tutorials",
-        icon: PlayCircle,
-        description:
-          "Get up and running on our newest features and in-depth guides.",
-      },
-      {
-        label: "Documentation",
-        href: "/insights/documentation",
+        label: "HR Management Templates",
+        href: "/insights/hr-templates",
         icon: FileText,
         description:
-          "In-depth articles on our tools and technologies to empower teams.",
-      },
-      {
-        label: "Help and support",
-        href: "/insights/support",
-        icon: LifeBuoy,
-        description: "Learn, fix a problem, and get answers to your questions.",
+          "Ready-to-use HR documents and templates for your organization.",
       },
     ],
   },
