@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import BlogsHero from "@/components/specific/blogs-hero";
+import BlogsGrid from "@/components/specific/blogs-grid";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export default function BlogsPage() {
   return (
     <main>
       <BlogsHero />
-      {/* Additional blogs content can be added here in the future */}
+      <BlogsGrid />
       <NewsletterSubscription />
     </main>
   );
