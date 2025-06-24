@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import GalleryHero from "@/components/specific/gallery-hero";
+import GalleryGrid from "@/components/specific/gallery-grid";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export default function GalleryPage() {
   return (
     <main>
       <GalleryHero />
-      {/* Additional gallery content can be added here in the future */}
+      <GalleryGrid />
       <NewsletterSubscription />
     </main>
   );
