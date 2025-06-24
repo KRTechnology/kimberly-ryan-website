@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  ChevronDown,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface BlogArticle {
@@ -150,6 +155,7 @@ const categories = [
 export default function BlogsGrid() {
   const [activeCategory, setActiveCategory] = useState("View all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
 
   const itemsPerPage = 6;
 
@@ -174,8 +180,8 @@ export default function BlogsGrid() {
   return (
     <section className="py-16 lg:py-24 bg-[#FFF]">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Filter tabs */}
-        <div className="mb-12">
+        {/* Filter tabs - Desktop */}
+        <div className="hidden lg:block mb-12">
           <div className="flex flex-wrap gap-1">
             {categories.map((category) => (
               <button
@@ -190,6 +196,40 @@ export default function BlogsGrid() {
                 {category}
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Filter dropdown - Mobile */}
+        <div className="lg:hidden mb-12">
+          <div className="relative">
+            <button
+              onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm font-medium text-[#181D27]"
+            >
+              <span>{activeCategory}</span>
+              <ChevronDown size={16} className="text-gray-400" />
+            </button>
+
+            {isCategoryDropdownOpen && (
+              <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      handleCategoryChange(category);
+                      setIsCategoryDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg transition-colors duration-200 ${
+                      activeCategory === category
+                        ? "text-orange-500 font-medium"
+                        : "text-[#181D27]"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
