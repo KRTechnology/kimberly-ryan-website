@@ -1,4 +1,5 @@
 import ContactUsForm from "@/components/specific/contact-us-form";
+import OurLocations from "@/components/specific/our-locations";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
 import { Metadata } from "next";
 
@@ -12,7 +13,7 @@ export default function SupportPage() {
   return (
     <main>
       <ContactUsForm />
-      {/* TODO: Add a section for the newsletter subscription */}
+      <OurLocations />
       <NewsletterSubscription />
     </main>
   );
