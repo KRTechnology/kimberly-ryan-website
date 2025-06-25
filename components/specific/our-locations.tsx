@@ -76,13 +76,13 @@ export default function OurLocations() {
           transition={{ duration: 0.6 }}
           className="text-center lg:text-left mb-12 lg:mb-16"
         >
-          <p className="text-white/80 text-sm font-medium mb-2 tracking-wide uppercase">
+          <p className="text-sunset-50 text-sm font-semibold mb-2 tracking-wide uppercase">
             Contact us
           </p>
-          <h2 className="text-3xl lg:text-4xl font-semibold text-white mb-4">
+          <h2 className="text-3xl lg:text-4xl font-semibold text-amberwood-50 mb-4">
             Our locations
           </h2>
-          <p className="text-white/80 text-lg max-w-xl">
+          <p className="text-sunset-50 text-lg max-w-xl">
             Come visit our friendly team at one of our offices.
           </p>
         </motion.div>
@@ -127,25 +127,27 @@ export default function OurLocations() {
               >
                 {/* Location Icon */}
                 <div className="flex justify-center mb-4">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                    <MapPin size={16} className="text-white" />
-                  </div>
+                  {/* <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center"> */}
+                  <MapPin size={24} className="text-sunset-200" />
+                  {/* </div> */}
                 </div>
 
                 {/* Location Details */}
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-amberwood-50 mb-2">
                   {location.name}
                 </h3>
-                <p className="text-white/80 text-sm mb-3">{location.hours}</p>
-                <p className="text-white/70 text-sm mb-3 leading-relaxed">
+                <p className="text-terra-50 text-sm mb-3">{location.hours}</p>
+                <p className="text-sunset-50 text-sm mb-3 leading-relaxed">
                   {location.address}
                 </p>
                 {location.phone && (
-                  <p className="text-white/70 text-sm mb-2">{location.phone}</p>
+                  <p className="text-sunset-50 text-sm mb-2">
+                    {location.phone}
+                  </p>
                 )}
                 <a
                   href={`mailto:${location.email}`}
-                  className="text-white/70 text-sm hover:text-orange-500 transition-colors duration-200 underline"
+                  className="text-sunset-50 text-sm hover:text-sunset-200 transition-colors duration-200 underline"
                 >
                   {location.email}
                 </a>
@@ -174,25 +176,27 @@ export default function OurLocations() {
               >
                 {/* Location Icon */}
                 <div className="flex justify-center mb-4">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                    <MapPin size={16} className="text-white" />
-                  </div>
+                  {/* <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center"> */}
+                  <MapPin size={24} className="text-sunset-200" />
+                  {/* </div> */}
                 </div>
 
                 {/* Location Details */}
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-amberwood-50 mb-2">
                   {location.name}
                 </h3>
-                <p className="text-white/80 text-sm mb-3">{location.hours}</p>
-                <p className="text-white/70 text-sm mb-3 leading-relaxed">
+                <p className="text-terra-50 text-sm mb-3">{location.hours}</p>
+                <p className="text-sunset-50 text-sm mb-3 leading-relaxed">
                   {location.address}
                 </p>
                 {location.phone && (
-                  <p className="text-white/70 text-sm mb-2">{location.phone}</p>
+                  <p className="text-sunset-50 text-sm mb-2">
+                    {location.phone}
+                  </p>
                 )}
                 <a
                   href={`mailto:${location.email}`}
-                  className="text-white/70 text-sm hover:text-orange-500 transition-colors duration-200 underline"
+                  className="text-sunset-50 text-sm hover:text-sunset-200 transition-colors duration-200 underline"
                 >
                   {location.email}
                 </a>
