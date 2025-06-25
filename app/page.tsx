@@ -1,10 +1,10 @@
 import Hero from "@/components/specific/hero";
-import Publications from "@/components/specific/publications";
-import TrustedCompanies from "@/components/specific/trusted-companies";
-import OurServices from "@/components/specific/our-services";
-import Testimonials from "@/components/specific/testimonials";
-import WorkingWithUs from "@/components/specific/working-with-us";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
+import OurServices from "@/components/specific/our-services";
+import Publications from "@/components/specific/publications";
+import Testimonials from "@/components/specific/testimonials";
+import TrustedCompanies from "@/components/specific/trusted-companies";
+import WorkingWithUs from "@/components/specific/working-with-us";
 
 export default function Home() {
   return (
