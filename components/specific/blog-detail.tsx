@@ -184,7 +184,7 @@ export default function BlogDetail({ article }: BlogDetailProps) {
 
             {/* Sidebar */}
             <aside className="lg:col-span-4">
-              <div className="sticky top-8">
+              <div className="sticky top-24">
                 {/* Newsletter Subscription */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}

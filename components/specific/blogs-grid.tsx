@@ -236,57 +236,55 @@ export default function BlogsGrid() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {currentArticles.map((article, index) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
-            >
-              {/* Featured Image with Glassmorphism Overlay */}
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                />
+            <Link href={`/insights/blogs/${article.id}`} key={article.id}>
+              <motion.article
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              >
+                {/* Featured Image with Glassmorphism Overlay */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
 
-                {/* Glassmorphism Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-white/20 backdrop-blur-sm border-t border-white/20">
-                  <div className="flex items-center justify-between p-4">
-                    <div className="flex flex-col">
-                      <span className="text-white text-sm font-medium">
-                        {article.author}
-                      </span>
-                      <span className="text-white/80 text-sm">
-                        {article.date}
+                  {/* Glassmorphism Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-white/20 backdrop-blur-sm border-t border-white/20">
+                    <div className="flex items-center justify-between p-4">
+                      <div className="flex flex-col">
+                        <span className="text-white text-sm font-medium">
+                          {article.author}
+                        </span>
+                        <span className="text-white/80 text-sm">
+                          {article.date}
+                        </span>
+                      </div>
+                      <span className="text-white text-sm font-medium bg-white/20 px-2 py-1 rounded">
+                        {article.category}
                       </span>
                     </div>
-                    <span className="text-white text-sm font-medium bg-white/20 px-2 py-1 rounded">
-                      {article.category}
-                    </span>
                   </div>
                 </div>
-              </div>
 
-              {/* Article Content */}
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-[#181D27] mb-3 leading-tight">
-                  {article.title}
-                </h2>
-                <p className="text-[#535862] text-sm leading-relaxed mb-4">
-                  {article.description}
-                </p>
-                <Link
-                  href={`/insights/blogs/${article.id}`}
-                  className="inline-flex items-center space-x-2 text-orange-500 hover:text-orange-600 font-medium text-sm transition-colors duration-200"
-                >
-                  <span>Read Post</span>
-                  <ArrowRight size={16} />
-                </Link>
-              </div>
-            </motion.article>
+                {/* Article Content */}
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold text-[#181D27] mb-3 leading-tight">
+                    {article.title}
+                  </h2>
+                  <p className="text-[#535862] text-sm leading-relaxed mb-4">
+                    {article.description}
+                  </p>
+                  <span className="inline-flex items-center space-x-2 text-orange-500 hover:text-orange-600 font-medium text-sm transition-colors duration-200">
+                    <span>Read Post</span>
+                    <ArrowRight size={16} />
+                  </span>
+                </div>
+              </motion.article>
+            </Link>
           ))}
         </div>
 
