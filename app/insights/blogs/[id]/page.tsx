@@ -417,17 +417,16 @@ const blogArticles = [
 ];
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const article = blogArticles.find(
-    (article) => article.id === parseInt(params.id)
-  );
+  const { id } = await params;
+  const article = blogArticles.find((article) => article.id === parseInt(id));
 
   if (!article) {
     return {
@@ -441,10 +440,9 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogDetailPage({ params }: PageProps) {
-  const article = blogArticles.find(
-    (article) => article.id === parseInt(params.id)
-  );
+export default async function BlogDetailPage({ params }: PageProps) {
+  const { id } = await params;
+  const article = blogArticles.find((article) => article.id === parseInt(id));
 
   if (!article) {
     notFound();
