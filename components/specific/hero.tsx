@@ -174,7 +174,6 @@ const Hero = () => {
               </AnimatePresence>
             </motion.div>
 
-            {/* Stepper Controls - always visible, positioned under the button */}
             <div className="flex gap-4">
               {heroSlides.map((_, index) => (
                 <button
