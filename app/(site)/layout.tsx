@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Sans } from "next/font/google";
-import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Kimberly Ryan - HR Solutions",
-  description: "At the forefront of innovative HR solutions",
-};
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,16 +14,18 @@ const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
 });
 
-export default function RootLayout({
+export default function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${ibmPlexSans.variable}`}>
-        {children}
-      </body>
-    </html>
+    <div
+      className={`${inter.variable} ${ibmPlexSans.variable} min-h-screen flex flex-col`}
+    >
+      <Header />
+      <main className="flex-grow">{children}</main>
+      <Footer />
+    </div>
   );
 }

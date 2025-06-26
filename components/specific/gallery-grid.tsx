@@ -10,108 +10,60 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { GalleryItem } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 
-interface GalleryItem {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
+interface GalleryGridProps {
+  galleryItems: GalleryItem[];
 }
 
-const galleryItems: GalleryItem[] = [
-  {
-    id: 1,
-    title: "Annual Leadership Summit 2024",
-    description:
-      "How do you create compelling presentations that wow your colleague and boss? This guide shows you...",
-    image: "/images/gallery-image-one.jpg",
-    category: "Events",
-  },
-  {
-    id: 2,
-    title: "Digital Transformation Workshop",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking. Here's how we do it...",
-    image: "/images/gallery-image-two.jpg",
-    category: "Technology",
-  },
-  {
-    id: 3,
-    title: "API Development Masterclass",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing...",
-    image: "/images/gallery-image-three.png",
-    category: "Technology",
-  },
-  {
-    id: 4,
-    title: "Mental Models in Management",
-    description:
-      "Mental models are simple expressions of complex processes or relationships...",
-    image: "/images/gallery-image-four.jpg",
-    category: "Training",
-  },
-  {
-    id: 5,
-    title: "What is wireframing?",
-    description:
-      "Introduction to Wireframing and its Principles. Learn from the best in the industry...",
-    image: "/images/gallery-image-five.jpg",
-    category: "Design",
-  },
-  {
-    id: 6,
-    title: "How collaboration makes us better designers",
-    description:
-      "Collaboration can make our teams stronger, and our individual designs better...",
-    image: "/images/gallery-image-six.png",
-    category: "Design",
-  },
-  {
-    id: 7,
-    title: "Our top 10 Javascript frameworks to use in 2025",
-    description:
-      "JavaScript frameworks make development easier and faster. Here are our top picks...",
-    image: "/images/gallery-image-seven.jpg",
-    category: "Technology",
-  },
-  {
-    id: 8,
-    title: "Podcast: Creating a better CX Community",
-    description:
-      "Starting a community doesn't have to be daunting. Here's how we built ours from the ground up...",
-    image: "/images/gallery-image-eight.jpg",
-    category: "Community",
-  },
-];
+const categories = ["View all", "events", "team", "office", "awards", "other"];
 
-const categories = [
-  "View all",
-  "Events",
-  "Technology",
-  "Training",
-  "Design",
-  "Community",
-];
 const sortOptions = ["Most Recent", "Oldest First", "Alphabetical"];
 
-export default function GalleryGrid() {
+export default function GalleryGrid({ galleryItems }: GalleryGridProps) {
   const [activeCategory, setActiveCategory] = useState("View all");
   const [sortBy, setSortBy] = useState("Most Recent");
   const [currentPage, setCurrentPage] = useState(1);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
-  const itemsPerPage = 8; // Show all items
-  const totalPages = 10; // As shown in the mockup
+  const itemsPerPage = 8;
 
   const filteredItems =
     activeCategory === "View all"
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeCategory);
 
-  const currentItems = filteredItems; // Show all filtered items
+  // Sort items based on sortBy option
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    switch (sortBy) {
+      case "Oldest First":
+        return (
+          new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
+        );
+      case "Alphabetical":
+        return a.title.localeCompare(b.title);
+      case "Most Recent":
+      default:
+        return (
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+        );
+    }
+  });
+
+  const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = sortedItems.slice(startIndex, startIndex + itemsPerPage);
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <section className="py-16 lg:py-24 bg-white">
@@ -126,13 +78,13 @@ export default function GalleryGrid() {
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 capitalize ${
                     activeCategory === category
                       ? "bg-gray-100 text-gray-900"
                       : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
-                  {category}
+                  {category === "View all" ? "View all" : category}
                 </button>
               ))}
             </div>
@@ -175,9 +127,11 @@ export default function GalleryGrid() {
                 onClick={() =>
                   setIsCategoryDropdownOpen(!isCategoryDropdownOpen)
                 }
-                className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm capitalize"
               >
-                <span>{activeCategory}</span>
+                <span>
+                  {activeCategory === "View all" ? "View all" : activeCategory}
+                </span>
                 <ChevronDown size={16} />
               </button>
 
@@ -190,9 +144,9 @@ export default function GalleryGrid() {
                         setActiveCategory(category);
                         setIsCategoryDropdownOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg capitalize"
                     >
-                      {category}
+                      {category === "View all" ? "View all" : category}
                     </button>
                   ))}
                 </div>
@@ -230,67 +184,118 @@ export default function GalleryGrid() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-12">
-          {currentItems.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {currentItems.map((item) => (
             <motion.div
-              key={item.id}
+              key={item._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              transition={{ duration: 0.5 }}
+              className="group cursor-pointer"
             >
-              <div className="aspect-video relative overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+              <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                {/* Image */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={urlFor(item.image).width(400).height(300).url()}
+                    alt={item.image.alt || item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {item.featured && (
+                    <div className="absolute top-2 left-2">
+                      <span className="bg-[#DC6803] text-white text-xs px-2 py-1 rounded">
+                        Featured
+                      </span>
+                    </div>
+                  )}
+                </div>
 
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {item.description}
-                </p>
-                <Link
-                  href="#"
-                  className="inline-flex items-center space-x-2 text-orange-500 hover:text-orange-600 font-medium text-sm transition-colors duration-200"
-                >
-                  <span>View Gallery</span>
-                  <ArrowRight size={16} />
-                </Link>
+                {/* Content */}
+                <div className="p-4">
+                  <div className="mb-2">
+                    <span className="text-xs text-[#535862] uppercase tracking-wide">
+                      {item.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-semibold text-[#181D27] mb-2 group-hover:text-[#DC6803] transition-colors duration-200">
+                    {item.title}
+                  </h3>
+
+                  {item.description && (
+                    <p className="text-[#535862] text-sm leading-relaxed mb-3">
+                      {item.description}
+                    </p>
+                  )}
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-[#535862]">
+                      {formatDate(item.publishedAt)}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-[#DC6803] group-hover:translate-x-1 transition-transform duration-200" />
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Pagination - Mobile only */}
-        <div className="lg:hidden flex items-center justify-between">
-          <button
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50"
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft size={16} />
-          </button>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Pagination Info */}
+            <p className="text-sm text-[#535862]">
+              Showing {startIndex + 1} to{" "}
+              {Math.min(startIndex + itemsPerPage, sortedItems.length)} of{" "}
+              {sortedItems.length} results
+            </p>
 
-          <span className="text-sm text-gray-600">
-            Page {currentPage} of {totalPages}
-          </span>
+            {/* Pagination Controls */}
+            <div className="flex items-center gap-2">
+              {/* Previous Button */}
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-[#535862] border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Previous
+              </button>
 
-          <button
-            onClick={() =>
-              setCurrentPage(Math.min(totalPages, currentPage + 1))
-            }
-            className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50"
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`px-3 py-2 text-sm font-medium rounded-lg ${
+                        currentPage === page
+                          ? "bg-[#DC6803] text-white"
+                          : "text-[#535862] hover:bg-gray-50"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() =>
+                  setCurrentPage(Math.min(totalPages, currentPage + 1))
+                }
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-[#535862] border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

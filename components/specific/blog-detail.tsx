@@ -4,47 +4,71 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Share2, Copy, Facebook, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
+import { PortableText } from "@portabletext/react";
+import { BlogPost } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 import NewsletterSubscriptionForm from "./newsletter-subscription-form";
 
-interface BlogContent {
-  introduction: string;
-  sections: Array<{
-    title: string;
-    content: string;
-    image?: string;
-    imageCaption?: string;
-  }>;
-  quote: {
-    text: string;
-    author: string;
-    title: string;
-  };
-}
-
-interface BlogArticle {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  author: string;
-  date: string;
-  category: string;
-  content: BlogContent;
-}
-
 interface BlogDetailProps {
-  article: BlogArticle;
+  post: BlogPost;
 }
 
-export default function BlogDetail({ article }: BlogDetailProps) {
+// Portable Text components for rendering rich content
+const portableTextComponents = {
+  types: {
+    image: ({ value }: any) => (
+      <div className="my-8">
+        <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-3">
+          <Image
+            src={urlFor(value).width(800).height(500).url()}
+            alt={value.alt || ""}
+            fill
+            className="object-cover"
+          />
+        </div>
+        {value.alt && (
+          <p className="text-sm text-[#535862] italic">{value.alt}</p>
+        )}
+      </div>
+    ),
+  },
+  block: {
+    h2: ({ children }: any) => (
+      <h2 className="text-2xl font-semibold text-[#181D27] mb-6 mt-12">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }: any) => (
+      <h3 className="text-xl font-semibold text-[#181D27] mb-4 mt-8">
+        {children}
+      </h3>
+    ),
+    normal: ({ children }: any) => (
+      <p className="text-[#535862] leading-relaxed mb-6 text-base">
+        {children}
+      </p>
+    ),
+  },
+};
+
+export default function BlogDetail({ post }: BlogDetailProps) {
+  // Format date
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative">
         <div className="relative aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
           <Image
-            src={article.image}
-            alt={article.title}
+            src={urlFor(post.image).width(1200).height(600).url()}
+            alt={post.image.alt || post.title}
             fill
             className="object-cover"
             priority
@@ -56,12 +80,14 @@ export default function BlogDetail({ article }: BlogDetailProps) {
               <div className="flex items-center justify-between py-6">
                 <div className="flex flex-col">
                   <span className="text-white text-sm font-medium">
-                    {article.author}
+                    {post.author.name}
                   </span>
-                  <span className="text-white/80 text-sm">{article.date}</span>
+                  <span className="text-white/80 text-sm">
+                    {formatDate(post.publishedAt)}
+                  </span>
                 </div>
                 <span className="text-white text-sm font-medium bg-white/20 px-3 py-1 rounded">
-                  {article.category}
+                  {post.category.title}
                 </span>
               </div>
             </div>
@@ -86,11 +112,11 @@ export default function BlogDetail({ article }: BlogDetailProps) {
                 </Link>
 
                 <h1 className="text-3xl lg:text-4xl font-bold text-[#181D27] mb-4 leading-tight">
-                  {article.title}
+                  {post.title}
                 </h1>
 
                 <p className="text-lg text-[#535862] leading-relaxed mb-6">
-                  {article.description}
+                  {post.description}
                 </p>
 
                 {/* Share buttons */}
@@ -115,69 +141,17 @@ export default function BlogDetail({ article }: BlogDetailProps) {
 
               {/* Article Content */}
               <div className="prose prose-lg max-w-none">
-                {article.content.sections.map((section, index) => (
+                {post.content && (
                   <motion.div
-                    key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="mb-12"
+                    transition={{ duration: 0.5 }}
                   >
-                    <h2 className="text-2xl font-semibold text-[#181D27] mb-6">
-                      {section.title}
-                    </h2>
-
-                    <p className="text-[#535862] leading-relaxed mb-6 text-base">
-                      {section.content}
-                    </p>
-
-                    {section.image && (
-                      <div className="mb-8">
-                        <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-3">
-                          <Image
-                            src={section.image}
-                            alt={section.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        {section.imageCaption && (
-                          <p className="text-sm text-[#535862] italic">
-                            {section.imageCaption}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                    <PortableText
+                      value={post.content}
+                      components={portableTextComponents}
+                    />
                   </motion.div>
-                ))}
-
-                {/* Quote Section */}
-                {article.content.quote && (
-                  <motion.blockquote
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="border-l-4 border-orange-500 pl-6 py-6 my-12 bg-gray-50 rounded-r-lg"
-                  >
-                    <p className="text-lg font-medium text-[#181D27] mb-4 italic leading-relaxed">
-                      "{article.content.quote.text}"
-                    </p>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-gray-700">
-                          {article.content.quote.author.charAt(0)}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-[#181D27]">
-                          {article.content.quote.author}
-                        </p>
-                        <p className="text-sm text-[#535862]">
-                          {article.content.quote.title}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.blockquote>
                 )}
               </div>
             </article>
@@ -185,11 +159,48 @@ export default function BlogDetail({ article }: BlogDetailProps) {
             {/* Sidebar */}
             <aside className="lg:col-span-4">
               <div className="sticky top-24">
+                {/* Author Info */}
+                {post.author.image && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-gray-50 rounded-lg p-6 mb-8"
+                  >
+                    <h3 className="text-lg font-semibold text-[#181D27] mb-4">
+                      About the Author
+                    </h3>
+                    <div className="flex items-start space-x-4">
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                        <Image
+                          src={urlFor(post.author.image)
+                            .width(48)
+                            .height(48)
+                            .url()}
+                          alt={post.author.image.alt || post.author.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-medium text-[#181D27] mb-1">
+                          {post.author.name}
+                        </p>
+                        {post.author.bio && (
+                          <div className="text-sm text-[#535862]">
+                            <PortableText value={post.author.bio} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Newsletter Subscription */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
                   className="bg-gray-50 rounded-lg p-6"
                 >
                   <div className="mb-6">
@@ -201,21 +212,8 @@ export default function BlogDetail({ article }: BlogDetailProps) {
                       articles, and exclusive interviews in your inbox every
                       week.
                     </p>
-                    <p className="text-xs text-[#535862]">
-                      Read about our privacy policy.
-                    </p>
                   </div>
-
-                  <div className="space-y-4">
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    />
-                    <button className="w-full px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium">
-                      Subscribe
-                    </button>
-                  </div>
+                  <NewsletterSubscriptionForm privacyTextColor="text-[#535862]" />
                 </motion.div>
               </div>
             </aside>
