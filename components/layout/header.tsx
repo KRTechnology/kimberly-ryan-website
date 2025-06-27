@@ -78,7 +78,7 @@ const Header = () => {
 
             {/* CTA Button */}
             <Link
-              href="/consultation"
+              href="/solutions/support"
               className="hidden lg:inline-block px-6 py-2 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 text-sm font-semibold whitespace-nowrap"
             >
               Schedule a consultation
