@@ -56,6 +56,26 @@ export interface GalleryItem {
   publishedAt: string;
 }
 
+export interface HeroSlide {
+  _id: string;
+  title: string;
+  subtitle?: string;
+  slug: {
+    current: string;
+  };
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  ctaType: "primary" | "secondary" | "text";
+  image: SanityImage;
+  imageStyle: "arc" | "rounded" | "square";
+  backgroundColor: "white" | "gray-50" | "sunset-50" | "custom";
+  customBackgroundColor?: string;
+  order: number;
+  featured: boolean;
+  publishedAt: string;
+}
+
 export interface Page {
   _id: string;
   title: string;

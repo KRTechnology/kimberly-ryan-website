@@ -22,6 +22,38 @@ const builder = imageUrlBuilder(client);
 
 export const urlFor = (source: any) => builder.image(source);
 
+// Helper function to get hero slides with cache tags
+export async function getHeroSlides() {
+  return client.fetch(
+    `
+    *[_type == "hero" && featured == true] | order(order asc, publishedAt desc) {
+      _id,
+      title,
+      subtitle,
+      slug,
+      description,
+      buttonText,
+      buttonLink,
+      ctaType,
+      image,
+      imageStyle,
+      backgroundColor,
+      customBackgroundColor,
+      order,
+      featured,
+      publishedAt
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (hero slides change less frequently)
+        tags: ["hero-slides"],
+      },
+    }
+  );
+}
+
 // Helper function to get blog posts with cache tags
 export async function getBlogPosts() {
   return client.fetch(

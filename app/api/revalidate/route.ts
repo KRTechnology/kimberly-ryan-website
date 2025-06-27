@@ -21,6 +21,14 @@ export async function POST(request: NextRequest) {
 
     // Revalidate specific tags and paths based on content type
     switch (_type) {
+      case "hero":
+        // Revalidate hero slides cache tag
+        revalidateTag("hero-slides");
+        // Revalidate the home page where hero is displayed
+        revalidatePath("/");
+        console.log("Revalidated hero slides and home page");
+        break;
+
       case "blog":
         // Revalidate all blog-related cache tags
         revalidateTag("blog-posts");
