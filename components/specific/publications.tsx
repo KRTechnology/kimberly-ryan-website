@@ -8,7 +8,12 @@ const Publications = () => {
   return (
     <section className="bg-white py-9 px-8 border-t border-[#EDECEB]">
       <div className="container mx-auto">
-        <div className="bg-[#FAFAFA] rounded-[24px] p-8 pb-10 lg:p-12">
+        {/* Section Title */}
+        <h1 className="text-2xl md:text-[38px] font-plex font-semibold text-sunset-200 text-center md:text-left mb-8 md:mb-12">
+          What's New On Kimberly Ryan
+        </h1>
+
+        <div className="bg-[#FAFAFA] rounded-[24px] p-9">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
             <motion.div
@@ -68,7 +73,7 @@ const Publications = () => {
               viewport={{ once: true }}
               className="order-2 md:order-2"
             >
-              <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
+              <div className="relative w-full h-[280px] md:h-[320px] lg:h-[360px]">
                 <Image
                   src="/images/publication-image.jpg"
                   alt="The New PENCOM Directive publication cover"
