@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "The latest industry news and guides curated by our expert team. Stay updated with insights from HR professionals.",
 };
 
+// Enable ISR - revalidate every 60 seconds in production
+export const revalidate = 60;
+
 export default async function BlogsPage() {
   const [blogPosts, categories] = await Promise.all([
     getBlogPosts(),

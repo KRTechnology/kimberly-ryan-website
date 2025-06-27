@@ -1,6 +1,6 @@
 # Sanity CMS Setup Guide
 
-This guide will help you set up and configure Sanity CMS for your Kimberly-Ryan website.
+This guide will help you set up and configure Sanity CMS for your Kimberly-Ryan website with **Incremental Static Regeneration (ISR)** and **on-demand revalidation**.
 
 ## 🚀 Getting Started
 
@@ -28,6 +28,9 @@ NEXT_PUBLIC_SANITY_DATASET=production
 
 # Sanity Studio Configuration (for studio access)
 SANITY_API_TOKEN=your_api_token_here
+
+# Webhook Secret for security (generate a random string)
+SANITY_WEBHOOK_SECRET=your_secure_webhook_secret_here
 ```
 
 To get your API token:
@@ -52,6 +55,67 @@ Run the standalone studio:
 ```bash
 npm run studio
 ```
+
+## ⚡ Real-time Content Updates
+
+This website now uses **Incremental Static Regeneration (ISR)** combined with **webhooks** for instant content updates without requiring redeployments.
+
+### How It Works
+
+1. **ISR**: Pages automatically revalidate every 60 seconds for blog content
+2. **Webhooks**: Sanity notifies your website immediately when content is published/updated
+3. **Cache Tags**: Granular cache invalidation for efficient updates
+
+### Setting Up Webhooks in Sanity
+
+1. Go to your Sanity project dashboard at [sanity.io/manage](https://sanity.io/manage)
+2. Select your project
+3. Navigate to **API** → **Webhooks**
+4. Click **"Create webhook"**
+5. Configure the webhook:
+
+   ```
+   Name: Next.js Revalidation
+   URL: https://yourdomain.com/api/revalidate
+   Dataset: production
+   Trigger on: Create, Update, Delete
+   HTTP method: POST
+   HTTP Headers:
+     x-sanity-webhook-secret: your_secure_webhook_secret_here
+
+   Include drafts: No
+   ```
+
+6. **Projection** (filter what data to send):
+
+   ```json
+   {
+     "_type": _type,
+     "slug": slug,
+     "_id": _id
+   }
+   ```
+
+7. Save the webhook
+
+### Testing the Webhook
+
+Test your webhook endpoint:
+
+```bash
+# Test if the endpoint is active
+curl https://yourdomain.com/api/revalidate
+
+# Or locally during development
+curl http://localhost:3000/api/revalidate
+```
+
+### Content Update Flow
+
+1. **Publish a blog post** in Sanity Studio
+2. **Webhook triggers** immediately
+3. **Cache invalidated** for affected pages
+4. **New content appears** on your website within seconds
 
 ## 📝 Content Types Available
 
@@ -119,7 +183,7 @@ npm run studio
 3. Add rich content using the content editor
 4. Select an author and category
 5. Set the published date
-6. Save and publish
+6. **Save and publish** (this will trigger the webhook!)
 
 ### 4. Add Gallery Images
 
@@ -130,15 +194,21 @@ npm run studio
 
 ## 🔄 How It Works
 
-### Data Fetching
+### Data Fetching with Caching
 
-The website uses several helper functions in `lib/sanity.ts`:
+The website uses several optimized helper functions in `lib/sanity.ts`:
 
-- `getBlogPosts()`: Fetches all blog posts
-- `getBlogPost(slug)`: Fetches a single blog post by slug
-- `getGalleryItems()`: Fetches all gallery items
-- `getCategories()`: Fetches all categories
-- `getAuthors()`: Fetches all authors
+- `getBlogPosts()`: Fetches all blog posts (cached for 60 seconds)
+- `getBlogPost(slug)`: Fetches a single blog post (cached for 60 seconds)
+- `getGalleryItems()`: Fetches all gallery items (cached for 5 minutes)
+- `getCategories()`: Fetches all categories (cached for 1 hour)
+- `getAuthors()`: Fetches all authors (cached for 1 hour)
+
+### Cache Strategy
+
+- **Blog content**: 60 seconds (frequently updated)
+- **Gallery items**: 5 minutes (moderately updated)
+- **Categories/Authors**: 1 hour (rarely updated)
 
 ### Image Optimization
 
@@ -163,8 +233,9 @@ npm run dev
 ### 2. Content Updates
 
 1. Make content changes in the Studio
-2. Changes are automatically synced
-3. Your website will fetch the latest content
+2. **Publish** the content (don't just save as draft)
+3. Webhook triggers automatically
+4. Changes appear on your website within seconds
 
 ### 3. Schema Changes
 
@@ -178,22 +249,84 @@ If you need to modify content schemas:
 
 ### 1. Environment Variables
 
-Make sure to set the same environment variables in your production environment.
+Set these environment variables in your production environment:
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=your_api_token
+SANITY_WEBHOOK_SECRET=your_webhook_secret
+```
 
 ### 2. Studio Access
 
 Your production Sanity Studio will be available at `yourdomain.com/studio`.
 
-### 3. Content Delivery Network (CDN)
+### 3. Webhook Configuration
+
+Update the webhook URL in Sanity to point to your production domain:
+
+```
+https://yourdomain.com/api/revalidate
+```
+
+### 4. Content Delivery Network (CDN)
 
 Sanity uses a global CDN for fast content delivery. Your content will be cached and served efficiently worldwide.
+
+## 📊 Performance & Caching
+
+### ISR Benefits
+
+- **Instant updates**: New content appears without redeployment
+- **Performance**: Static pages with dynamic updates
+- **SEO-friendly**: Pre-rendered content for search engines
+- **Scalable**: Handle traffic spikes efficiently
+
+### Cache Invalidation
+
+The system uses both:
+
+- **Time-based revalidation**: Pages refresh automatically
+- **Event-based revalidation**: Webhooks trigger immediate updates
+
+## 🔧 Troubleshooting
+
+### Content Not Updating Immediately
+
+1. **Check webhook status** in Sanity dashboard
+2. **Verify environment variables** are set correctly
+3. **Ensure content is published** (not just saved as draft)
+4. **Check webhook logs** in your hosting platform
+5. **Test the webhook endpoint** using curl
+
+### Webhook Not Triggering
+
+1. **Verify webhook URL** is accessible from external requests
+2. **Check webhook secret** matches your environment variable
+3. **Review webhook configuration** in Sanity dashboard
+4. **Check server logs** for webhook errors
+
+### Studio Not Loading
+
+- Check your environment variables
+- Ensure your Project ID and Dataset are correct
+- Verify your API token has the right permissions
+
+### Build Errors
+
+- Ensure all environment variables are set
+- Check that your Sanity schemas are valid
+- Verify all imports are correct
 
 ## 📚 Useful Resources
 
 - [Sanity Documentation](https://www.sanity.io/docs)
+- [Next.js ISR Documentation](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration)
 - [Portable Text Guide](https://www.sanity.io/docs/block-content)
 - [Image API Reference](https://www.sanity.io/docs/image-url)
 - [GROQ Query Language](https://www.sanity.io/docs/groq)
+- [Webhook Documentation](https://www.sanity.io/docs/webhooks)
 
 ## 🎨 Customization
 
@@ -202,32 +335,23 @@ Sanity uses a global CDN for fast content delivery. Your content will be cached 
 1. Create a new schema file in `sanity/schemas/`
 2. Export it from `sanity/schemas/index.ts`
 3. Add helper functions in `lib/sanity.ts`
-4. Create/update components to display the content
+4. Update the webhook handler in `app/api/revalidate/route.ts`
+5. Create/update components to display the content
 
 ### Modifying Existing Schemas
 
 Edit the respective files in `sanity/schemas/` and restart your development server.
 
-## 🔧 Troubleshooting
-
-### Studio Not Loading
-
-- Check your environment variables
-- Ensure your Project ID and Dataset are correct
-- Verify your API token has the right permissions
-
-### Content Not Updating
-
-- Clear your browser cache
-- Check if you're using the correct dataset
-- Verify your content is published (not just saved as draft)
-
-### Build Errors
-
-- Ensure all environment variables are set
-- Check that your Sanity schemas are valid
-- Verify all imports are correct
-
 ---
+
+## 🎉 Summary
+
+Your website now has:
+
+✅ **Real-time content updates** without redeployment  
+✅ **Optimized caching** for better performance  
+✅ **SEO-friendly** static generation  
+✅ **Scalable architecture** for high traffic  
+✅ **Instant webhook notifications** from Sanity
 
 Happy content managing! 🎉

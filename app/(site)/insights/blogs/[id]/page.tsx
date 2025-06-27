@@ -4,6 +4,12 @@ import BlogDetail from "@/components/specific/blog-detail";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
 import { getBlogPost, getBlogPosts } from "@/lib/sanity";
 
+// Enable ISR - revalidate every 60 seconds in production
+export const revalidate = 60;
+
+// Enable fallback for new blog posts
+export const dynamicParams = true;
+
 interface BlogPostPageProps {
   params: Promise<{
     id: string;
