@@ -139,6 +139,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
+                className="min-h-[240px] md:min-h-[220px]"
               >
                 <h1 className="text-4xl md:text-5xl font-semibold mb-6 text-[#181D27] leading-tight">
                   {currentSlideData.title}
