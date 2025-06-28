@@ -184,7 +184,23 @@ curl http://localhost:3000/api/revalidate
 - **Featured**: Mark as featured image
 - **Published Date**: When added to gallery
 
-### 7. Pages
+### 7. Client Testimonials
+
+- **Testimonial Quote**: The main testimonial text from the client (required)
+- **Client Name**: Full name of the person giving the testimonial (required)
+- **Job Position**: Job title or position of the client (required)
+- **Company Name**: Name of the client's company (required)
+- **Industry**: Business category (Banking, Healthcare, Technology, etc.)
+- **Service Type**: Type of service provided (HR Advisory, Recruitment, Training, etc.)
+- **Client Rating**: Rating out of 5 stars (optional)
+- **Project Duration**: How long the engagement lasted
+- **Featured Testimonial**: Show in highlighted sections
+- **Display Order**: Control testimonial sequence
+- **Active Status**: Show/hide testimonials
+- **Date Received**: When the testimonial was received
+- **Internal Notes**: Private notes for team reference
+
+### 8. Pages
 
 - **Title**: Page title
 - **Slug**: URL-friendly version
@@ -240,6 +256,20 @@ curl http://localhost:3000/api/revalidate
 3. Categorize them appropriately
 4. Mark featured images if needed
 
+### 7. Create Client Testimonials
+
+1. Click on "Client Testimonials" in the sidebar
+2. Add testimonial details:
+   - Enter the testimonial quote
+   - Add client name, position, and company
+   - Select industry and service type
+   - Set display order for arrangement
+   - Choose if it should be featured
+3. Toggle "Active" to true to display on website
+4. **Save and publish** (this will trigger the webhook!)
+
+**Note**: Testimonials will appear on the `/about/customer-stories` page with pagination (9 testimonials per page).
+
 ## 🔄 How It Works
 
 ### Data Fetching with Caching
@@ -252,6 +282,8 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - `getBlogPosts()`: Fetches all blog posts (cached for 60 seconds)
 - `getBlogPost(slug)`: Fetches a single blog post (cached for 60 seconds)
 - `getGalleryItems()`: Fetches all gallery items (cached for 5 minutes)
+- `getTestimonials()`: Fetches all active testimonials (cached for 10 minutes)
+- `getFeaturedTestimonials()`: Fetches featured testimonials only (cached for 10 minutes)
 - `getCategories()`: Fetches all categories (cached for 1 hour)
 - `getAuthors()`: Fetches all authors (cached for 1 hour)
 
@@ -261,6 +293,7 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - **Companies**: 10 minutes (infrequent updates)
 - **Blog content**: 60 seconds (frequently updated)
 - **Gallery items**: 5 minutes (moderately updated)
+- **Testimonials**: 10 minutes (infrequent updates)
 - **Categories/Authors**: 1 hour (rarely updated)
 
 ### Image Optimization
@@ -404,6 +437,7 @@ Your website now has:
 ✅ **Real-time content updates** without redeployment  
 ✅ **Hero slides management** with advanced styling options  
 ✅ **Trusted companies section** with custom backgrounds and links  
+✅ **Client testimonials system** with detailed filtering and pagination  
 ✅ **Optimized caching** for better performance  
 ✅ **SEO-friendly** static generation  
 ✅ **Scalable architecture** for high traffic  

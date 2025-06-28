@@ -3,97 +3,28 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Testimonial } from "@/types/sanity";
 
-interface Testimonial {
-  id: number;
-  quote: string;
-  author: string;
-  position: string;
-  company: string;
+interface CustomerTestimonialsGridProps {
+  testimonials: Testimonial[];
 }
-
-// Sample testimonials data - you can replace this with real data
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    quote:
-      "The training was completed satisfactorily in a result drive manner and in accordance with the Scope of Work and Terms of Engagement.",
-    author: "Patrick Mbagwu",
-    position: "Head, Human Resources",
-    company: "Parallex Bank",
-  },
-  {
-    id: 2,
-    quote:
-      "Working with Kimberly Ryan was a delight. I especially liked their professional yet understanding/flexible way of conducting business. Kudos!",
-    author: "Victor Kareem",
-    position: "Head, Business Operations",
-    company: "Golden OX",
-  },
-  {
-    id: 3,
-    quote: "Seamless working experience through the entire process.",
-    author: "Nkemjika Ibeawuchi",
-    position: "Assistant Manager, Human Resources",
-    company: "Society for Family Health",
-  },
-  {
-    id: 4,
-    quote:
-      "The Kimberly Ryan team was very professional and are highly recommended for the quality of their service.",
-    author: "Lilian Ilenikhena",
-    position: "Project Manager",
-    company: "Airband Wireless Limited",
-  },
-  {
-    id: 5,
-    quote:
-      "I recommend Kimberly Ryan to meet your recruitment needs team was very professional and are highly recommended for the quality of their service.",
-    author: "Johnson Odede",
-    position: "Head of Finance and Administration",
-    company: "Crown Agents Nigeria Limited",
-  },
-  {
-    id: 6,
-    quote:
-      "Kimberly Ryan Limited has not disappointed us in the provision of recruitment/consultancy services. It is without reservations that we wholeheartedly recommend Kimberly Ryan Limited for your recruitment needs.",
-    author: "Tari Maikudi",
-    position: "Human Capital Unit",
-    company: "Acquila Leasing Ltd.",
-  },
-  {
-    id: 7,
-    quote:
-      "I believe that their creativity and knowledge in delivering quality trainings will help deliver the needed value your organization seeks to achieve with your planned workshop.",
-    author: "Manasseh Igyuh",
-    position: "Head of People and Organization Development",
-    company: "Wateraid Nigeria",
-  },
-  {
-    id: 8,
-    quote: "It was a great experience still talked about till this day",
-    author: "Winston Nkanor",
-    position: "Head, Human Resources",
-    company: "Samsung",
-  },
-  {
-    id: 9,
-    quote: "Impressive and timely delivery on project",
-    author: "Ekpa Olorunfemi",
-    position: "Head, Human Capital Management",
-    company: "LBIC Plc.",
-  },
-];
 
 const ITEMS_PER_PAGE = 9;
 
-export default function CustomerTestimonialsGrid() {
+export default function CustomerTestimonialsGrid({
+  testimonials,
+}: CustomerTestimonialsGridProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(testimonials.length / ITEMS_PER_PAGE);
+  // Filter out inactive testimonials if any exist in the data
+  const activeTestimonials = testimonials.filter(
+    (testimonial) => testimonial.active
+  );
+
+  const totalPages = Math.ceil(activeTestimonials.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentTestimonials = testimonials.slice(startIndex, endIndex);
+  const currentTestimonials = activeTestimonials.slice(startIndex, endIndex);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -113,6 +44,21 @@ export default function CustomerTestimonialsGrid() {
     }
   };
 
+  // Show loading state if no testimonials are provided
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <section className="bg-slate-50 py-16 lg:py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="text-center">
+            <p className="text-gray-600">
+              No client testimonials available at the moment.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-slate-50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
@@ -120,7 +66,7 @@ export default function CustomerTestimonialsGrid() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
           {currentTestimonials.map((testimonial, index) => (
             <motion.div
-              key={testimonial.id}
+              key={testimonial._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -144,6 +90,17 @@ export default function CustomerTestimonialsGrid() {
                     {testimonial.position}, {testimonial.company}
                   </p>
                 </div>
+
+                {/* Optional: Display service type or rating if available */}
+                {testimonial.serviceType && (
+                  <div className="text-center">
+                    <span className="inline-block bg-amberwood-100 text-amberwood-800 text-xs px-2 py-1 rounded-full">
+                      {testimonial.serviceType
+                        .replace("_", " ")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </span>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -153,7 +110,8 @@ export default function CustomerTestimonialsGrid() {
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-600">
-              Page {currentPage} of {totalPages}
+              Page {currentPage} of {totalPages} ({activeTestimonials.length}{" "}
+              testimonials)
             </p>
 
             <div className="flex items-center gap-2">

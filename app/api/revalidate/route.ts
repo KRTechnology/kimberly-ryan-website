@@ -79,6 +79,17 @@ export async function POST(request: NextRequest) {
         revalidatePath("/about/gallery");
         break;
 
+      case "testimonial":
+        // Revalidate testimonials cache tags
+        revalidateTag("testimonials");
+        revalidateTag("featured-testimonials");
+        // Revalidate the customer stories page where testimonials are displayed
+        revalidatePath("/about/customer-stories");
+        // Also revalidate home page if testimonials appear there
+        revalidatePath("/");
+        console.log("Revalidated testimonials and customer stories page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

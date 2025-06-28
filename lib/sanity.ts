@@ -250,3 +250,63 @@ export async function getAuthors() {
     }
   );
 }
+
+// Helper function to get testimonials with cache tags
+export async function getTestimonials() {
+  return client.fetch(
+    `
+    *[_type == "testimonial" && active == true] | order(displayOrder asc, dateReceived desc) {
+      _id,
+      quote,
+      author,
+      position,
+      company,
+      industry,
+      serviceType,
+      rating,
+      projectDuration,
+      featured,
+      displayOrder,
+      active,
+      dateReceived
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 600, // Cache for 10 minutes (testimonials change less frequently)
+        tags: ["testimonials"],
+      },
+    }
+  );
+}
+
+// Helper function to get featured testimonials with cache tags
+export async function getFeaturedTestimonials() {
+  return client.fetch(
+    `
+    *[_type == "testimonial" && active == true && featured == true] | order(displayOrder asc, dateReceived desc) {
+      _id,
+      quote,
+      author,
+      position,
+      company,
+      industry,
+      serviceType,
+      rating,
+      projectDuration,
+      featured,
+      displayOrder,
+      active,
+      dateReceived
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 600, // Cache for 10 minutes (testimonials change less frequently)
+        tags: ["testimonials", "featured-testimonials"],
+      },
+    }
+  );
+}

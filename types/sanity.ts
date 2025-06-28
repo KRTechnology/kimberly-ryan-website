@@ -118,6 +118,46 @@ export interface Company {
   customBackgroundColor?: string;
 }
 
+export interface Testimonial {
+  _id: string;
+  quote: string;
+  author: string;
+  position: string;
+  company: string;
+  industry?:
+    | "banking"
+    | "healthcare"
+    | "technology"
+    | "manufacturing"
+    | "consulting"
+    | "nonprofit"
+    | "education"
+    | "government"
+    | "media"
+    | "other";
+  serviceType?:
+    | "hr_advisory"
+    | "recruitment"
+    | "learning_development"
+    | "outsourcing"
+    | "consultation"
+    | "training"
+    | "other";
+  rating?: number;
+  projectDuration?:
+    | "less_than_1_month"
+    | "1_3_months"
+    | "3_6_months"
+    | "6_12_months"
+    | "more_than_1_year"
+    | "ongoing";
+  featured: boolean;
+  displayOrder: number;
+  active: boolean;
+  dateReceived: string;
+  internalNotes?: string;
+}
+
 export interface Page {
   _id: string;
   title: string;
