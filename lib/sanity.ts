@@ -422,9 +422,11 @@ export async function getWebinarsPaginated(
   offset: number = 0,
   limit: number = 3
 ) {
-  const webinars = await client.fetch(
+  // Fetch all webinars first, then apply pagination manually
+  // This approach works around Sanity GROQ slice notation issues
+  const allWebinars = await client.fetch(
     `
-    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) [$start...$end] {
+    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) {
       _id,
       title,
       slug,
@@ -453,10 +455,7 @@ export async function getWebinarsPaginated(
       viewCount
     }
   `,
-    {
-      start: offset,
-      end: offset + limit - 1,
-    },
+    {},
     {
       next: {
         revalidate: 900, // Cache for 15 minutes
@@ -465,17 +464,11 @@ export async function getWebinarsPaginated(
     }
   );
 
-  // Also get the total count for pagination info
-  const totalCount = await client.fetch(
-    `count(*[_type == "webinar" && active == true])`,
-    {},
-    {
-      next: {
-        revalidate: 900,
-        tags: ["webinars"],
-      },
-    }
-  );
+  // Apply pagination manually
+  const webinars = allWebinars.slice(offset, offset + limit);
+
+  // Get total count
+  const totalCount = allWebinars.length;
 
   return {
     webinars,
