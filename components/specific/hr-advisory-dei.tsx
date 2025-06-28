@@ -8,7 +8,7 @@ const HrAdvisoryDEI = () => {
   const deiOfferings = [
     "Organisation-wide DE&I Scan",
     "Organisation-wide DE&I Policy",
-    "Integration of DE&I policy into al HR processes including Compensation and Benefit, recruitment and selection process, etc.",
+    "Integration of DE&I policy into al HR processes including Compensation and Benefit, recruitment solutions, etc.",
     "Internal campaign regarding DE&I",
     "DE&I Training programme",
   ];

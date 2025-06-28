@@ -48,7 +48,7 @@ export const navItems: NavItem[] = [
         description: "Upskill your workforce with tailored training programs",
       },
       {
-        label: "Recruitment & Selection",
+        label: "Recruitment Solutions",
         href: "/services/recruitment",
         icon: Users,
         description: "Find and hire the right talent for your organization",

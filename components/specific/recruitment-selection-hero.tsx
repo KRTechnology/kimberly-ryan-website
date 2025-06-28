@@ -31,8 +31,7 @@ const RecruitmentSelectionHero = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Recruitment &<br />
-                  Selection
+                  Recruitment Solutions
                 </motion.h1>
 
                 <motion.p
@@ -59,7 +58,7 @@ const RecruitmentSelectionHero = () => {
               <div className="relative h-full w-full">
                 <Image
                   src="/images/recruitment-and-selection-hero-image.jpg"
-                  alt="Recruitment and selection professional in modern office"
+                  alt="Recruitment solutions professional in modern office"
                   fill
                   style={{ objectFit: "cover" }}
                   className="object-cover"
@@ -85,8 +84,7 @@ const RecruitmentSelectionHero = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Recruitment &<br />
-                  Selection
+                  Recruitment Solutions
                 </motion.h1>
 
                 <motion.p
@@ -113,7 +111,7 @@ const RecruitmentSelectionHero = () => {
               <div className="relative h-full w-full">
                 <Image
                   src="/images/recruitment-and-selection-hero-image.jpg"
-                  alt="Recruitment and selection professional in modern office"
+                  alt="Recruitment solutions professional in modern office"
                   fill
                   style={{ objectFit: "cover" }}
                   className="object-cover object-center"
@@ -129,4 +127,3 @@ const RecruitmentSelectionHero = () => {
 };
 
 export default RecruitmentSelectionHero;
- 

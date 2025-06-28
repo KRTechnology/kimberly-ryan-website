@@ -38,8 +38,8 @@ const RecruitmentSelectionValueChain = () => {
             className="text-center mb-16 md:mb-20"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#181D27] font-plex leading-tight max-w-5xl mx-auto">
-              The Robustness and Validation of our Recruitment and Selection
-              solution can be highlighted in the value-chain below:
+              The Robustness and Validation of our Recruitment Solutions can be
+              highlighted in the value-chain below:
             </h2>
           </motion.div>
 
@@ -99,4 +99,3 @@ const RecruitmentSelectionValueChain = () => {
 };
 
 export default RecruitmentSelectionValueChain;
- 
