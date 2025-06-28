@@ -90,6 +90,18 @@ export async function POST(request: NextRequest) {
         console.log("Revalidated testimonials and customer stories page");
         break;
 
+      case "person":
+        // Revalidate team members cache tags
+        revalidateTag("team-members");
+        revalidateTag("leadership-team");
+        revalidateTag("management-team");
+        // Revalidate the our people page where team members are displayed
+        revalidatePath("/about/our-people");
+        // Also revalidate home page if team members appear there
+        revalidatePath("/");
+        console.log("Revalidated team members and our people page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

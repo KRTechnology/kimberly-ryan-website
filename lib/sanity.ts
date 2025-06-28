@@ -310,3 +310,109 @@ export async function getFeaturedTestimonials() {
     }
   );
 }
+
+// Helper function to get leadership team members with cache tags
+export async function getLeadershipTeam() {
+  return client.fetch(
+    `
+    *[_type == "person" && showOnWebsite == true && showOnLeadershipPage == true] | order(displayOrder asc, name asc) {
+      _id,
+      name,
+      slug,
+      position,
+      department,
+      level,
+      image,
+      bio,
+      linkedInUrl,
+      email,
+      phoneNumber,
+      expertise,
+      yearsOfExperience,
+      displayOrder,
+      featured,
+      showOnWebsite,
+      showOnLeadershipPage,
+      joinedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 1800, // Cache for 30 minutes (team changes less frequently)
+        tags: ["team-members", "leadership-team"],
+      },
+    }
+  );
+}
+
+// Helper function to get management team members with cache tags
+export async function getManagementTeam() {
+  return client.fetch(
+    `
+    *[_type == "person" && showOnWebsite == true && showOnManagementPage == true] | order(displayOrder asc, name asc) {
+      _id,
+      name,
+      slug,
+      position,
+      department,
+      level,
+      image,
+      bio,
+      linkedInUrl,
+      email,
+      phoneNumber,
+      expertise,
+      yearsOfExperience,
+      displayOrder,
+      featured,
+      showOnWebsite,
+      showOnManagementPage,
+      joinedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 1800, // Cache for 30 minutes (team changes less frequently)
+        tags: ["team-members", "management-team"],
+      },
+    }
+  );
+}
+
+// Helper function to get all team members with cache tags
+export async function getAllTeamMembers() {
+  return client.fetch(
+    `
+    *[_type == "person" && showOnWebsite == true] | order(department asc, displayOrder asc, name asc) {
+      _id,
+      name,
+      slug,
+      position,
+      department,
+      level,
+      image,
+      bio,
+      linkedInUrl,
+      email,
+      phoneNumber,
+      expertise,
+      yearsOfExperience,
+      displayOrder,
+      featured,
+      showOnWebsite,
+      showOnLeadershipPage,
+      showOnManagementPage,
+      joinedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 1800, // Cache for 30 minutes (team changes less frequently)
+        tags: ["team-members"],
+      },
+    }
+  );
+}

@@ -6,6 +6,7 @@ import { page } from "./page";
 import hero from "./hero";
 import company from "./company";
 import testimonial from "./testimonial";
+import person from "./person";
 
 export const schemaTypes = [
   blog,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   hero,
   company,
   testimonial,
+  person,
 ];

@@ -200,7 +200,29 @@ curl http://localhost:3000/api/revalidate
 - **Date Received**: When the testimonial was received
 - **Internal Notes**: Private notes for team reference
 
-### 8. Pages
+### 8. Team Members
+
+- **Full Name**: Team member's complete name (required)
+- **Slug**: URL-friendly version of the name (auto-generated)
+- **Job Position**: Current job title or position (required)
+- **Department/Team**: Which department they belong to (Leadership, Management, HR, Finance, etc.)
+- **Organizational Level**: Hierarchy level (Board, Director, C-Level, Manager, etc.)
+- **Profile Photo**: Professional headshot with hotspot selection (required)
+- **Biography**: Brief description or background (optional)
+- **LinkedIn Profile**: Professional LinkedIn URL (optional)
+- **Email Address**: Professional email (optional)
+- **Phone Number**: Professional contact number (optional)
+- **Areas of Expertise**: Key specializations and skills
+- **Years of Experience**: Total professional experience (optional)
+- **Display Order**: Control appearance sequence within department
+- **Featured Member**: Highlight prominently
+- **Show on Website**: Control public visibility
+- **Show on Leadership Section**: Display in leadership area
+- **Show on Management Section**: Display in management area
+- **Date Joined**: When they joined the company (optional)
+- **Internal Notes**: Private team reference notes
+
+### 9. Pages
 
 - **Title**: Page title
 - **Slug**: URL-friendly version
@@ -270,6 +292,27 @@ curl http://localhost:3000/api/revalidate
 
 **Note**: Testimonials will appear on the `/about/customer-stories` page with pagination (9 testimonials per page).
 
+### 8. Add Team Members
+
+1. Click on "Team Members" in the sidebar
+2. Add team member details:
+   - Upload professional headshot photo
+   - Enter name, position, and department
+   - Select organizational level and areas of expertise
+   - Set display order within department
+   - Choose which sections they should appear in:
+     - Toggle "Show on Leadership Section" for leadership team
+     - Toggle "Show on Management Section" for management team
+   - Add optional bio, LinkedIn, email, and contact information
+3. Toggle "Show on Website" to true to display publicly
+4. **Save and publish** (this will trigger the webhook!)
+
+**Note**:
+
+- Leadership team members appear in the top section of `/about/our-people`
+- Management team members appear in the bottom section of `/about/our-people`
+- Team members are automatically sorted by display order within each section
+
 ## 🔄 How It Works
 
 ### Data Fetching with Caching
@@ -284,6 +327,9 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - `getGalleryItems()`: Fetches all gallery items (cached for 5 minutes)
 - `getTestimonials()`: Fetches all active testimonials (cached for 10 minutes)
 - `getFeaturedTestimonials()`: Fetches featured testimonials only (cached for 10 minutes)
+- `getLeadershipTeam()`: Fetches leadership team members (cached for 30 minutes)
+- `getManagementTeam()`: Fetches management team members (cached for 30 minutes)
+- `getAllTeamMembers()`: Fetches all visible team members (cached for 30 minutes)
 - `getCategories()`: Fetches all categories (cached for 1 hour)
 - `getAuthors()`: Fetches all authors (cached for 1 hour)
 
@@ -294,6 +340,7 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - **Blog content**: 60 seconds (frequently updated)
 - **Gallery items**: 5 minutes (moderately updated)
 - **Testimonials**: 10 minutes (infrequent updates)
+- **Team members**: 30 minutes (infrequent updates)
 - **Categories/Authors**: 1 hour (rarely updated)
 
 ### Image Optimization
@@ -438,6 +485,7 @@ Your website now has:
 ✅ **Hero slides management** with advanced styling options  
 ✅ **Trusted companies section** with custom backgrounds and links  
 ✅ **Client testimonials system** with detailed filtering and pagination  
+✅ **Team member management** for leadership and management sections  
 ✅ **Optimized caching** for better performance  
 ✅ **SEO-friendly** static generation  
 ✅ **Scalable architecture** for high traffic  

@@ -158,6 +158,41 @@ export interface Testimonial {
   internalNotes?: string;
 }
 
+export interface Person {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  position: string;
+  department:
+    | "leadership"
+    | "management"
+    | "hr"
+    | "finance"
+    | "sales"
+    | "operations"
+    | "advisory"
+    | "recruitment"
+    | "learning"
+    | "other";
+  level: "board" | "director" | "c_level" | "manager" | "senior" | "staff";
+  image: SanityImage;
+  bio?: string;
+  linkedInUrl?: string;
+  email?: string;
+  phoneNumber?: string;
+  expertise?: string[];
+  yearsOfExperience?: number;
+  displayOrder: number;
+  featured: boolean;
+  showOnWebsite: boolean;
+  showOnLeadershipPage: boolean;
+  showOnManagementPage: boolean;
+  joinedDate?: string;
+  internalNotes?: string;
+}
+
 export interface Page {
   _id: string;
   title: string;

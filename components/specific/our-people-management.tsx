@@ -2,52 +2,56 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Person } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 
-interface ManagementMember {
-  name: string;
-  position: string;
-  imageUrl: string;
+interface OurPeopleManagementProps {
+  managementTeam: Person[];
 }
 
-const managementTeam: ManagementMember[] = [
-  {
-    name: "Vivian Agunabor",
-    position: "Chief Operating Officer",
-    imageUrl: "/images/vivian-agunabor.png",
-  },
-  {
-    name: "Adaobi Okeke",
-    position: "People Services Manager",
-    imageUrl: "/images/adaobi-okeke.png",
-  },
-  {
-    name: "Nsikak Udo",
-    position: "Finance Manager",
-    imageUrl: "/images/nsikak-udo.png",
-  },
-  {
-    name: "Fasina Adewole",
-    position: "Outsourcing Manager",
-    imageUrl: "/images/fasina-adewole.png",
-  },
-  {
-    name: "Chinyere Onukogu",
-    position: "Head of Sales",
-    imageUrl: "/images/chinyere-onukogu.png",
-  },
-  {
-    name: "Wilson Olubayo",
-    position: "Advisory Manager",
-    imageUrl: "/images/wilson-olubayo.png",
-  },
-  {
-    name: "Princewill Nwaogaz",
-    position: "Recruitment Manager",
-    imageUrl: "/images/princewill-nwaogaz.png",
-  },
-];
+const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
+  // Show loading state if no management team is provided
+  if (!managementTeam || managementTeam.length === 0) {
+    return (
+      <section className="bg-slate-50">
+        {/* Header Section with slate-50 background */}
+        <div className="pt-9 pb-6">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="mb-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="space-y-6"
+              >
+                {/* Breadcrumb */}
+                <p className="text-sm font-medium text-sunset-200">
+                  Our People
+                </p>
 
-const OurPeopleManagement = () => {
+                {/* Main Heading */}
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 font-plex leading-tight">
+                  Our Management
+                </h2>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Empty Management Section */}
+        <div className="bg-white pt-6 pb-9">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="text-center">
+              <p className="text-gray-600">
+                No management team members available at the moment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-slate-50">
       {/* Header Section with slate-50 background */}
@@ -81,7 +85,7 @@ const OurPeopleManagement = () => {
             <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {managementTeam.map((member, index) => (
                 <motion.div
-                  key={member.name}
+                  key={member._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -90,7 +94,7 @@ const OurPeopleManagement = () => {
                   {/* Profile Image */}
                   <div className="relative mb-6 aspect-[4/3] overflow-hidden">
                     <Image
-                      src={member.imageUrl}
+                      src={urlFor(member.image).width(400).height(300).url()}
                       alt={member.name}
                       fill
                       className="object-cover"
@@ -107,6 +111,21 @@ const OurPeopleManagement = () => {
                     <p className="text-sm text-sunset-200 font-medium">
                       {member.position}
                     </p>
+
+                    {/* Optional: Show department if different from position */}
+                    {member.department &&
+                      member.department !== "management" && (
+                        <p className="text-xs text-gray-500 capitalize">
+                          {member.department.replace("_", " ")} Department
+                        </p>
+                      )}
+
+                    {/* Optional: Show years of experience if available */}
+                    {member.yearsOfExperience && (
+                      <p className="text-xs text-gray-500">
+                        {member.yearsOfExperience}+ years experience
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -116,7 +135,7 @@ const OurPeopleManagement = () => {
             <div className="md:hidden space-y-8">
               {managementTeam.map((member, index) => (
                 <motion.div
-                  key={member.name}
+                  key={member._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -125,7 +144,7 @@ const OurPeopleManagement = () => {
                   {/* Profile Image */}
                   <div className="relative mb-4 w-full aspect-[4/3] overflow-hidden">
                     <Image
-                      src={member.imageUrl}
+                      src={urlFor(member.image).width(600).height(450).url()}
                       alt={member.name}
                       fill
                       className="object-cover"
@@ -142,6 +161,39 @@ const OurPeopleManagement = () => {
                     <p className="text-sm text-sunset-200 font-medium">
                       {member.position}
                     </p>
+
+                    {/* Optional: Show bio on mobile if available */}
+                    {member.bio && (
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed">
+                        {member.bio}
+                      </p>
+                    )}
+
+                    {/* Optional: Show expertise areas if available */}
+                    {member.expertise && member.expertise.length > 0 && (
+                      <div className="mt-2">
+                        <p className="text-xs text-gray-500 mb-1">Expertise:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {member.expertise
+                            .slice(0, 3)
+                            .map((skill, skillIndex) => (
+                              <span
+                                key={skillIndex}
+                                className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"
+                              >
+                                {skill
+                                  .replace("_", " ")
+                                  .replace(/\b\w/g, (l) => l.toUpperCase())}
+                              </span>
+                            ))}
+                          {member.expertise.length > 3 && (
+                            <span className="text-xs text-gray-500">
+                              +{member.expertise.length - 3} more
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
