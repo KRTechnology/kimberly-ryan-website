@@ -102,6 +102,17 @@ export async function POST(request: NextRequest) {
         console.log("Revalidated team members and our people page");
         break;
 
+      case "webinar":
+        // Revalidate webinars cache tags
+        revalidateTag("webinars");
+        revalidateTag("featured-webinars");
+        // Revalidate pages where webinars are displayed
+        revalidatePath("/services/learning-development");
+        // Also revalidate home page if webinars appear there
+        revalidatePath("/");
+        console.log("Revalidated webinars and learning development page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

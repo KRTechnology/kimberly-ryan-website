@@ -222,7 +222,29 @@ curl http://localhost:3000/api/revalidate
 - **Date Joined**: When they joined the company (optional)
 - **Internal Notes**: Private team reference notes
 
-### 9. Pages
+### 9. Webinar Series
+
+- **Webinar Title**: Main title of the webinar (required)
+- **Slug**: URL-friendly version of the title (auto-generated)
+- **Description**: Main description or introduction (required)
+- **Sub Heading**: Optional sub-heading (e.g., "Webinar Objectives:")
+- **Key Points**: Bullet points highlighting benefits or agenda (required)
+- **Webinar Image**: Featured image with hotspot selection (required)
+- **Watch Webinar URL**: Link to webinar video (YouTube, Vimeo, etc.) (required)
+- **Training Slides PDF**: Upload PDF file for download (optional)
+- **Webinar Category**: Topic area (HR Essentials, Leadership, etc.)
+- **Duration**: Length of webinar (e.g., "45 minutes")
+- **Presenter(s)**: Name(s) of webinar presenter(s)
+- **Date Recorded**: When the webinar was recorded
+- **Display Order**: Control webinar sequence
+- **Featured Webinar**: Highlight prominently
+- **Active Status**: Show/hide webinars
+- **Tags**: Beginner, Intermediate, Advanced, Free, Premium, etc.
+- **Download Count**: Track PDF downloads (optional)
+- **View Count**: Track webinar views (optional)
+- **Internal Notes**: Private reference notes
+
+### 10. Pages
 
 - **Title**: Page title
 - **Slug**: URL-friendly version
@@ -313,6 +335,26 @@ curl http://localhost:3000/api/revalidate
 - Management team members appear in the bottom section of `/about/our-people`
 - Team members are automatically sorted by display order within each section
 
+### 9. Create Webinar Series
+
+1. Click on "Webinar Series" in the sidebar
+2. Add webinar details:
+   - Enter compelling title and description
+   - Upload featured image for the webinar
+   - Add key points (bullet points) highlighting benefits
+   - Enter webinar URL (YouTube, Vimeo, etc.)
+   - **Upload PDF**: Upload training slides PDF for download
+   - Select category and add optional presenter info
+   - Set display order for arrangement
+3. Toggle "Active" to true to display on website
+4. **Save and publish** (this will trigger the webhook!)
+
+**Note**:
+
+- Webinars appear on the `/services/learning-development` page
+- PDF downloads are handled automatically through Sanity's CDN
+- Users can watch webinars and download training slides directly
+
 ## 🔄 How It Works
 
 ### Data Fetching with Caching
@@ -330,6 +372,9 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - `getLeadershipTeam()`: Fetches leadership team members (cached for 30 minutes)
 - `getManagementTeam()`: Fetches management team members (cached for 30 minutes)
 - `getAllTeamMembers()`: Fetches all visible team members (cached for 30 minutes)
+- `getWebinars()`: Fetches all active webinars (cached for 15 minutes)
+- `getFeaturedWebinars()`: Fetches featured webinars only (cached for 15 minutes)
+- `getWebinarsByCategory(category)`: Fetches webinars by category (cached for 15 minutes)
 - `getCategories()`: Fetches all categories (cached for 1 hour)
 - `getAuthors()`: Fetches all authors (cached for 1 hour)
 
@@ -341,6 +386,7 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - **Gallery items**: 5 minutes (moderately updated)
 - **Testimonials**: 10 minutes (infrequent updates)
 - **Team members**: 30 minutes (infrequent updates)
+- **Webinars**: 15 minutes (moderate updates)
 - **Categories/Authors**: 1 hour (rarely updated)
 
 ### Image Optimization
@@ -486,6 +532,7 @@ Your website now has:
 ✅ **Trusted companies section** with custom backgrounds and links  
 ✅ **Client testimonials system** with detailed filtering and pagination  
 ✅ **Team member management** for leadership and management sections  
+✅ **Webinar series management** with PDF downloads and video links  
 ✅ **Optimized caching** for better performance  
 ✅ **SEO-friendly** static generation  
 ✅ **Scalable architecture** for high traffic  

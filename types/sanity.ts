@@ -158,6 +158,16 @@ export interface Testimonial {
   internalNotes?: string;
 }
 
+export interface SanityFile {
+  _type: "file";
+  asset: {
+    _id: string;
+    url: string;
+    originalFilename?: string;
+    size?: number;
+  };
+}
+
 export interface Person {
   _id: string;
   name: string;
@@ -190,6 +200,42 @@ export interface Person {
   showOnLeadershipPage: boolean;
   showOnManagementPage: boolean;
   joinedDate?: string;
+  internalNotes?: string;
+}
+
+export interface Webinar {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  description: string;
+  subHeading?: string;
+  keyPoints: string[];
+  image: SanityImage;
+  webinarUrl: string;
+  trainingSlidesPdf?: SanityFile;
+  category?:
+    | "hr_essentials"
+    | "recruitment"
+    | "learning_development"
+    | "leadership"
+    | "compliance"
+    | "employer_branding"
+    | "diversity_inclusion"
+    | "performance"
+    | "engagement"
+    | "strategic_hr"
+    | "other";
+  duration?: string;
+  presenter?: string;
+  dateRecorded?: string;
+  displayOrder: number;
+  featured: boolean;
+  active: boolean;
+  tags?: string[];
+  downloadCount?: number;
+  viewCount?: number;
   internalNotes?: string;
 }
 

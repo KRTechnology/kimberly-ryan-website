@@ -2,57 +2,200 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { useState, useRef } from "react";
+import { ChevronLeft, ChevronRight, ArrowUpRight, Loader2 } from "lucide-react";
+import { Webinar } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 
-const LearningDevelopmentWebinars = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+interface LearningDevelopmentWebinarsProps {
+  initialWebinars: Webinar[];
+  totalCount: number;
+  initialHasMore: boolean;
+}
 
-  const webinars = [
-    {
-      title: "HR Essential: Understanding your Statutory Obligations",
-      description:
-        'Join the webinar on "HR Essential: Understanding your Statutory Obligations" and discover how to transform diversity challenges into opportunities for growth. Drawing on insights from leading research, this session covers:',
-      points: [
-        "understand key statutory obligations for HR and businesses in Nigeria.",
-        "gain insights into the laws, agencies, and penalties associated with non-compliance.",
-        "learn the importance of timely remittance and accurate filing",
-      ],
-    },
-    {
-      title: "Recruitment Strategy & Workplace Diversity",
-      description:
-        'Join the webinar on "HR Essential: Understanding your Statutory Obligations" and discover how to transform diversity challenges into opportunities for growth. Drawing on insights from leading research, this session covers:',
-      points: [
-        "understand key statutory obligations for HR and businesses in Nigeria.",
-        "gain insights into the laws, agencies, and penalties associated with non-compliance.",
-        "learn the importance of timely remittance and accurate filing",
-      ],
-    },
-    {
-      title: "Enhancing Employer Branding for Today's Workforce",
-      description:
-        "Watch an insightful session on Enhancing Employer Branding in Today's Workforce, which has been designed to help elevate your employer branding strategies in today's competitive market.",
-      subHeading: "Webinar Objectives:",
-      points: [
-        "Understand the critical role employer branding plays in attracting and retaining top talent.",
-        "Learn how to balance traditional employer branding with modern workforce expectations.",
-        "Discover strategies to differentiate your employer brand in a crowded market.",
-        "Gain insights into future talent demands and how to position your company for continued success.",
-      ],
-    },
-  ];
+const LearningDevelopmentWebinars = ({
+  initialWebinars,
+  totalCount,
+  initialHasMore,
+}: LearningDevelopmentWebinarsProps) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentMobileIndex, setCurrentMobileIndex] = useState(0);
+  const [webinars, setWebinars] = useState<Webinar[]>(initialWebinars);
+  const [loadingDirection, setLoadingDirection] = useState<
+    "prev" | "next" | null
+  >(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % webinars.length);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const webinarsPerPage = 3;
+  const totalPages = Math.ceil(totalCount / webinarsPerPage);
+  const hasNextPage = currentPage < totalPages - 1;
+  const hasPrevPage = currentPage > 0;
+
+  // Filter out inactive webinars if any exist in the data
+  const activeWebinars = webinars.filter((webinar) => webinar.active);
+
+  // Scroll to section top
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + webinars.length) % webinars.length);
+  // Mobile navigation within current page
+  const nextMobileSlide = () => {
+    setCurrentMobileIndex((prev) => (prev + 1) % activeWebinars.length);
+    scrollToSection();
   };
+
+  const prevMobileSlide = () => {
+    setCurrentMobileIndex(
+      (prev) => (prev - 1 + activeWebinars.length) % activeWebinars.length
+    );
+    scrollToSection();
+  };
+
+  // Direct navigation to specific webinar (for dot clicks)
+  const goToMobileSlide = (index: number) => {
+    setCurrentMobileIndex(index);
+    scrollToSection();
+  };
+
+  // Safe mobile index for carousel display
+  const safeMobileIndex = Math.min(
+    currentMobileIndex,
+    activeWebinars.length - 1
+  );
+
+  // Handle PDF download
+  const handlePdfDownload = (webinar: Webinar) => {
+    if (webinar.trainingSlidesPdf?.asset?.url) {
+      const pdfUrl = webinar.trainingSlidesPdf.asset.url;
+
+      try {
+        // Try to open PDF in new tab
+        const newWindow = window.open(pdfUrl, "_blank");
+
+        // Fallback: If popup is blocked, try direct download
+        if (
+          !newWindow ||
+          newWindow.closed ||
+          typeof newWindow.closed === "undefined"
+        ) {
+          // Create a temporary download link
+          const link = document.createElement("a");
+          link.href = pdfUrl;
+          link.download =
+            webinar.trainingSlidesPdf.asset.originalFilename ||
+            `${webinar.title}-training-slides.pdf`;
+          link.target = "_blank";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      } catch (error) {
+        console.error("Error downloading PDF:", error);
+        alert(
+          "There was an error downloading the training slides. Please try again."
+        );
+      }
+    } else {
+      alert("Training slides are not available for this webinar.");
+    }
+  };
+
+  // Handle webinar view
+  const handleWebinarView = (webinar: Webinar) => {
+    if (webinar.webinarUrl) {
+      window.open(webinar.webinarUrl, "_blank");
+    }
+  };
+
+  // Handle page navigation
+  const loadWebinarsPage = async (
+    pageNumber: number,
+    direction: "prev" | "next"
+  ) => {
+    if (loadingDirection !== null || pageNumber < 0 || pageNumber >= totalPages)
+      return;
+
+    setLoadingDirection(direction);
+    setError(null);
+
+    try {
+      const offset = pageNumber * webinarsPerPage;
+      const response = await fetch(
+        `/api/webinars?offset=${offset}&limit=${webinarsPerPage}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch webinars");
+      }
+
+      const result = await response.json();
+
+      setWebinars(result.webinars);
+      setCurrentPage(pageNumber);
+      setCurrentMobileIndex(0); // Reset mobile index when page changes
+
+      // Scroll to top of section smoothly
+      scrollToSection();
+    } catch (error) {
+      console.error("Error loading webinars page:", error);
+      setError("Failed to load webinars. Please try again.");
+    } finally {
+      setLoadingDirection(null);
+    }
+  };
+
+  // Navigate to next page
+  const nextPage = () => {
+    if (hasNextPage && loadingDirection === null) {
+      loadWebinarsPage(currentPage + 1, "next");
+    }
+  };
+
+  // Navigate to previous page
+  const prevPage = () => {
+    if (hasPrevPage && loadingDirection === null) {
+      loadWebinarsPage(currentPage - 1, "prev");
+    }
+  };
+
+  // Show empty state if no webinars are provided
+  if (!webinars || activeWebinars.length === 0) {
+    return (
+      <section className="py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12 md:mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#181D27] font-plex leading-tight">
+              Webinar Series
+            </h2>
+          </motion.div>
+
+          <div className="text-center">
+            <p className="text-gray-600">
+              No webinars available at the moment.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-white">
+    <section ref={sectionRef} className="py-16 md:py-20 lg:py-24 bg-white">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -69,9 +212,9 @@ const LearningDevelopmentWebinars = () => {
 
         {/* Desktop Layout - Horizontal rows with image left, text right */}
         <div className="hidden md:block space-y-12 mb-16">
-          {webinars.map((webinar, index) => (
+          {activeWebinars.map((webinar, index) => (
             <motion.div
-              key={index}
+              key={webinar._id}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -81,7 +224,7 @@ const LearningDevelopmentWebinars = () => {
               {/* Image Section */}
               <div className="w-[339px] h-[339px] relative flex-shrink-0">
                 <Image
-                  src="/images/webinar-image.jpg"
+                  src={urlFor(webinar.image).width(339).height(339).url()}
                   alt={webinar.title}
                   fill
                   className="object-cover"
@@ -103,7 +246,7 @@ const LearningDevelopmentWebinars = () => {
                   </p>
                 )}
                 <ul className="space-y-3 mb-8">
-                  {webinar.points.map((point, pointIndex) => (
+                  {webinar.keyPoints.map((point, pointIndex) => (
                     <li
                       key={pointIndex}
                       className="text-base lg:text-lg text-[#535862] font-sans leading-relaxed flex items-start"
@@ -114,14 +257,22 @@ const LearningDevelopmentWebinars = () => {
                   ))}
                 </ul>
                 <div className="space-y-4 text-right">
-                  <button className="text-sunset-200 font-semibold text-lg hover:text-sunset-300 transition-colors duration-300 flex items-center justify-end">
+                  <button
+                    onClick={() => handleWebinarView(webinar)}
+                    className="text-sunset-200 font-semibold text-lg hover:text-sunset-300 transition-colors duration-300 flex items-center justify-end"
+                  >
                     Watch the webinar
                     <ArrowUpRight className="w-5 h-5 ml-2" />
                   </button>
-                  <button className="text-sunset-200 font-semibold text-lg hover:text-sunset-300 transition-colors duration-300 flex items-center justify-end">
-                    Download the training slides
-                    <ArrowUpRight className="w-5 h-5 ml-2" />
-                  </button>
+                  {webinar.trainingSlidesPdf && (
+                    <button
+                      onClick={() => handlePdfDownload(webinar)}
+                      className="text-sunset-200 font-semibold text-lg hover:text-sunset-300 transition-colors duration-300 flex items-center justify-end"
+                    >
+                      Download the training slides
+                      <ArrowUpRight className="w-5 h-5 ml-2" />
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -131,7 +282,7 @@ const LearningDevelopmentWebinars = () => {
         {/* Mobile Layout - Carousel */}
         <div className="md:hidden">
           <motion.div
-            key={currentSlide}
+            key={safeMobileIndex}
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -139,8 +290,11 @@ const LearningDevelopmentWebinars = () => {
           >
             <div className="relative h-48">
               <Image
-                src="/images/webinar-image.jpg"
-                alt={webinars[currentSlide].title}
+                src={urlFor(activeWebinars[safeMobileIndex].image)
+                  .width(600)
+                  .height(300)
+                  .url()}
+                alt={activeWebinars[safeMobileIndex].title}
                 fill
                 className="object-cover"
                 sizes="100vw"
@@ -148,55 +302,143 @@ const LearningDevelopmentWebinars = () => {
             </div>
             <div className="p-6">
               <h3 className="text-lg font-semibold text-[#181D27] font-plex mb-3 leading-tight">
-                {webinars[currentSlide].title}
+                {activeWebinars[safeMobileIndex].title}
               </h3>
               <p className="text-sm text-[#535862] font-sans leading-relaxed mb-4">
-                {webinars[currentSlide].description}
+                {activeWebinars[safeMobileIndex].description}
               </p>
-              {webinars[currentSlide].subHeading && (
+              {activeWebinars[safeMobileIndex].subHeading && (
                 <p className="text-sm text-[#535862] font-sans leading-relaxed mb-3 font-medium">
-                  {webinars[currentSlide].subHeading}
+                  {activeWebinars[safeMobileIndex].subHeading}
                 </p>
               )}
               <ul className="space-y-2 mb-6">
-                {webinars[currentSlide].points.map((point, pointIndex) => (
-                  <li
-                    key={pointIndex}
-                    className="text-sm text-[#535862] font-sans leading-relaxed flex items-start"
-                  >
-                    <span className="w-1 h-1 bg-[#535862] rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    {point}
-                  </li>
-                ))}
+                {activeWebinars[safeMobileIndex].keyPoints.map(
+                  (point, pointIndex) => (
+                    <li
+                      key={pointIndex}
+                      className="text-sm text-[#535862] font-sans leading-relaxed flex items-start"
+                    >
+                      <span className="w-1 h-1 bg-[#535862] rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      {point}
+                    </li>
+                  )
+                )}
               </ul>
               <div className="space-y-3">
-                <button className="w-full text-left text-sunset-200 font-semibold text-sm hover:text-sunset-300 transition-colors duration-300 flex items-center">
+                <button
+                  onClick={() =>
+                    handleWebinarView(activeWebinars[safeMobileIndex])
+                  }
+                  className="w-full text-left text-sunset-200 font-semibold text-sm hover:text-sunset-300 transition-colors duration-300 flex items-center"
+                >
                   Watch the webinar
                   <ArrowUpRight className="w-4 h-4 ml-2" />
                 </button>
-                <button className="w-full text-left text-sunset-200 font-semibold text-sm hover:text-sunset-300 transition-colors duration-300 flex items-center">
-                  Download the training slides
-                  <ArrowUpRight className="w-4 h-4 ml-2" />
-                </button>
+                {activeWebinars[safeMobileIndex].trainingSlidesPdf && (
+                  <button
+                    onClick={() =>
+                      handlePdfDownload(activeWebinars[safeMobileIndex])
+                    }
+                    className="w-full text-left text-sunset-200 font-semibold text-sm hover:text-sunset-300 transition-colors duration-300 flex items-center"
+                  >
+                    Download the training slides
+                    <ArrowUpRight className="w-4 h-4 ml-2" />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
+
+          {/* Mobile: Within-page navigation (if multiple webinars in current page) */}
+          {activeWebinars.length > 1 && (
+            <div className="flex items-center justify-between px-4 py-3">
+              <button
+                onClick={prevMobileSlide}
+                disabled={safeMobileIndex === 0}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                <ChevronLeft
+                  className={`w-4 h-4 ${safeMobileIndex === 0 ? "text-gray-300" : "text-gray-600"}`}
+                />
+              </button>
+
+              {/* Dots indicator */}
+              <div className="flex items-center space-x-2">
+                {activeWebinars.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToMobileSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                      index === safeMobileIndex
+                        ? "bg-sunset-200"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextMobileSlide}
+                disabled={safeMobileIndex === activeWebinars.length - 1}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                <ChevronRight
+                  className={`w-4 h-4 ${safeMobileIndex === activeWebinars.length - 1 ? "text-gray-300" : "text-gray-600"}`}
+                />
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Navigation Arrows */}
-        <div className="flex items-center justify-center space-x-4">
-          <button
-            onClick={prevSlide}
-            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors duration-300"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors duration-300"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
+        {/* Navigation for both Desktop and Mobile */}
+        <div className="flex items-center justify-center space-x-6">
+          {/* Error Display */}
+          {error && (
+            <div className="text-center mb-4">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
+          )}
+
+          {/* Navigation Controls */}
+          <div className="flex items-center space-x-4">
+            {/* Previous Button */}
+            <button
+              onClick={prevPage}
+              disabled={!hasPrevPage || loadingDirection !== null}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300"
+            >
+              {loadingDirection === "prev" ? (
+                <Loader2 className="w-5 h-5 text-gray-600 animate-spin" />
+              ) : (
+                <ChevronLeft className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
+
+            {/* Page Info */}
+            <div className="text-center">
+              <span className="text-sm text-gray-600">
+                Page {currentPage + 1} of {totalPages}
+              </span>
+              {/* Mobile: Show current webinar info */}
+              <div className="text-xs text-gray-500 md:hidden">
+                Webinar {safeMobileIndex + 1} of {activeWebinars.length}
+              </div>
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={nextPage}
+              disabled={!hasNextPage || loadingDirection !== null}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300"
+            >
+              {loadingDirection === "next" ? (
+                <Loader2 className="w-5 h-5 text-gray-600 animate-spin" />
+              ) : (
+                <ChevronRight className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -204,4 +446,3 @@ const LearningDevelopmentWebinars = () => {
 };
 
 export default LearningDevelopmentWebinars;
- 

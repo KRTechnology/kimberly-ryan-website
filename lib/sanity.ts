@@ -416,3 +416,199 @@ export async function getAllTeamMembers() {
     }
   );
 }
+
+// Helper function to get webinars with pagination support
+export async function getWebinarsPaginated(
+  offset: number = 0,
+  limit: number = 3
+) {
+  const webinars = await client.fetch(
+    `
+    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) [$offset...$end] {
+      _id,
+      title,
+      slug,
+      description,
+      subHeading,
+      keyPoints,
+      image,
+      webinarUrl,
+      trainingSlidesPdf {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      duration,
+      presenter,
+      dateRecorded,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      viewCount
+    }
+  `,
+    {
+      offset,
+      end: offset + limit - 1,
+    },
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes
+        tags: ["webinars"],
+      },
+    }
+  );
+
+  // Also get the total count for pagination info
+  const totalCount = await client.fetch(
+    `count(*[_type == "webinar" && active == true])`,
+    {},
+    {
+      next: {
+        revalidate: 900,
+        tags: ["webinars"],
+      },
+    }
+  );
+
+  return {
+    webinars,
+    totalCount,
+    hasMore: offset + limit < totalCount,
+  };
+}
+
+// Helper function to get webinars with cache tags
+export async function getWebinars() {
+  return client.fetch(
+    `
+    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) {
+      _id,
+      title,
+      slug,
+      description,
+      subHeading,
+      keyPoints,
+      image,
+      webinarUrl,
+      trainingSlidesPdf {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      duration,
+      presenter,
+      dateRecorded,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      viewCount
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (webinars change less frequently)
+        tags: ["webinars"],
+      },
+    }
+  );
+}
+
+// Helper function to get featured webinars with cache tags
+export async function getFeaturedWebinars() {
+  return client.fetch(
+    `
+    *[_type == "webinar" && active == true && featured == true] | order(displayOrder asc, dateRecorded desc) {
+      _id,
+      title,
+      slug,
+      description,
+      subHeading,
+      keyPoints,
+      image,
+      webinarUrl,
+      trainingSlidesPdf {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      duration,
+      presenter,
+      dateRecorded,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      viewCount
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (webinars change less frequently)
+        tags: ["webinars", "featured-webinars"],
+      },
+    }
+  );
+}
+
+// Helper function to get webinars by category with cache tags
+export async function getWebinarsByCategory(category: string) {
+  return client.fetch(
+    `
+    *[_type == "webinar" && active == true && category == $category] | order(displayOrder asc, dateRecorded desc) {
+      _id,
+      title,
+      slug,
+      description,
+      subHeading,
+      keyPoints,
+      image,
+      webinarUrl,
+      trainingSlidesPdf {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      duration,
+      presenter,
+      dateRecorded,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      viewCount
+    }
+  `,
+    { category },
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (webinars change less frequently)
+        tags: ["webinars", `webinars-${category}`],
+      },
+    }
+  );
+}
