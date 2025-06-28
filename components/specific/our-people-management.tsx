@@ -1,9 +1,9 @@
 "use client";
 
+import { urlFor } from "@/lib/sanity";
+import { Person } from "@/types/sanity";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Person } from "@/types/sanity";
-import { urlFor } from "@/lib/sanity";
 
 interface OurPeopleManagementProps {
   managementTeam: Person[];
