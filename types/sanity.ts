@@ -76,6 +76,48 @@ export interface HeroSlide {
   publishedAt: string;
 }
 
+export interface Company {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  logo: SanityImage;
+  textLogo: SanityImage;
+  websiteUrl?: string;
+  industry:
+    | "technology"
+    | "healthcare"
+    | "finance"
+    | "education"
+    | "ecommerce"
+    | "media"
+    | "professional"
+    | "manufacturing"
+    | "realestate"
+    | "other";
+  partnershipType:
+    | "client"
+    | "strategic"
+    | "technology"
+    | "vendor"
+    | "investor";
+  description?: string;
+  testimonial?: string;
+  order: number;
+  featured: boolean;
+  featuredOnHomepage: boolean;
+  addedDate: string;
+  logoBackgroundColor:
+    | "default"
+    | "white"
+    | "blue-50"
+    | "green-50"
+    | "purple-50"
+    | "custom";
+  customBackgroundColor?: string;
+}
+
 export interface Page {
   _id: string;
   title: string;

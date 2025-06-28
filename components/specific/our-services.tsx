@@ -26,7 +26,7 @@ const OurServices = () => {
       title: "Recruitment and Selection",
       description:
         "Our clients can attest to our swift, yet meticulous work in the area of Recruitment and Selection. Our turn around time and state of the art recruitment platform is unrivaled due to our consistent robust talent pool.",
-      link: "/services/recruitment-selection",
+      link: "/services/recruitment",
       icon: "📋", // Placeholder - replace with actual icon
     },
     {
@@ -34,7 +34,7 @@ const OurServices = () => {
       title: "HR Advisory",
       description:
         "Our Advisory projects support successful transition in organisational systems and processes. We see the changes and disruptions in the world as an opportunity to revolutionize HR in your organization to sustain and develop productivity.",
-      link: "/services/hr-advisory",
+      link: "/services/hr-advisory", 
       icon: "💡", // Placeholder - replace with actual icon
     },
   ];

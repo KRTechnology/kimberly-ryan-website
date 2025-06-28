@@ -22,6 +22,70 @@ const builder = imageUrlBuilder(client);
 
 export const urlFor = (source: any) => builder.image(source);
 
+// Helper function to get companies for homepage with cache tags
+export async function getHomepageCompanies() {
+  return client.fetch(
+    `
+    *[_type == "company" && featured == true && featuredOnHomepage == true] | order(order asc, addedDate desc) {
+      _id,
+      name,
+      slug,
+      logo,
+      textLogo,
+      websiteUrl,
+      industry,
+      partnershipType,
+      order,
+      featured,
+      featuredOnHomepage,
+      logoBackgroundColor,
+      customBackgroundColor,
+      addedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 600, // Cache for 10 minutes (companies change less frequently)
+        tags: ["companies", "homepage-companies"],
+      },
+    }
+  );
+}
+
+// Helper function to get all companies with cache tags
+export async function getCompanies() {
+  return client.fetch(
+    `
+    *[_type == "company" && featured == true] | order(order asc, addedDate desc) {
+      _id,
+      name,
+      slug,
+      logo,
+      textLogo,
+      websiteUrl,
+      industry,
+      partnershipType,
+      description,
+      testimonial,
+      order,
+      featured,
+      featuredOnHomepage,
+      logoBackgroundColor,
+      customBackgroundColor,
+      addedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 600, // Cache for 10 minutes (companies change less frequently)
+        tags: ["companies"],
+      },
+    }
+  );
+}
+
 // Helper function to get hero slides with cache tags
 export async function getHeroSlides() {
   return client.fetch(

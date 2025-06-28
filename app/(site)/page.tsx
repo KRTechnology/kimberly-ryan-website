@@ -5,19 +5,22 @@ import Publications from "@/components/specific/publications";
 import Testimonials from "@/components/specific/testimonials";
 import TrustedCompanies from "@/components/specific/trusted-companies";
 import WorkingWithUs from "@/components/specific/working-with-us";
-import { getHeroSlides } from "@/lib/sanity";
+import { getHeroSlides, getHomepageCompanies } from "@/lib/sanity";
 
 // Enable ISR - revalidate every 300 seconds (5 minutes)
 export const revalidate = 300;
 
 export default async function Home() {
-  const heroSlides = await getHeroSlides();
+  const [heroSlides, companies] = await Promise.all([
+    getHeroSlides(),
+    getHomepageCompanies(),
+  ]);
 
   return (
     <>
       <Hero heroSlides={heroSlides} />
       <Publications />
-      <TrustedCompanies />
+      <TrustedCompanies companies={companies} />
       <OurServices />
       <Testimonials />
       <WorkingWithUs />

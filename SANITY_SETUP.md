@@ -119,7 +119,37 @@ curl http://localhost:3000/api/revalidate
 
 ## 📝 Content Types Available
 
-### 1. Blog Posts
+### 1. Hero Slides
+
+- **Title**: Main headline for the hero section
+- **Subtitle**: Optional supporting text above the title
+- **Description**: Supporting text below the title
+- **Button Text**: Call-to-action button text
+- **Button Link**: URL the button should link to
+- **Button Style**: Primary, Secondary, or Text-only
+- **Hero Image**: Main image with hotspot support
+- **Image Style**: Arc, Rounded, or Square borders
+- **Background Color**: White, Gray, Sunset, or Custom hex
+- **Display Order**: Control slide sequence
+- **Active Status**: Show/hide slides
+
+### 2. Trusted Companies
+
+- **Company Name**: Full name of the company
+- **Company Logo**: Logo icon (preferably SVG)
+- **Text Logo/Wordmark**: Company name in text format
+- **Website URL**: Optional company website link
+- **Industry/Category**: Business category (Technology, Healthcare, etc.)
+- **Partnership Type**: Client, Strategic Partner, Technology Partner, etc.
+- **Company Description**: Internal reference notes
+- **Testimonial Quote**: Optional testimonial for future use
+- **Display Order**: Control company sequence
+- **Active Status**: Show/hide companies
+- **Featured on Homepage**: Display in prominent section
+- **Logo Background**: Default, White, Blue, Green, Purple, or Custom
+- **Date Added**: When partnership began
+
+### 3. Blog Posts
 
 - **Title**: The blog post title
 - **Slug**: URL-friendly version of the title
@@ -131,20 +161,20 @@ curl http://localhost:3000/api/revalidate
 - **Published Date**: When the post was published
 - **Featured**: Mark as featured post
 
-### 2. Authors
+### 4. Authors
 
 - **Name**: Author's full name
 - **Slug**: URL-friendly version of the name
 - **Image**: Author's profile photo
 - **Bio**: Rich text biography
 
-### 3. Categories
+### 5. Categories
 
 - **Title**: Category name
 - **Slug**: URL-friendly version
 - **Description**: Category description
 
-### 4. Gallery Items
+### 6. Gallery Items
 
 - **Title**: Image title
 - **Slug**: URL-friendly version
@@ -154,7 +184,7 @@ curl http://localhost:3000/api/revalidate
 - **Featured**: Mark as featured image
 - **Published Date**: When added to gallery
 
-### 5. Pages
+### 7. Pages
 
 - **Title**: Page title
 - **Slug**: URL-friendly version
@@ -165,18 +195,36 @@ curl http://localhost:3000/api/revalidate
 
 ## 🎯 Getting Started with Content
 
-### 1. Create Your First Author
+### 1. Create Hero Slides
 
 1. Go to the Studio (`/studio` or standalone)
-2. Click on "Author" in the sidebar
-3. Create a new author with name, image, and bio
+2. Click on "Hero Slides" in the sidebar
+3. Create your first hero slide with all the fields
+4. **Important**: Toggle "Active" to true
+5. Set the "Display Order" (1 for first slide, 2 for second, etc.)
 
-### 2. Create Categories
+### 2. Add Trusted Companies
+
+1. Click on "Trusted Companies" in the sidebar
+2. Add company information:
+   - Upload logo and text logo images
+   - Set industry and partnership type
+   - Choose background color
+   - Set display order
+3. Toggle "Active" and "Featured on Homepage" to true
+4. **Save and publish**
+
+### 3. Create Your First Author
+
+1. Click on "Author" in the sidebar
+2. Create a new author with name, image, and bio
+
+### 4. Create Categories
 
 1. Click on "Category" in the sidebar
 2. Create categories like "HR Insights", "Leadership", "Company News", etc.
 
-### 3. Create Your First Blog Post
+### 5. Create Your First Blog Post
 
 1. Click on "Blog Post" in the sidebar
 2. Fill in all the required fields
@@ -185,7 +233,7 @@ curl http://localhost:3000/api/revalidate
 5. Set the published date
 6. **Save and publish** (this will trigger the webhook!)
 
-### 4. Add Gallery Images
+### 6. Add Gallery Images
 
 1. Click on "Gallery" in the sidebar
 2. Upload images and add titles/descriptions
@@ -198,6 +246,9 @@ curl http://localhost:3000/api/revalidate
 
 The website uses several optimized helper functions in `lib/sanity.ts`:
 
+- `getHeroSlides()`: Fetches active hero slides (cached for 5 minutes)
+- `getHomepageCompanies()`: Fetches companies for homepage (cached for 10 minutes)
+- `getCompanies()`: Fetches all active companies (cached for 10 minutes)
 - `getBlogPosts()`: Fetches all blog posts (cached for 60 seconds)
 - `getBlogPost(slug)`: Fetches a single blog post (cached for 60 seconds)
 - `getGalleryItems()`: Fetches all gallery items (cached for 5 minutes)
@@ -206,6 +257,8 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 
 ### Cache Strategy
 
+- **Hero slides**: 5 minutes (moderate updates)
+- **Companies**: 10 minutes (infrequent updates)
 - **Blog content**: 60 seconds (frequently updated)
 - **Gallery items**: 5 minutes (moderately updated)
 - **Categories/Authors**: 1 hour (rarely updated)
@@ -349,6 +402,8 @@ Edit the respective files in `sanity/schemas/` and restart your development serv
 Your website now has:
 
 ✅ **Real-time content updates** without redeployment  
+✅ **Hero slides management** with advanced styling options  
+✅ **Trusted companies section** with custom backgrounds and links  
 ✅ **Optimized caching** for better performance  
 ✅ **SEO-friendly** static generation  
 ✅ **Scalable architecture** for high traffic  
