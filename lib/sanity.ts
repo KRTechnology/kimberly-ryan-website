@@ -424,7 +424,7 @@ export async function getWebinarsPaginated(
 ) {
   const webinars = await client.fetch(
     `
-    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) [$offset...$end] {
+    *[_type == "webinar" && active == true] | order(displayOrder asc, dateRecorded desc) [$start...$end] {
       _id,
       title,
       slug,
@@ -454,7 +454,7 @@ export async function getWebinarsPaginated(
     }
   `,
     {
-      offset,
+      start: offset,
       end: offset + limit - 1,
     },
     {
