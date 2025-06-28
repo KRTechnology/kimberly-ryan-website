@@ -94,7 +94,7 @@ const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
                   {/* Profile Image */}
                   <div className="relative mb-6 aspect-[4/3] overflow-hidden">
                     <Image
-                      src={urlFor(member.image).width(400).height(300).url()}
+                      src={urlFor(member.image).url()}
                       alt={member.name}
                       fill
                       className="object-cover"
@@ -144,7 +144,7 @@ const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
                   {/* Profile Image */}
                   <div className="relative mb-4 w-full aspect-[4/3] overflow-hidden">
                     <Image
-                      src={urlFor(member.image).width(600).height(450).url()}
+                      src={urlFor(member.image).url()}
                       alt={member.name}
                       fill
                       className="object-cover"
