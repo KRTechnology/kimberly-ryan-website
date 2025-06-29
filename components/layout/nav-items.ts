@@ -108,19 +108,19 @@ export const navItems: NavItem[] = [
         description:
           "The latest industry news and guides curated by our expert team.",
       },
-      {
-        label: "Case Studies",
-        href: "/insights/case-studies",
-        icon: History,
-        description: "Real-world success stories and client achievements.",
-      },
-      {
-        label: "HR Management Templates",
-        href: "/insights/hr-templates",
-        icon: FileText,
-        description:
-          "Ready-to-use HR documents and templates for your organization.",
-      },
+      // {
+      //   label: "Case Studies",
+      //   href: "/insights/case-studies",
+      //   icon: History,
+      //   description: "Real-world success stories and client achievements.",
+      // },
+      // {
+      //   label: "HR Management Templates",
+      //   href: "/insights/hr-templates",
+      //   icon: FileText,
+      //   description:
+      //     "Ready-to-use HR documents and templates for your organization.",
+      // },
     ],
   },
   {
