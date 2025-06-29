@@ -417,6 +417,109 @@ Images are automatically optimized using Sanity's image transformation API throu
 
 Blog post content uses Sanity's Portable Text format, which is rendered using the `@portabletext/react` component.
 
+## 📝 Form Data Collection
+
+The website includes comprehensive form data collection using Sanity for both contact forms and newsletter subscriptions.
+
+### Contact Form Submissions
+
+Contact form data is automatically stored in Sanity with the following structure:
+
+- **Schema**: `contactSubmission`
+- **Fields**:
+  - **First Name**: Required field
+  - **Last Name**: Required field
+  - **Email**: Required, validated email format
+  - **Phone**: Optional phone number
+  - **How Did You Hear**: Required dropdown (Referral, Google Search, Social Media, Website, Advertisement, Event/Conference, Other)
+  - **Service Interested**: Required dropdown (HR Advisory services, Learning & Development, Recruitment Solution, Outsourcing, Digital Solutions, Other)
+  - **Message**: Required text field (minimum 10 characters)
+  - **Privacy Policy Agreement**: Required checkbox
+  - **Submission Date**: Auto-generated timestamp
+  - **Status**: New, In Progress, Responded, Closed
+  - **Source**: Website (auto-populated)
+  - **Internal Notes**: For team reference
+
+**Status Management**: New submissions are marked as "new" and can be updated to "in_progress", "responded", or "closed" for tracking purposes.
+
+### Newsletter Subscriptions
+
+Newsletter subscription data is stored with duplicate prevention:
+
+- **Schema**: `newsletterSubscription`
+- **Fields**:
+  - **Email**: Required, validated email format
+  - **Subscription Date**: Auto-generated timestamp
+  - **Status**: Active, Unsubscribed, Bounced
+  - **Source**: Website Footer, Gallery Page, Contact Page, Homepage, Other
+  - **IP Address**: Optional for analytics
+  - **User Agent**: Optional browser/device information
+  - **Unsubscribe Date**: Set when user unsubscribes
+  - **Internal Notes**: For team reference
+
+**Duplicate Prevention**: The system automatically prevents duplicate subscriptions. If someone tries to subscribe with an email that's already active, they'll get a friendly message. If they previously unsubscribed, their subscription will be reactivated.
+
+### Accessing Form Data in Sanity Studio
+
+1. Navigate to your Sanity Studio at `yourdomain.com/studio`
+2. Look for "Contact Form Submissions" and "Newsletter Subscriptions" in the sidebar
+3. View, filter, and manage submissions directly in the Studio interface
+4. Use the built-in ordering options:
+   - **Contact Submissions**: By submission date (newest first) or by status
+   - **Newsletter Subscriptions**: By subscription date, status, or email alphabetically
+
+### Form Submission Features
+
+- **Real-time Feedback**: Users see immediate feedback when submitting forms
+- **Loading States**: Visual indicators during form submission
+- **Success/Error Messages**: Clear messaging for all submission states
+- **Validation**: Client-side and server-side validation for data integrity
+- **Responsive Design**: Forms work beautifully on all devices
+
+### API Functions
+
+The following helper functions are available for form submissions:
+
+```javascript
+// Contact form submission
+import { submitContactForm } from "@/lib/sanity";
+
+const result = await submitContactForm({
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@example.com",
+  phone: "+1234567890",
+  howDidYouHear: "Google Search",
+  serviceInterested: "HR Advisory services",
+  message: "I need help with...",
+  agreeToPrivacy: true,
+});
+
+if (result.success) {
+  console.log("Form submitted successfully");
+} else {
+  console.error("Form submission failed:", result.error);
+}
+
+// Newsletter subscription
+import { submitNewsletterSubscription } from "@/lib/sanity";
+
+const result = await submitNewsletterSubscription({
+  email: "john@example.com",
+  source: "website_footer",
+});
+
+if (result.success) {
+  if (result.reactivated) {
+    console.log("Subscription reactivated");
+  } else {
+    console.log("New subscription created");
+  }
+} else {
+  console.error("Subscription failed:", result.error);
+}
+```
+
 ## 🛠 Development Workflow
 
 ### 1. Local Development

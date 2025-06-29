@@ -682,3 +682,107 @@ export async function getWebinarsByCategory(category: string) {
     }
   );
 }
+
+// Helper function to submit contact form data
+export async function submitContactForm(data: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  howDidYouHear: string;
+  serviceInterested: string;
+  message: string;
+  agreeToPrivacy: boolean;
+}) {
+  try {
+    // Proper mapping to match schema values exactly
+    const howDidYouHearMap: Record<string, string> = {
+      Referral: "referral",
+      "Google Search": "google_search",
+      "Social Media": "social_media",
+      Website: "website",
+      Advertisement: "advertisement",
+      "Event/Conference": "event_conference",
+      Other: "other",
+    };
+
+    const serviceInterestedMap: Record<string, string> = {
+      "HR Advisory services": "hr_advisory",
+      "Learning & Development": "learning_development",
+      "Recruitment Solution": "recruitment",
+      Outsourcing: "outsourcing",
+      "Digital Solutions": "digital_solutions",
+      Other: "other",
+    };
+
+    const sanitizedData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone || "",
+      howDidYouHear: howDidYouHearMap[data.howDidYouHear] || "other",
+      serviceInterested:
+        serviceInterestedMap[data.serviceInterested] || "other",
+      message: data.message,
+      agreeToPrivacy: data.agreeToPrivacy,
+      submissionDate: new Date().toISOString(),
+      status: "new",
+      source: "website",
+    };
+
+    const result = await adminClient.create({
+      _type: "contactSubmission",
+      ...sanitizedData,
+    });
+
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Error submitting contact form:", error);
+    return { success: false, error };
+  }
+}
+
+// Helper function to submit newsletter subscription
+export async function submitNewsletterSubscription(data: {
+  email: string;
+  source?: string;
+}) {
+  try {
+    // Check if email already exists
+    const existingSubscription = await client.fetch(
+      `*[_type == "newsletterSubscription" && email == $email][0]`,
+      { email: data.email }
+    );
+
+    if (existingSubscription) {
+      if (existingSubscription.status === "active") {
+        return { success: false, error: "Email already subscribed" };
+      } else {
+        // Reactivate subscription
+        await adminClient
+          .patch(existingSubscription._id)
+          .set({
+            status: "active",
+            subscriptionDate: new Date().toISOString(),
+          })
+          .commit();
+
+        return { success: true, data: existingSubscription, reactivated: true };
+      }
+    }
+
+    // Create new subscription
+    const result = await adminClient.create({
+      _type: "newsletterSubscription",
+      email: data.email,
+      subscriptionDate: new Date().toISOString(),
+      status: "active",
+      source: data.source || "website_footer",
+    });
+
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Error submitting newsletter subscription:", error);
+    return { success: false, error };
+  }
+}

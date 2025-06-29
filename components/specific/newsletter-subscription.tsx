@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
+import { CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
 
 const subscriptionSchema = z.object({
   email: z
@@ -19,6 +20,10 @@ type SubscriptionFormData = z.infer<typeof subscriptionSchema>;
 const NewsletterSubscription = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error" | "duplicate"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const {
     register,
@@ -31,14 +36,42 @@ const NewsletterSubscription = () => {
 
   const onSubmit = async (data: SubscriptionFormData) => {
     setIsSubmitting(true);
+    setSubmitStatus("idle");
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Newsletter subscription:", data);
-      setIsSubmitted(true);
-      reset();
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          source: "website_footer",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus("success");
+        setSubmitMessage(result.message);
+        setIsSubmitted(true);
+        reset();
+      } else {
+        if (result.error === "duplicate") {
+          setSubmitStatus("duplicate");
+          setSubmitMessage(result.message);
+        } else {
+          setSubmitStatus("error");
+          setSubmitMessage(
+            result.error || "Something went wrong. Please try again."
+          );
+        }
+      }
     } catch (error) {
       console.error("Subscription error:", error);
+      setSubmitStatus("error");
+      setSubmitMessage("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -119,8 +152,11 @@ const NewsletterSubscription = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-8 py-3 h-12 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 font-semibold whitespace-nowrap flex-shrink-0"
+                    className="px-8 py-3 h-12 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 font-semibold whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2"
                   >
+                    {isSubmitting && (
+                      <Loader2 size={16} className="animate-spin" />
+                    )}
                     {isSubmitting ? "Subscribing..." : "Subscribe"}
                   </button>
                 </div>
@@ -137,6 +173,37 @@ const NewsletterSubscription = () => {
                   .
                 </p>
               </form>
+
+              {/* Status Messages */}
+              {submitStatus === "error" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-3 rounded-lg bg-red-900/20 border border-red-500/30 flex items-center gap-2"
+                >
+                  <AlertTriangle
+                    size={16}
+                    className="text-red-400 flex-shrink-0"
+                  />
+                  <span className="text-red-200 text-sm">{submitMessage}</span>
+                </motion.div>
+              )}
+
+              {submitStatus === "duplicate" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-3 rounded-lg bg-yellow-900/20 border border-yellow-500/30 flex items-center gap-2"
+                >
+                  <CheckCircle
+                    size={16}
+                    className="text-yellow-400 flex-shrink-0"
+                  />
+                  <span className="text-yellow-200 text-sm">
+                    {submitMessage}
+                  </span>
+                </motion.div>
+              )}
             </div>
           </div>
         </motion.div>

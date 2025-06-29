@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronDown, CheckCircle, AlertTriangle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Zod validation schema
 const contactSchema = z.object({
@@ -49,6 +49,10 @@ export default function ContactUsForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHowDidYouHearOpen, setIsHowDidYouHearOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const {
     register,
@@ -70,19 +74,40 @@ export default function ContactUsForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
-      // Here you would typically send the data to your API
-      console.log("Form submitted:", data);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const result = await response.json();
 
-      // Handle success - you could show a success message, redirect, etc.
-      alert("Thank you for your message! We'll get back to you soon.");
+      if (result.success) {
+        setSubmitStatus("success");
+        setSubmitMessage(result.message);
+
+        // Reset form after successful submission
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        setSubmitStatus("error");
+        setSubmitMessage(
+          result.error ||
+            "There was an error submitting your form. Please try again."
+        );
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("There was an error submitting your form. Please try again.");
+      setSubmitStatus("error");
+      setSubmitMessage(
+        "There was an error submitting your form. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -108,6 +133,35 @@ export default function ContactUsForm() {
                 moment to fill out the form. A support personnel will get in
                 touch with you.
               </p>
+
+              {/* Submit Status Message */}
+              <AnimatePresence>
+                {submitStatus !== "idle" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className={`p-4 rounded-lg flex items-center gap-3 mb-6 ${
+                      submitStatus === "success"
+                        ? "bg-green-50 border border-green-200 text-green-800"
+                        : "bg-red-50 border border-red-200 text-red-800"
+                    }`}
+                  >
+                    {submitStatus === "success" ? (
+                      <CheckCircle
+                        size={20}
+                        className="text-green-600 flex-shrink-0"
+                      />
+                    ) : (
+                      <AlertTriangle
+                        size={20}
+                        className="text-red-600 flex-shrink-0"
+                      />
+                    )}
+                    <span className="text-sm font-medium">{submitMessage}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* First Name and Last Name */}
@@ -351,10 +405,25 @@ export default function ContactUsForm() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+                  disabled={isSubmitting || submitStatus === "success"}
+                  className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? "Sending message..." : "Send message"}
+                  {isSubmitting && (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    />
+                  )}
+                  {isSubmitting
+                    ? "Sending message..."
+                    : submitStatus === "success"
+                      ? "Message sent!"
+                      : "Send message"}
                 </button>
               </form>
             </div>
