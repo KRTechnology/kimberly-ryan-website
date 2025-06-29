@@ -32,6 +32,36 @@ export const navItems: NavItem[] = [
     href: "/",
   },
   {
+    label: "About Us",
+    href: "#",
+    dropdownItems: [
+      {
+        label: "Who we are",
+        href: "/about/who-we-are",
+        icon: User,
+        description: "Learn about our mission and values",
+      },
+      {
+        label: "Customer stories",
+        href: "/about/customer-stories",
+        icon: History,
+        description: "Success stories from our valued clients",
+      },
+      {
+        label: "Our People",
+        href: "/about/our-people",
+        icon: UserCircle,
+        description: "Meet the experts behind our success",
+      },
+      {
+        label: "Gallery",
+        href: "/about/gallery",
+        icon: LayoutGrid,
+        description: "Visual showcase of our work and events",
+      },
+    ],
+  },
+  {
     label: "Services",
     href: "#",
     dropdownItems: [
@@ -108,36 +138,6 @@ export const navItems: NavItem[] = [
         href: "https://www.youtube.com/@kracada01",
         icon: PlayCircle,
         description: "Interactive learning and entertainment platform",
-      },
-    ],
-  },
-  {
-    label: "About Us",
-    href: "#",
-    dropdownItems: [
-      {
-        label: "Who we are",
-        href: "/about/who-we-are",
-        icon: User,
-        description: "Learn about our mission and values",
-      },
-      {
-        label: "Customer stories",
-        href: "/about/customer-stories",
-        icon: History,
-        description: "Success stories from our valued clients",
-      },
-      {
-        label: "Our People",
-        href: "/about/our-people",
-        icon: UserCircle,
-        description: "Meet the experts behind our success",
-      },
-      {
-        label: "Gallery",
-        href: "/about/gallery",
-        icon: LayoutGrid,
-        description: "Visual showcase of our work and events",
       },
     ],
   },
