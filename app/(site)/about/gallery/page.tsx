@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import GalleryHero from "@/components/specific/gallery-hero";
 import GalleryGrid from "@/components/specific/gallery-grid";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
-import { getGalleryItems } from "@/lib/sanity";
+import { getEvents } from "@/lib/sanity";
 
 export const metadata: Metadata = {
   title: "Gallery - Kimberly-Ryan Limited",
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const galleryItems = await getGalleryItems();
+  const events = await getEvents();
 
   return (
     <main>
       <GalleryHero />
-      <GalleryGrid galleryItems={galleryItems} />
+      <GalleryGrid events={events} />
       <NewsletterSubscription />
     </main>
   );

@@ -72,11 +72,21 @@ export async function POST(request: NextRequest) {
         revalidatePath("/insights/blogs");
         break;
 
-      case "gallery":
-        // Revalidate gallery cache tag
-        revalidateTag("gallery-items");
-        // Revalidate gallery pages
+      case "event":
+        // Revalidate events cache tags
+        revalidateTag("events");
+
+        // If we have a slug, revalidate the specific event tag
+        if (slug?.current) {
+          revalidateTag(`event-${slug.current}`);
+          // Also revalidate the specific path for immediate updates
+          revalidatePath(`/about/gallery/${slug.current}`);
+          console.log(`Revalidated event: /about/gallery/${slug.current}`);
+        }
+
+        // Revalidate the gallery listing page
         revalidatePath("/about/gallery");
+        console.log("Revalidated events and gallery pages");
         break;
 
       case "testimonial":

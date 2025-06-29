@@ -43,17 +43,44 @@ export interface BlogPost {
   featured: boolean;
 }
 
-export interface GalleryItem {
+export interface EventImage {
+  _key: string;
+  _type: "image";
+  asset: {
+    _id: string;
+    url: string;
+  };
+  alt?: string;
+  caption?: string;
+}
+
+export interface Event {
   _id: string;
-  title: string;
+  name: string;
   slug: {
     current: string;
   };
   description?: string;
-  image: SanityImage;
-  category: "events" | "team" | "office" | "awards" | "other";
+  images: EventImage[];
+  coverImage?: EventImage;
+  eventDate?: string;
+  location?: string;
+  category?:
+    | "corporate"
+    | "training"
+    | "team_building"
+    | "conference"
+    | "awards"
+    | "social"
+    | "client_meeting"
+    | "other";
   featured: boolean;
+  active: boolean;
+  attendees?: number;
+  organizer?: string;
+  tags?: string[];
   publishedAt: string;
+  displayOrder: number;
 }
 
 export interface HeroSlide {

@@ -183,26 +183,103 @@ export async function getBlogPost(slug: string) {
   );
 }
 
-// Helper function to get gallery items with cache tags
-export async function getGalleryItems() {
+// Helper function to get events with cache tags
+export async function getEvents() {
   return client.fetch(
     `
-    *[_type == "gallery"] | order(publishedAt desc) {
+    *[_type == "event" && active == true] | order(displayOrder asc, eventDate desc, publishedAt desc) {
       _id,
-      title,
+      name,
       slug,
       description,
-      image,
+      images[]{
+        _key,
+        _type,
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        caption
+      },
+      coverImage{
+        _key,
+        _type,
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        caption
+      },
+      eventDate,
+      location,
       category,
       featured,
-      publishedAt
+      active,
+      attendees,
+      organizer,
+      tags,
+      publishedAt,
+      displayOrder
     }
   `,
     {},
     {
       next: {
-        revalidate: 300, // Cache for 5 minutes (gallery changes less frequently)
-        tags: ["gallery-items"],
+        revalidate: 300, // Cache for 5 minutes (events change less frequently)
+        tags: ["events"],
+      },
+    }
+  );
+}
+
+// Helper function to get single event with cache tags
+export async function getEvent(slug: string) {
+  return client.fetch(
+    `
+    *[_type == "event" && active == true && slug.current == $slug][0] {
+      _id,
+      name,
+      slug,
+      description,
+      images[]{
+        _key,
+        _type,
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        caption
+      },
+      coverImage{
+        _key,
+        _type,
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        caption
+      },
+      eventDate,
+      location,
+      category,
+      featured,
+      active,
+      attendees,
+      organizer,
+      tags,
+      publishedAt,
+      displayOrder
+    }
+  `,
+    { slug },
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (events change less frequently)
+        tags: ["events", `event-${slug}`],
       },
     }
   );

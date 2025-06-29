@@ -174,15 +174,26 @@ curl http://localhost:3000/api/revalidate
 - **Slug**: URL-friendly version
 - **Description**: Category description
 
-### 6. Gallery Items
+### 6. Event Gallery
 
-- **Title**: Image title
-- **Slug**: URL-friendly version
-- **Description**: Image description
-- **Image**: The actual image file
-- **Category**: Predefined categories (Events, Team, Office, Awards, Other)
-- **Featured**: Mark as featured image
-- **Published Date**: When added to gallery
+- **Event Name**: Name of the event (required)
+- **Slug**: URL-friendly version of the event name (auto-generated)
+- **Description**: Brief description of the event
+- **Event Images**: Collection of images from the event (required - at least one image)
+  - Each image can have:
+    - Alternative text for accessibility
+    - Optional caption
+- **Cover Image**: Select which image to use as cover (optional - uses first image if not set)
+- **Event Date**: When the event took place
+- **Location**: Where the event took place
+- **Category**: Type of event (Corporate Event, Training Workshop, Team Building, Conference, Award Ceremony, Social Event, Client Meeting, Other)
+- **Featured Event**: Mark event as featured to highlight it
+- **Active**: Show/hide event on website
+- **Number of Attendees**: Approximate attendance
+- **Event Organizer**: Person or team who organized the event
+- **Tags**: Keywords for easier searching
+- **Published Date**: When to publish the event on website (required)
+- **Display Order**: Control event sequence (lower numbers appear first)
 
 ### 7. Client Testimonials
 
@@ -293,12 +304,20 @@ curl http://localhost:3000/api/revalidate
 5. Set the published date
 6. **Save and publish** (this will trigger the webhook!)
 
-### 6. Add Gallery Images
+### 6. Create Event Galleries
 
-1. Click on "Gallery" in the sidebar
-2. Upload images and add titles/descriptions
-3. Categorize them appropriately
-4. Mark featured images if needed
+1. Click on "Event" in the sidebar
+2. Create a new event:
+   - Enter the event name (required)
+   - Add event description
+   - Upload multiple images for the event (at least one required)
+   - Set event date and location if available
+   - Choose event category
+   - Set display order for arrangement
+3. Toggle "Active" to true to display on website
+4. **Save and publish** (this will trigger the webhook!)
+
+**Note**: Events are displayed on the `/about/gallery` page as cards. When users click on an event, they're taken to `/about/gallery/[event-slug]` to view all images from that event in a beautiful lightbox gallery.
 
 ### 7. Create Client Testimonials
 
@@ -366,7 +385,8 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - `getCompanies()`: Fetches all active companies (cached for 10 minutes)
 - `getBlogPosts()`: Fetches all blog posts (cached for 60 seconds)
 - `getBlogPost(slug)`: Fetches a single blog post (cached for 60 seconds)
-- `getGalleryItems()`: Fetches all gallery items (cached for 5 minutes)
+- `getEvents()`: Fetches all active events (cached for 5 minutes)
+- `getEvent(slug)`: Fetches a single event by slug (cached for 5 minutes)
 - `getTestimonials()`: Fetches all active testimonials (cached for 10 minutes)
 - `getFeaturedTestimonials()`: Fetches featured testimonials only (cached for 10 minutes)
 - `getLeadershipTeam()`: Fetches leadership team members (cached for 30 minutes)
@@ -383,7 +403,7 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - **Hero slides**: 5 minutes (moderate updates)
 - **Companies**: 10 minutes (infrequent updates)
 - **Blog content**: 60 seconds (frequently updated)
-- **Gallery items**: 5 minutes (moderately updated)
+- **Events**: 5 minutes (moderately updated)
 - **Testimonials**: 10 minutes (infrequent updates)
 - **Team members**: 30 minutes (infrequent updates)
 - **Webinars**: 15 minutes (moderate updates)
@@ -523,6 +543,57 @@ Edit the respective files in `sanity/schemas/` and restart your development serv
 
 ---
 
+## 🖼️ Event Gallery System
+
+The gallery has been redesigned to showcase **events** rather than individual images. Here's how it works:
+
+### How the Event Gallery Works
+
+1. **Event Cards**: The main gallery page (`/about/gallery`) displays events as cards
+2. **Event Details**: Each card shows:
+   - Cover image (first image or selected cover image)
+   - Event name and description
+   - Event date and location (if provided)
+   - Category badge
+   - Number of photos in the event
+   - Featured badge (if marked as featured)
+
+3. **Individual Event Pages**: Click on any event to view all its photos at `/about/gallery/[event-slug]`
+4. **Photo Lightbox**: Click on any photo to open a beautiful lightbox with:
+   - Full-size image viewing
+   - Navigation between photos
+   - Image captions (if provided)
+   - Photo counter
+
+### Event Categories
+
+Events can be categorized as:
+
+- Corporate Event
+- Training Workshop
+- Team Building
+- Conference
+- Award Ceremony
+- Social Event
+- Client Meeting
+- Other
+
+### Filtering and Sorting
+
+Users can:
+
+- **Filter by category**: View all events or filter by specific categories
+- **Sort events**: Most Recent, Oldest First, Alphabetical, Featured First
+- **Pagination**: Navigate through multiple pages of events
+
+### Features
+
+- **Responsive Design**: Works beautifully on all devices
+- **Animations**: Smooth transitions and hover effects using Framer Motion
+- **SEO Optimized**: Each event page has proper meta tags
+- **Performance**: Images are optimized and lazy-loaded
+- **Accessibility**: Alt text and keyboard navigation support
+
 ## 🎉 Summary
 
 Your website now has:
@@ -530,6 +601,7 @@ Your website now has:
 ✅ **Real-time content updates** without redeployment  
 ✅ **Hero slides management** with advanced styling options  
 ✅ **Trusted companies section** with custom backgrounds and links  
+✅ **Event gallery system** with individual event pages and photo lightbox  
 ✅ **Client testimonials system** with detailed filtering and pagination  
 ✅ **Team member management** for leadership and management sections  
 ✅ **Webinar series management** with PDF downloads and video links  
