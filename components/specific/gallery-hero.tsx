@@ -35,7 +35,7 @@ export default function GalleryHero() {
           <div className="space-y-4">
             {/* Desktop Form - positioned first */}
             <div className="hidden lg:block max-w-md">
-              <NewsletterSubscriptionForm />
+              <NewsletterSubscriptionForm source="gallery_page" />
             </div>
 
             {/* Subscribe text - only on mobile */}
@@ -46,7 +46,7 @@ export default function GalleryHero() {
 
             {/* Mobile Form - positioned last */}
             <div className="lg:hidden max-w-md">
-              <NewsletterSubscriptionForm />
+              <NewsletterSubscriptionForm source="gallery_page" />
             </div>
           </div>
         </motion.div>

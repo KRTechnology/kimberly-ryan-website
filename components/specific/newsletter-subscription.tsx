@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 
 const subscriptionSchema = z.object({
   email: z

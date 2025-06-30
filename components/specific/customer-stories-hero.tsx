@@ -35,7 +35,7 @@ export default function CustomerStoriesHero() {
           <div className="space-y-4">
             {/* Desktop Form - positioned first */}
             <div className="hidden lg:block max-w-md">
-              <NewsletterSubscriptionForm />
+              <NewsletterSubscriptionForm source="customer_stories_page" />
             </div>
 
             {/* Subscribe text - only on mobile */}
@@ -46,7 +46,7 @@ export default function CustomerStoriesHero() {
 
             {/* Mobile Form - positioned last */}
             <div className="lg:hidden max-w-md">
-              <NewsletterSubscriptionForm />
+              <NewsletterSubscriptionForm source="customer_stories_page" />
             </div>
           </div>
         </motion.div>
