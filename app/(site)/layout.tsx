@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, IBM_Plex_Sans } from "next/font/google";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { getFooterBlogPosts } from "@/lib/sanity";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,18 +15,20 @@ const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
 });
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const footerBlogPosts = await getFooterBlogPosts();
+
   return (
     <div
       className={`${inter.variable} ${ibmPlexSans.variable} min-h-screen flex flex-col`}
     >
       <Header />
       <main className="flex-grow">{children}</main>
-      <Footer />
+      <Footer footerBlogPosts={footerBlogPosts} />
     </div>
   );
 }

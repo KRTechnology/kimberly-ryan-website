@@ -41,6 +41,18 @@ export interface BlogPost {
   category: Category;
   publishedAt: string;
   featured: boolean;
+  showInFooter?: boolean;
+  footerName?: string;
+}
+
+export interface FooterBlogPost {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  footerName: string;
+  publishedAt: string;
 }
 
 export interface EventImage {

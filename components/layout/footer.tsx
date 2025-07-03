@@ -1,26 +1,20 @@
+import { Facebook, Linkedin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin, X } from "lucide-react";
 import { XIcon } from "../common/custom-icons/x";
+import { FooterBlogPost } from "@/types/sanity";
 
-const Footer = () => {
+interface FooterProps {
+  footerBlogPosts?: FooterBlogPost[];
+}
+
+const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
   const services = [
     { name: "HR Advisory", href: "/services/hr-advisory" },
     { name: "Learning & Development", href: "/services/learning-development" },
     { name: "Recruitment Solutions", href: "/services/recruitment" },
     { name: "Outsourcing", href: "/services/outsourcing" },
     { name: "Careers", href: "/services/careers" },
-  ];
-
-  const insights = [
-    { name: "25th Anniversary", href: "/insights/anniversary" },
-    { name: "Loosing your momentum", href: "/insights/momentum" },
-    { name: "Organizational Culture management", href: "/insights/culture" },
-    { name: "Succession planning framework", href: "/insights/succession" },
-    {
-      name: "Navigating remote work strategies",
-      href: "/insights/remote-work",
-    },
   ];
 
   const solutions = [
@@ -75,13 +69,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">INSIGHTS</h3>
             <ul className="space-y-2">
-              {insights.map((insight, index) => (
-                <li key={index}>
+              {footerBlogPosts.map((post) => (
+                <li key={post._id}>
                   <Link
-                    href={insight.href}
+                    href={`/insights/blogs/${post.slug.current}`}
                     className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                   >
-                    {insight.name}
+                    {post.footerName}
                   </Link>
                 </li>
               ))}

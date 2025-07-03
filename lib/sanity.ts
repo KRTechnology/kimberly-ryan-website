@@ -150,6 +150,28 @@ export async function getBlogPosts() {
   );
 }
 
+// Helper function to get blog posts for footer display
+export async function getFooterBlogPosts() {
+  return client.fetch(
+    `
+    *[_type == "blog" && showInFooter == true] | order(publishedAt desc) {
+      _id,
+      title,
+      slug,
+      footerName,
+      publishedAt
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (footer links change less frequently)
+        tags: ["blog-posts", "footer-blog-posts"],
+      },
+    }
+  );
+}
+
 // Helper function to get single blog post with cache tags
 export async function getBlogPost(slug: string) {
   return client.fetch(
