@@ -79,7 +79,7 @@ const TrustedCompanies = ({ companies }: TrustedCompaniesProps) => {
             alt={company.textLogo.alt || company.name}
             width={150}
             height={60}
-            className="max-w-full max-h-full w-auto h-auto object-contain"
+            className="max-w-full max-h-full w-auto h-auto object-contain scale-75 transition-transform duration-300"
           />
         </div>
       </div>
