@@ -26,10 +26,7 @@ export default function BlogsGrid({ blogPosts, categories }: BlogsGridProps) {
   const itemsPerPage = 6;
 
   // Prepare categories list with "View all" option
-  const categoryOptions = [
-    "View all",
-    ...categories.map((cat) => cat.title),
-  ];
+  const categoryOptions = ["View all", ...categories.map((cat) => cat.title)];
 
   const filteredArticles =
     activeCategory === "View all"
@@ -51,10 +48,10 @@ export default function BlogsGrid({ blogPosts, categories }: BlogsGridProps) {
 
   // Format date
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
   };
 
@@ -179,9 +176,8 @@ export default function BlogsGrid({ blogPosts, categories }: BlogsGridProps) {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             {/* Pagination Info */}
             <p className="text-sm text-[#535862]">
-              Showing {startIndex + 1} to{" "}
-              {Math.min(startIndex + itemsPerPage, filteredArticles.length)} of{" "}
-              {filteredArticles.length} results
+              Showing {startIndex + 1} to {startIndex + currentArticles.length}{" "}
+              of {filteredArticles.length} results
             </p>
 
             {/* Pagination Controls */}
