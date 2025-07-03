@@ -74,19 +74,22 @@ export default function BlogDetail({ post }: BlogDetailProps) {
             priority
           />
 
-          {/* Glassmorphism Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white/20 backdrop-blur-sm border-t border-white/20">
+          {/* Dark Gradient Overlay for better text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+          {/* Enhanced Glassmorphism Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-md border-t border-white/10">
             <div className="container mx-auto px-4 lg:px-8">
               <div className="flex items-center justify-between py-6">
                 <div className="flex flex-col">
-                  <span className="text-white text-sm font-medium">
+                  <span className="text-white text-sm font-medium drop-shadow-lg">
                     {post.author.name}
                   </span>
-                  <span className="text-white/80 text-sm">
+                  <span className="text-white/90 text-sm drop-shadow-md">
                     {formatDate(post.publishedAt)}
                   </span>
                 </div>
-                <span className="text-white text-sm font-medium bg-white/20 px-3 py-1 rounded">
+                <span className="text-white text-sm font-medium bg-black/30 backdrop-blur-sm px-3 py-1 rounded border border-white/20 drop-shadow-lg">
                   {post.category.title}
                 </span>
               </div>
