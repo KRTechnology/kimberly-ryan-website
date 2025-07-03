@@ -74,128 +74,139 @@ export default function EventImages({ event }: EventImagesProps) {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-sunset-50 to-amberwood-50 pt-32 pb-16 lg:pt-40 lg:pb-24">
-        <div className="container mx-auto px-4 lg:px-8">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
+      <section className="relative pt-20">
+        {/* Back Button - Positioned over the image */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-24 left-4 lg:left-8 z-20"
+        >
+          <Link
+            href="/about/gallery"
+            className="inline-flex items-center gap-2 text-white hover:text-gray-200 transition-colors duration-200 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-lg"
           >
-            <Link
-              href="/about/gallery"
-              className="inline-flex items-center gap-2 text-sunset-600 hover:text-sunset-700 transition-colors duration-200"
-            >
-              <ArrowLeft size={20} />
-              <span className="font-medium">Back to Gallery</span>
-            </Link>
-          </motion.div>
+            <ArrowLeft size={20} />
+            <span className="font-medium">Back to Gallery</span>
+          </Link>
+        </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
-            >
-              {/* Category */}
-              {event.category && (
-                <span className="inline-block text-sm font-semibold text-sunset-600 bg-sunset-100 px-3 py-1 rounded-full">
-                  {formatCategory(event.category)}
-                </span>
-              )}
+        {/* Hero Image Container */}
+        <div className="relative aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
+          <Image
+            src={urlFor(getCoverImage()).width(1200).height(600).url()}
+            alt={getCoverImage().alt || event.name}
+            fill
+            className="object-cover"
+            priority
+          />
 
-              {/* Title */}
-              <h1 className="text-4xl lg:text-5xl font-bold font-plex text-slate-600 leading-tight">
-                {event.name}
-              </h1>
+          {/* Featured Badge */}
+          {event.featured && (
+            <div className="absolute top-4 right-4 lg:top-8 lg:right-8 z-20">
+              <span className="bg-sunset-500 text-white text-sm px-4 py-2 rounded-full font-medium shadow-lg">
+                Featured Event
+              </span>
+            </div>
+          )}
 
-              {/* Description */}
-              {event.description && (
-                <p className="text-lg text-slate-500 leading-relaxed">
-                  {event.description}
-                </p>
-              )}
+          {/* Dark Gradient Overlay for better text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-              {/* Event Details */}
-              <div className="space-y-3">
-                {event.eventDate && (
-                  <div className="flex items-center gap-3 text-slate-500">
-                    <Calendar size={18} className="text-sunset-500" />
-                    <span>{formatDate(event.eventDate)}</span>
-                  </div>
-                )}
-
-                {event.location && (
-                  <div className="flex items-center gap-3 text-slate-500">
-                    <MapPin size={18} className="text-sunset-500" />
-                    <span>{event.location}</span>
-                  </div>
-                )}
-
-                {event.attendees && (
-                  <div className="flex items-center gap-3 text-slate-500">
-                    <Users size={18} className="text-sunset-500" />
-                    <span>{event.attendees} attendees</span>
-                  </div>
-                )}
-
-                {event.organizer && (
-                  <div className="flex items-center gap-3 text-slate-500">
-                    <User size={18} className="text-sunset-500" />
-                    <span>Organized by {event.organizer}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Tags */}
-              {event.tags && event.tags.length > 0 && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Tag size={16} className="text-sunset-500" />
-                  {event.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="text-sm text-slate-500 bg-white px-2 py-1 rounded border"
-                    >
-                      {tag}
+          {/* Enhanced Glassmorphism Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-md border-t border-white/10">
+            <div className="container mx-auto px-4 lg:px-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="py-8 lg:py-12"
+              >
+                <div className="max-w-4xl">
+                  {/* Category */}
+                  {event.category && (
+                    <span className="inline-block text-sm font-semibold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full mb-4 border border-white/20 drop-shadow-lg">
+                      {formatCategory(event.category)}
                     </span>
-                  ))}
+                  )}
+
+                  {/* Title */}
+                  <h1 className="text-3xl lg:text-5xl font-bold font-plex text-white leading-tight mb-4 drop-shadow-lg">
+                    {event.name}
+                  </h1>
+
+                  {/* Description */}
+                  {event.description && (
+                    <p className="text-lg lg:text-xl text-white/90 leading-relaxed mb-6 drop-shadow-md max-w-3xl">
+                      {event.description}
+                    </p>
+                  )}
+
+                  {/* Event Details Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    {event.eventDate && (
+                      <div className="flex items-center gap-3 text-white/90">
+                        <Calendar
+                          size={18}
+                          className="text-white drop-shadow-md"
+                        />
+                        <span className="text-sm font-medium drop-shadow-md">
+                          {formatDate(event.eventDate)}
+                        </span>
+                      </div>
+                    )}
+
+                    {event.location && (
+                      <div className="flex items-center gap-3 text-white/90">
+                        <MapPin
+                          size={18}
+                          className="text-white drop-shadow-md"
+                        />
+                        <span className="text-sm font-medium drop-shadow-md">
+                          {event.location}
+                        </span>
+                      </div>
+                    )}
+
+                    {event.attendees && (
+                      <div className="flex items-center gap-3 text-white/90">
+                        <Users
+                          size={18}
+                          className="text-white drop-shadow-md"
+                        />
+                        <span className="text-sm font-medium drop-shadow-md">
+                          {event.attendees} attendees
+                        </span>
+                      </div>
+                    )}
+
+                    {event.organizer && (
+                      <div className="flex items-center gap-3 text-white/90">
+                        <User size={18} className="text-white drop-shadow-md" />
+                        <span className="text-sm font-medium drop-shadow-md">
+                          {event.organizer}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Tags */}
+                  {event.tags && event.tags.length > 0 && (
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Tag size={16} className="text-white drop-shadow-md" />
+                      {event.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="text-sm text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded border border-white/20 drop-shadow-lg"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-
-              {/* Image Count */}
-              <div className="text-sm text-slate-500">
-                {event.images.length}{" "}
-                {event.images.length === 1 ? "photo" : "photos"}
-              </div>
-            </motion.div>
-
-            {/* Cover Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={urlFor(getCoverImage()).width(600).height(450).url()}
-                  alt={getCoverImage().alt || event.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                {event.featured && (
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-sunset-500 text-white text-xs px-3 py-1 rounded-full font-medium">
-                      Featured Event
-                    </span>
-                  </div>
-                )}
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
