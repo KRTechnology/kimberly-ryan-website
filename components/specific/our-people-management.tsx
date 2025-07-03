@@ -113,12 +113,12 @@ const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
                     </p>
 
                     {/* Optional: Show department if different from position */}
-                    {member.department &&
+                    {/* {member.department &&
                       member.department !== "management" && (
                         <p className="text-xs text-gray-500 capitalize">
                           {member.department.replace("_", " ")} Department
                         </p>
-                      )}
+                      )} */}
 
                     {/* Optional: Show years of experience if available */}
                     {member.yearsOfExperience && (
