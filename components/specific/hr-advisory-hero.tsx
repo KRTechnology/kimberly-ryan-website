@@ -55,7 +55,7 @@ const HrAdvisoryHero = () => {
                   transition={{ duration: 0.6, delay: 1.0 }}
                 >
                   <Link
-                    href="/consultation"
+                    href="/solutions/support"
                     className="inline-block px-8 py-4 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
                     Schedule a consultation
@@ -164,4 +164,3 @@ const HrAdvisoryHero = () => {
 };
 
 export default HrAdvisoryHero;
- 
