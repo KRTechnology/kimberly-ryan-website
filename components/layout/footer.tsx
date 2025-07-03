@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Linkedin, X } from "lucide-react";
+import { XIcon } from "../common/custom-icons/x";
 
 const Footer = () => {
   const services = [
     { name: "HR Advisory", href: "/services/hr-advisory" },
     { name: "Learning & Development", href: "/services/learning-development" },
-    { name: "Recruitment Solution", href: "/services/recruitment" },
+    { name: "Recruitment Solutions", href: "/services/recruitment" },
     { name: "Outsourcing", href: "/services/outsourcing" },
     { name: "Careers", href: "/services/careers" },
   ];
@@ -122,7 +123,8 @@ const Footer = () => {
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
-                <Twitter size={20} />
+                {/* <Twitter size={20} /> */}
+                <XIcon size={20} />
               </Link>
               <Link
                 href="#"
