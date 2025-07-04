@@ -67,7 +67,7 @@ const WorkingWithUs = () => {
               viewport={{ once: true }}
             >
               <Link
-                href="/consultation"
+                href="/solutions/support"
                 className="inline-block px-8 py-4 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 text-lg font-semibold"
               >
                 Schedule a consultation
