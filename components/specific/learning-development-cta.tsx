@@ -1,8 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { Brochure } from "@/types/sanity";
+import BrochureDownloadModal from "./brochure-download-modal";
 
-const LearningDevelopmentCTA = () => {
+interface LearningDevelopmentCTAProps {
+  brochures: Brochure[];
+}
+
+const LearningDevelopmentCTA = ({ brochures }: LearningDevelopmentCTAProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDownloadClick = () => {
+    if (brochures && brochures.length > 0) {
+      setIsModalOpen(true);
+    } else {
+      alert("No brochures are currently available for download.");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-slate-500">
       <div className="container mx-auto px-4">
@@ -33,7 +53,10 @@ const LearningDevelopmentCTA = () => {
               viewport={{ once: true }}
               className="flex-shrink-0 ml-8"
             >
-              <button className="px-[18px] py-3 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 transition-colors duration-300 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 whitespace-nowrap">
+              <button
+                onClick={handleDownloadClick}
+                className="px-[18px] py-3 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 transition-colors duration-300 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 whitespace-nowrap"
+              >
                 Download brochure
               </button>
             </motion.div>
@@ -64,16 +87,25 @@ const LearningDevelopmentCTA = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <button className="px-[18px] py-3 bg-white text-slate-500 border-2 border-[#D5D7DA] rounded-lg hover:bg-gray-50 transition-colors duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <button 
+                onClick={handleDownloadClick}
+                className="px-[18px] py-3 bg-white text-slate-500 border-2 border-[#D5D7DA] rounded-lg hover:bg-gray-50 transition-colors duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
                 Download brochure
               </button>
             </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Brochure Download Modal */}
+      <BrochureDownloadModal
+        brochures={brochures}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </section>
   );
 };
 
 export default LearningDevelopmentCTA;
- 

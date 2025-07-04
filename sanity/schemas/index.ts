@@ -8,6 +8,7 @@ import company from "./company";
 import testimonial from "./testimonial";
 import person from "./person";
 import webinar from "./webinar";
+import brochure from "./brochure";
 import { contactSubmission } from "./contact-submission";
 import { newsletterSubscription } from "./newsletter-subscription";
 
@@ -22,6 +23,7 @@ export const schemaTypes = [
   testimonial,
   person,
   webinar,
+  brochure,
   contactSubmission,
   newsletterSubscription,
 ];

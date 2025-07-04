@@ -123,6 +123,17 @@ export async function POST(request: NextRequest) {
         console.log("Revalidated webinars and learning development page");
         break;
 
+      case "brochure":
+        // Revalidate brochures cache tags
+        revalidateTag("brochures");
+        revalidateTag("featured-brochures");
+        // Revalidate pages where brochures are displayed
+        revalidatePath("/services/learning-development");
+        // Also revalidate home page if brochures appear there
+        revalidatePath("/");
+        console.log("Revalidated brochures and learning development page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

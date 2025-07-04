@@ -4,7 +4,7 @@ import LearningDevelopmentMethods from "@/components/specific/learning-developme
 import LearningDevelopmentStrategicLeadership from "@/components/specific/learning-development-strategic-leadership";
 import LearningDevelopmentWebinars from "@/components/specific/learning-development-webinars";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
-import { getWebinarsPaginated } from "@/lib/sanity";
+import { getWebinarsPaginated, getBrochures } from "@/lib/sanity";
 
 // ISR: Revalidate every 15 minutes
 export const revalidate = 900;
@@ -12,6 +12,9 @@ export const revalidate = 900;
 export default async function LearningDevelopmentPage() {
   // Fetch first 3 webinars from Sanity with pagination info
   const { webinars, totalCount, hasMore } = await getWebinarsPaginated(0, 3);
+
+  // Fetch all brochures (all categories available in modal)
+  const brochures = await getBrochures();
 
   return (
     <>
@@ -23,7 +26,7 @@ export default async function LearningDevelopmentPage() {
         totalCount={totalCount}
         initialHasMore={hasMore}
       />
-      <LearningDevelopmentCTA />
+      <LearningDevelopmentCTA brochures={brochures} />
       <NewsletterSubscription />
     </>
   );

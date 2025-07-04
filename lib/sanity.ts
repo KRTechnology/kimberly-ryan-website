@@ -764,6 +764,134 @@ export async function submitContactForm(data: {
   }
 }
 
+// Helper function to get brochures with cache tags
+export async function getBrochures() {
+  return client.fetch(
+    `
+    *[_type == "brochure" && active == true] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      coverImage,
+      category,
+      year,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      downloadCount,
+      tags,
+      publishedAt,
+      validUntil
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (brochures change less frequently)
+        tags: ["brochures"],
+      },
+    }
+  );
+}
+
+// Helper function to get featured brochures with cache tags
+export async function getFeaturedBrochures() {
+  return client.fetch(
+    `
+    *[_type == "brochure" && active == true && featured == true] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      coverImage,
+      category,
+      year,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      downloadCount,
+      tags,
+      publishedAt,
+      validUntil
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (brochures change less frequently)
+        tags: ["brochures", "featured-brochures"],
+      },
+    }
+  );
+}
+
+// Helper function to get brochures by category with cache tags
+export async function getBrochuresByCategory(category: string) {
+  return client.fetch(
+    `
+    *[_type == "brochure" && active == true && category == $category] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      coverImage,
+      category,
+      year,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      downloadCount,
+      tags,
+      publishedAt,
+      validUntil
+    }
+  `,
+    { category },
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (brochures change less frequently)
+        tags: ["brochures", `brochures-${category}`],
+      },
+    }
+  );
+}
+
+// Helper function to get brochures for learning & development
+export async function getLearningDevelopmentBrochures() {
+  return getBrochuresByCategory("learning_development");
+}
+
 // Helper function to submit newsletter subscription
 export async function submitNewsletterSubscription(data: {
   email: string;

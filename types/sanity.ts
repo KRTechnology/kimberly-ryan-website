@@ -278,6 +278,38 @@ export interface Webinar {
   internalNotes?: string;
 }
 
+export interface Brochure {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  description: string;
+  pdfFile: SanityFile;
+  coverImage?: SanityImage;
+  category:
+    | "learning_development"
+    | "hr_advisory"
+    | "recruitment"
+    | "leadership"
+    | "corporate_training"
+    | "compliance"
+    | "digital_solutions"
+    | "general"
+    | "other";
+  year: string;
+  fileSize?: number;
+  pageCount?: number;
+  displayOrder: number;
+  featured: boolean;
+  active: boolean;
+  downloadCount?: number;
+  tags?: string[];
+  publishedAt: string;
+  validUntil?: string;
+  internalNotes?: string;
+}
+
 export interface Page {
   _id: string;
   title: string;

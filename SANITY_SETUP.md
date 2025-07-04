@@ -255,7 +255,27 @@ curl http://localhost:3000/api/revalidate
 - **View Count**: Track webinar views (optional)
 - **Internal Notes**: Private reference notes
 
-### 10. Pages
+### 10. Training Brochures
+
+- **Brochure Title**: Main title of the brochure (required)
+- **Slug**: URL-friendly version of the title (auto-generated)
+- **Description**: Brief description of the brochure content (required)
+- **Brochure PDF**: PDF file upload (required) - accepts .pdf files only
+- **Cover Image**: Optional cover image for display purposes (with hotspot selection)
+- **Brochure Category**: Category or type of brochure (Learning & Development, HR Advisory, Recruitment, Leadership, Corporate Training, Compliance, Digital Solutions, General, Other)
+- **Brochure Year**: Year this brochure is for (e.g., "2025") (required)
+- **File Size (MB)**: Approximate file size in MB (for display purposes)
+- **Number of Pages**: Number of pages in the brochure (optional)
+- **Display Order**: Control brochure sequence (lower numbers appear first)
+- **Featured Brochure**: Highlight prominently
+- **Active Status**: Show/hide brochures for download
+- **Download Count**: Track PDF downloads (optional tracking)
+- **Tags**: Organization and filtering (Latest, Popular, Updated, New, Comprehensive, Quick Guide, Detailed)
+- **Published Date**: When this brochure was published (required)
+- **Valid Until**: Optional expiry date for time-sensitive brochures
+- **Internal Notes**: Private reference notes
+
+### 11. Pages
 
 - **Title**: Page title
 - **Slug**: URL-friendly version
@@ -374,6 +394,29 @@ curl http://localhost:3000/api/revalidate
 - PDF downloads are handled automatically through Sanity's CDN
 - Users can watch webinars and download training slides directly
 
+### 10. Create Training Brochures
+
+1. Click on "Training Brochures" in the sidebar
+2. Add brochure details:
+   - Enter compelling title and description
+   - **Upload PDF**: Upload the brochure PDF file (required)
+   - **Upload Cover Image**: Optional cover image for better visual display
+   - Select appropriate category (Learning & Development for CTA display)
+   - Set brochure year (defaults to current year)
+   - Add file size and page count for user information
+   - Set display order for arrangement
+   - Add relevant tags for organization
+3. Toggle "Active" to true to make available for download
+4. **Save and publish** (this will trigger the webhook!)
+
+**Note**:
+
+- Brochures categorized as "Learning & Development" appear in the CTA section of `/services/learning-development`
+- The "Download brochure" button shows an elegant modal with brochure details
+- Users can preview brochure information before downloading
+- PDF downloads are handled securely through Sanity's CDN
+- The most recent active L&D brochure is displayed in the CTA
+
 ## 🔄 How It Works
 
 ### Data Fetching with Caching
@@ -395,6 +438,10 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - `getWebinars()`: Fetches all active webinars (cached for 15 minutes)
 - `getFeaturedWebinars()`: Fetches featured webinars only (cached for 15 minutes)
 - `getWebinarsByCategory(category)`: Fetches webinars by category (cached for 15 minutes)
+- `getBrochures()`: Fetches all active brochures (cached for 15 minutes)
+- `getFeaturedBrochures()`: Fetches featured brochures only (cached for 15 minutes)
+- `getBrochuresByCategory(category)`: Fetches brochures by category (cached for 15 minutes)
+- `getLearningDevelopmentBrochures()`: Fetches Learning & Development brochures (cached for 15 minutes)
 - `getCategories()`: Fetches all categories (cached for 1 hour)
 - `getAuthors()`: Fetches all authors (cached for 1 hour)
 
@@ -407,6 +454,7 @@ The website uses several optimized helper functions in `lib/sanity.ts`:
 - **Testimonials**: 10 minutes (infrequent updates)
 - **Team members**: 30 minutes (infrequent updates)
 - **Webinars**: 15 minutes (moderate updates)
+- **Brochures**: 15 minutes (moderate updates)
 - **Categories/Authors**: 1 hour (rarely updated)
 
 ### Image Optimization
@@ -697,6 +745,59 @@ Users can:
 - **Performance**: Images are optimized and lazy-loaded
 - **Accessibility**: Alt text and keyboard navigation support
 
+## 📋 Training Brochure Download System
+
+The website includes a comprehensive brochure management system for sharing training materials and company information.
+
+### How the Brochure System Works
+
+1. **Content Management**: Create and manage brochures through Sanity Studio
+2. **Smart Categorization**: Organize brochures by type (Learning & Development, HR Advisory, etc.)
+3. **Elegant Modal Interface**: Users see a beautiful preview modal before downloading
+4. **Secure Downloads**: PDF files are served through Sanity's global CDN
+
+### Brochure Categories
+
+Brochures can be categorized as:
+
+- Learning & Development
+- HR Advisory  
+- Recruitment & Selection
+- Leadership Development
+- Corporate Training
+- Compliance & Legal
+- Digital Solutions
+- General Information
+- Other
+
+### Download Modal Features
+
+The brochure download modal includes:
+
+- **Cover Preview**: Optional cover image or gradient background
+- **Detailed Information**: Title, description, category, and year badges
+- **File Details**: Document type, file size, page count, and tags
+- **One-Click Download**: Secure PDF download with fallback handling
+- **Responsive Design**: Works beautifully on all device sizes
+- **Smooth Animations**: Framer Motion animations for polished UX
+
+### Integration Points
+
+- **Learning & Development CTA**: Features the latest L&D brochure in the service page
+- **Modal Trigger**: "Download brochure" button opens the preview modal
+- **Automatic Updates**: New brochures automatically appear via webhook revalidation
+- **Download Tracking**: Optional download count tracking for analytics
+
+### Features
+
+- **PDF Validation**: Only accepts .pdf files in Sanity Studio
+- **Hotspot Images**: Cover images support hotspot selection for optimal display  
+- **Year Management**: Automatic year defaulting with manual override
+- **Display Ordering**: Control the sequence of brochures
+- **Active/Inactive**: Toggle brochure availability without deletion
+- **Tags System**: Organize with tags like "Latest", "Popular", "Updated"
+- **Expiry Dates**: Set optional validity periods for time-sensitive content
+
 ## 🎉 Summary
 
 Your website now has:
@@ -708,6 +809,7 @@ Your website now has:
 ✅ **Client testimonials system** with detailed filtering and pagination  
 ✅ **Team member management** for leadership and management sections  
 ✅ **Webinar series management** with PDF downloads and video links  
+✅ **Training brochure downloads** with elegant modal interface and PDF management  
 ✅ **Optimized caching** for better performance  
 ✅ **SEO-friendly** static generation  
 ✅ **Scalable architecture** for high traffic  
