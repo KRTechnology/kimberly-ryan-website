@@ -19,7 +19,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
 
   const solutions = [
     { name: "Kracada Web", href: "https://www.kracada.com/" },
-    { name: "KRISHR", href: "/solutions/krishr" },
+    // { name: "KRISHR", href: "/solutions/krishr" },
     { name: "Kracada TV", href: "https://www.youtube.com/@kracada01" },
     { name: "Support", href: "/solutions/support" },
   ];
