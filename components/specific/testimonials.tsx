@@ -23,7 +23,7 @@ const Testimonials = () => {
             className="bg-slate-500 rounded-2xl p-8 md:p-12 text-center"
           >
             {/* Header - Inside the dark container */}
-            <h2 className="text-[#FDB38D] font-semibold font-plex text-lg md:text-xl mb-8 md:mb-12">
+            <h2 className="text-sunset-200  font-semibold font-plex text-lg md:text-xl mb-8 md:mb-12">
               What Our Clients Say
             </h2>
 

@@ -14,7 +14,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
     { name: "Learning & Development", href: "/services/learning-development" },
     { name: "Recruitment Solutions", href: "/services/recruitment" },
     { name: "Outsourcing", href: "/services/outsourcing" },
-    { name: "Careers", href: "/services/careers" },
+    // { name: "Careers", href: "/services/careers" },
   ];
 
   const solutions = [
