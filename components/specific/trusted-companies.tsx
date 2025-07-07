@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Company } from "@/types/sanity";
 import { urlFor } from "@/lib/sanity";
 
@@ -11,6 +12,19 @@ interface TrustedCompaniesProps {
 }
 
 const TrustedCompanies = ({ companies }: TrustedCompaniesProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   // Use fallback if no companies are provided
   const companiesData = companies && companies.length > 0 ? companies : [];
 
@@ -24,9 +38,14 @@ const TrustedCompanies = ({ companies }: TrustedCompaniesProps) => {
   const firstRow = companiesData.slice(0, halfLength);
   const secondRow = companiesData.slice(halfLength);
 
-  // Duplicate arrays for seamless loop
-  const firstRowExtended = [...firstRow, ...firstRow, ...firstRow];
-  const secondRowExtended = [...secondRow, ...secondRow, ...secondRow];
+  // Create enough duplicates for seamless infinite scroll
+  // We need enough copies so that when one set scrolls out, another is ready
+  const firstRowExtended = Array(6).fill(firstRow).flat();
+  const secondRowExtended = Array(6).fill(secondRow).flat();
+
+  // Calculate card width including gap for proper animation distance
+  const cardWidth = isMobile ? 200 + 32 : 292 + 48; // card width + gap
+  const rowWidth = firstRow.length * cardWidth;
 
   // Get background color class for company cards
   const getBackgroundClass = (company: Company) => {
@@ -116,20 +135,24 @@ const TrustedCompanies = ({ companies }: TrustedCompaniesProps) => {
           </h2>
         </div>
 
-        {/* First Row - Moving Left (Faster) */}
+        {/* First Row - Moving Left */}
         {firstRow.length > 0 && (
           <div className="mb-8 md:mb-6">
             <motion.div
               className="flex gap-8 md:gap-12"
               animate={{
-                x: ["0%", "-33.333%"],
+                x: -rowWidth,
               }}
               transition={{
-                duration: 20,
+                duration: isMobile ? 15 : 20,
                 repeat: Infinity,
                 ease: "linear",
+                repeatType: "loop",
               }}
-              style={{ width: "300%" }}
+              style={{
+                width: `${rowWidth * 6}px`,
+              }}
+              initial={{ x: 0 }}
             >
               {firstRowExtended.map((company, index) =>
                 renderCompanyCard(company, index, "row1")
@@ -138,20 +161,24 @@ const TrustedCompanies = ({ companies }: TrustedCompaniesProps) => {
           </div>
         )}
 
-        {/* Second Row - Moving Right (Slower) */}
+        {/* Second Row - Moving Right */}
         {secondRow.length > 0 && (
           <div>
             <motion.div
               className="flex gap-8 md:gap-12"
               animate={{
-                x: ["-33.333%", "0%"],
+                x: 0,
               }}
               transition={{
-                duration: 30,
+                duration: isMobile ? 22 : 30,
                 repeat: Infinity,
                 ease: "linear",
+                repeatType: "loop",
               }}
-              style={{ width: "300%" }}
+              style={{
+                width: `${secondRow.length * cardWidth * 6}px`,
+              }}
+              initial={{ x: -(secondRow.length * cardWidth) }}
             >
               {secondRowExtended.map((company, index) =>
                 renderCompanyCard(company, index, "row2")
