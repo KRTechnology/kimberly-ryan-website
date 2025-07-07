@@ -73,24 +73,21 @@ export default function EventImages({ event }: EventImagesProps) {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative pt-20">
-        {/* Back Button - Positioned over the image */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute top-24 left-4 lg:left-8 z-20"
-        >
+      {/* Back Button Section - Separate from hero */}
+      <section className="pt-20 pb-4 bg-white">
+        <div className="container mx-auto px-4 lg:px-8">
           <Link
             href="/about/gallery"
-            className="inline-flex items-center gap-2 text-white hover:text-gray-200 transition-colors duration-200 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-lg"
+            className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors duration-200"
           >
             <ArrowLeft size={20} />
             <span className="font-medium">Back to Gallery</span>
           </Link>
-        </motion.div>
+        </div>
+      </section>
 
+      {/* Hero Section */}
+      <section className="relative">
         {/* Hero Image Container */}
         <div className="relative aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
           <Image
