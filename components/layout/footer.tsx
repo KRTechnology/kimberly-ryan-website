@@ -108,12 +108,14 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
             </p>
             <div className="flex space-x-6">
               <Link
+                key="facebook"
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
                 <Facebook size={20} />
               </Link>
               <Link
+                key="twitter"
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
@@ -121,6 +123,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
                 <XIcon size={20} />
               </Link>
               <Link
+                key="linkedin"
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >

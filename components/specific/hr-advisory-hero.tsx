@@ -49,7 +49,7 @@ const HrAdvisoryHero = () => {
                   and international organizations committed to making an impact.
                 </motion.p>
 
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.0 }}
@@ -60,7 +60,7 @@ const HrAdvisoryHero = () => {
                   >
                     Schedule a consultation
                   </Link>
-                </motion.div>
+                </motion.div> */}
               </div>
             </motion.div>
 

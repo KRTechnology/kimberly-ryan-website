@@ -14,7 +14,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,9 +81,10 @@ const Header = () => {
             {/* CTA Button */}
             <Link
               href="/solutions/support"
-              className={`hidden lg:inline-block px-6 py-2 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 text-sm font-semibold whitespace-nowrap ${
-                pathname === "/services/hr-advisory" ? "invisible" : ""
-              }`}
+              className={`hidden lg:inline-block px-6 py-2 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 text-sm font-semibold whitespace-nowrap `}
+              //   ${
+              //   pathname === "/services/hr-advisory" ? "invisible" : ""
+              // }
             >
               Schedule a consultation
             </Link>

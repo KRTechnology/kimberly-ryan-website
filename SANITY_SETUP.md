@@ -753,7 +753,7 @@ The website includes a comprehensive brochure management system for sharing trai
 
 1. **Content Management**: Create and manage brochures through Sanity Studio
 2. **Smart Categorization**: Organize brochures by type (Learning & Development, HR Advisory, etc.)
-3. **Elegant Modal Interface**: Users see a beautiful preview modal before downloading
+3. **Elegant Modal Interface**: Users see a beautiful modal listing all available brochures with individual download options
 4. **Secure Downloads**: PDF files are served through Sanity's global CDN
 
 ### Brochure Categories
@@ -774,17 +774,20 @@ Brochures can be categorized as:
 
 The brochure download modal includes:
 
-- **Cover Preview**: Optional cover image or gradient background
-- **Detailed Information**: Title, description, category, and year badges
-- **File Details**: Document type, file size, page count, and tags
-- **One-Click Download**: Secure PDF download with fallback handling
+- **Complete Brochure List**: Displays all available brochures in an organized, scrollable list
+- **Individual Brochure Cards**: Each brochure shows cover image, title, description, and metadata
+- **Category & Year Badges**: Visual indicators for easy filtering and identification
+- **File Details**: Document type, file size, page count, and tags for each brochure
+- **Individual Download Buttons**: Separate download button for each brochure
+- **Compact Scrollable Design**: Shows 2-3 brochures at a time with smooth scrolling for more
 - **Responsive Design**: Works beautifully on all device sizes
-- **Smooth Animations**: Framer Motion animations for polished UX
+- **Smooth Animations**: Framer Motion animations with staggered loading for polished UX
 
 ### Integration Points
 
-- **Learning & Development CTA**: Features the latest L&D brochure in the service page
-- **Modal Trigger**: "Download brochure" button opens the preview modal
+- **Learning & Development CTA**: "Download brochure" button in the service page opens the modal
+- **Modal Trigger**: "Download brochure" button opens the comprehensive brochure listing modal
+- **All Brochures Display**: Modal shows all available brochures from all categories in one unified view
 - **Automatic Updates**: New brochures automatically appear via webhook revalidation
 - **Download Tracking**: Optional download count tracking for analytics
 
@@ -797,6 +800,8 @@ The brochure download modal includes:
 - **Active/Inactive**: Toggle brochure availability without deletion
 - **Tags System**: Organize with tags like "Latest", "Popular", "Updated"
 - **Expiry Dates**: Set optional validity periods for time-sensitive content
+- **Scrollable Modal Design**: Compact modal that shows 2-3 brochures at once with smooth scrolling
+- **Visual Scroll Indicators**: Gradient fade effect indicates when more content is available
 
 ## 🎉 Summary
 
