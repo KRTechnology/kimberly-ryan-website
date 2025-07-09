@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { X, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import DesktopNav from "./desktop-nav";
-import TabletNav from "./tablet-nav";
 import MobileMenu from "./mobile-menu";
+import TabletNav from "./tablet-nav";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);

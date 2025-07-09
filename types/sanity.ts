@@ -310,6 +310,89 @@ export interface Brochure {
   internalNotes?: string;
 }
 
+export interface Publication {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  description: string;
+  image: SanityImage;
+  pdfFile: SanityFile;
+  category?:
+    | "white_paper"
+    | "research_report"
+    | "policy_brief"
+    | "industry_analysis"
+    | "best_practices"
+    | "case_study"
+    | "regulatory_update"
+    | "market_insights"
+    | "hr_advisory"
+    | "other";
+  author?: string;
+  publishedDate: string;
+  fileSize?: number;
+  pageCount?: number;
+  displayOrder: number;
+  featured: boolean;
+  active: boolean;
+  tags?: string[];
+  downloadCount?: number;
+  summary?: string[];
+  targetAudience?:
+    | "hr_professionals"
+    | "business_leaders"
+    | "employers"
+    | "recruiters"
+    | "legal_compliance"
+    | "general_public"
+    | "industry_specific"
+    | "all_stakeholders";
+  internalNotes?: string;
+}
+
+export interface WhatsNew {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  description: string;
+  image: SanityImage;
+  contentType: "publication" | "blog" | "webinar" | "event" | "external" | "custom";
+  contentReference?: {
+    _id: string;
+    _type: string;
+    slug?: {
+      current: string;
+    };
+    title?: string;
+    name?: string;
+    pdfFile?: SanityFile;
+  };
+  customLink?: string;
+  buttonText: string;
+  openInNewTab: boolean;
+  featured: boolean;
+  active: boolean;
+  displayOrder: number;
+  publishedAt: string;
+  expiresAt?: string;
+  category?:
+    | "publications"
+    | "research"
+    | "industry_updates"
+    | "company_news"
+    | "training"
+    | "events"
+    | "regulatory"
+    | "best_practices"
+    | "other";
+  tags?: string[];
+  internalNotes?: string;
+}
+
 export interface Page {
   _id: string;
   title: string;

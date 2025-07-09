@@ -936,3 +936,280 @@ export async function submitNewsletterSubscription(data: {
     return { success: false, error };
   }
 }
+
+// Helper function to get publications with cache tags
+export async function getPublications() {
+  return client.fetch(
+    `
+    *[_type == "publication" && active == true] | order(displayOrder asc, publishedDate desc) {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      author,
+      publishedDate,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      summary,
+      targetAudience
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (publications change less frequently)
+        tags: ["publications"],
+      },
+    }
+  );
+}
+
+// Helper function to get featured publications with cache tags
+export async function getFeaturedPublications() {
+  return client.fetch(
+    `
+    *[_type == "publication" && active == true && featured == true] | order(displayOrder asc, publishedDate desc) {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      author,
+      publishedDate,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      summary,
+      targetAudience
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (publications change less frequently)
+        tags: ["publications", "featured-publications"],
+      },
+    }
+  );
+}
+
+// Helper function to get single publication with cache tags
+export async function getPublication(slug: string) {
+  return client.fetch(
+    `
+    *[_type == "publication" && active == true && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      pdfFile {
+        asset-> {
+          _id,
+          url,
+          originalFilename,
+          size
+        }
+      },
+      category,
+      author,
+      publishedDate,
+      fileSize,
+      pageCount,
+      displayOrder,
+      featured,
+      active,
+      tags,
+      downloadCount,
+      summary,
+      targetAudience,
+      internalNotes
+    }
+  `,
+    { slug },
+    {
+      next: {
+        revalidate: 900, // Cache for 15 minutes (publications change less frequently)
+        tags: ["publications", `publication-${slug}`],
+      },
+    }
+  );
+}
+
+// Helper function to get what's new items with cache tags
+export async function getWhatsNewItems() {
+  const now = new Date().toISOString();
+  
+  return client.fetch(
+    `
+    *[_type == "whatsNew" && active == true && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      contentType,
+      contentReference-> {
+        _id,
+        _type,
+        title,
+        name,
+        slug,
+        pdfFile {
+          asset-> {
+            _id,
+            url,
+            originalFilename,
+            size
+          }
+        }
+      },
+      customLink,
+      buttonText,
+      openInNewTab,
+      featured,
+      active,
+      displayOrder,
+      publishedAt,
+      expiresAt,
+      category,
+      tags
+    }
+  `,
+    { now },
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (what's new changes more frequently)
+        tags: ["whats-new"],
+      },
+    }
+  );
+}
+
+// Helper function to get featured what's new items with cache tags
+export async function getFeaturedWhatsNewItems() {
+  const now = new Date().toISOString();
+  
+  return client.fetch(
+    `
+    *[_type == "whatsNew" && active == true && featured == true && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      contentType,
+      contentReference-> {
+        _id,
+        _type,
+        title,
+        name,
+        slug,
+        pdfFile {
+          asset-> {
+            _id,
+            url,
+            originalFilename,
+            size
+          }
+        }
+      },
+      customLink,
+      buttonText,
+      openInNewTab,
+      featured,
+      active,
+      displayOrder,
+      publishedAt,
+      expiresAt,
+      category,
+      tags
+    }
+  `,
+    { now },
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (what's new changes more frequently)
+        tags: ["whats-new", "featured-whats-new"],
+      },
+    }
+  );
+}
+
+// Helper function to get what's new items by category with cache tags
+export async function getWhatsNewItemsByCategory(category: string) {
+  const now = new Date().toISOString();
+  
+  return client.fetch(
+    `
+    *[_type == "whatsNew" && active == true && category == $category && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
+      _id,
+      title,
+      slug,
+      description,
+      image,
+      contentType,
+      contentReference-> {
+        _id,
+        _type,
+        title,
+        name,
+        slug,
+        pdfFile {
+          asset-> {
+            _id,
+            url,
+            originalFilename,
+            size
+          }
+        }
+      },
+      customLink,
+      buttonText,
+      openInNewTab,
+      featured,
+      active,
+      displayOrder,
+      publishedAt,
+      expiresAt,
+      category,
+      tags
+    }
+  `,
+    { category, now },
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes (what's new changes more frequently)
+        tags: ["whats-new", `whats-new-${category}`],
+      },
+    }
+  );
+}

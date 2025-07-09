@@ -134,6 +134,32 @@ export async function POST(request: NextRequest) {
         console.log("Revalidated brochures and learning development page");
         break;
 
+      case "publication":
+        // Revalidate publications cache tags
+        revalidateTag("publications");
+        revalidateTag("featured-publications");
+
+        // If we have a slug, revalidate the specific publication tag
+        if (slug?.current) {
+          revalidateTag(`publication-${slug.current}`);
+          console.log(`Revalidated publication: ${slug.current}`);
+        }
+
+        // Revalidate the home page where publications/what's new section is displayed
+        revalidatePath("/");
+        console.log("Revalidated publications and home page");
+        break;
+
+      case "whatsNew":
+        // Revalidate what's new cache tags
+        revalidateTag("whats-new");
+        revalidateTag("featured-whats-new");
+
+        // Revalidate the home page where what's new section is displayed
+        revalidatePath("/");
+        console.log("Revalidated what's new section and home page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

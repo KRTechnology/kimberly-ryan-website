@@ -9,6 +9,8 @@ import testimonial from "./testimonial";
 import person from "./person";
 import webinar from "./webinar";
 import brochure from "./brochure";
+import publication from "./publication";
+import whatsNew from "./whats-new";
 import { contactSubmission } from "./contact-submission";
 import { newsletterSubscription } from "./newsletter-subscription";
 
@@ -24,6 +26,8 @@ export const schemaTypes = [
   person,
   webinar,
   brochure,
+  publication,
+  whatsNew,
   contactSubmission,
   newsletterSubscription,
 ];
