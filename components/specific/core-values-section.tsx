@@ -37,7 +37,7 @@ const CoreValuesSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Theres a <span className="italic">TRIIQ</span> to know how we
+                  Theres a <span className="italic">TRIIQ</span> to how we
                   operate within the Kimberly Ryan Ecosystem
                 </motion.h2>
 
@@ -204,7 +204,7 @@ const CoreValuesSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Theres a <span className="italic">TRIIQ</span> to know how we
+                  Theres a <span className="italic">TRIIQ</span> to how we
                   operate within the Kimberly Ryan Ecosystem
                 </motion.h2>
 
@@ -371,7 +371,7 @@ const CoreValuesSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Theres a <span className="italic">TRIIQ</span> to know how we
+                  Theres a <span className="italic">TRIIQ</span> to how we
                   operate within the Kimberly Ryan Ecosystem
                 </motion.h2>
 
@@ -527,7 +527,7 @@ const CoreValuesSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Theres a <span className="italic">TRIIQ</span> to know how we
+              Theres a <span className="italic">TRIIQ</span> to how we
               operate within the Kimberly Ryan Ecosystem
             </motion.h2>
 

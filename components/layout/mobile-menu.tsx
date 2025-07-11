@@ -42,7 +42,7 @@ const MobileMenu = ({
 
             <div className="mt-8">
               <Link
-                href="/consultation"
+                href="/solutions/support"
                 className="w-full block text-center px-6 py-3 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 font-semibold"
                 onClick={onClose}
               >
