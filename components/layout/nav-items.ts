@@ -42,12 +42,6 @@ export const navItems: NavItem[] = [
         description: "Learn about our mission and values",
       },
       {
-        label: "Customer stories",
-        href: "/about/customer-stories",
-        icon: History,
-        description: "Success stories from our valued clients",
-      },
-      {
         label: "Our People",
         href: "/about/our-people",
         icon: UserCircle,
@@ -58,6 +52,12 @@ export const navItems: NavItem[] = [
         href: "/about/gallery",
         icon: LayoutGrid,
         description: "Visual showcase of our work and events",
+      },
+      {
+        label: "Customer stories",
+        href: "/about/customer-stories",
+        icon: History,
+        description: "Success stories from our valued clients",
       },
     ],
   },
