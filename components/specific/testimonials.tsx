@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Testimonials = () => {
   const testimonial = {
@@ -29,11 +30,11 @@ const Testimonials = () => {
 
             {/* Quote */}
             <blockquote className="text-slate-50 font-medium font-plex text-2xl md:text-4xl leading-relaxed mb-8 md:mb-12">
-              “{testimonial.quote}”
+              "{testimonial.quote}"
             </blockquote>
 
             {/* Author Info */}
-            <div className="text-center">
+            <div className="text-center mb-8 md:mb-12">
               <h3 className="text-slate-50 font-semibold font-plex text-base mb-2">
                 {testimonial.author}
               </h3>
@@ -41,6 +42,34 @@ const Testimonials = () => {
                 {testimonial.title}
               </p>
             </div>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <Link
+                href="/about/customer-stories"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-sunset-200 text-white rounded-md hover:bg-sunset-300 transition-colors duration-300 text-lg font-semibold"
+              >
+                View Other Customer Stories
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>
