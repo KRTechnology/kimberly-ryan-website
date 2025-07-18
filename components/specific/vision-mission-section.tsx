@@ -30,7 +30,7 @@ const VisionMissionSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                We do things differently
+                {/* We do things differently */}
               </motion.p>
 
               <motion.h2
@@ -86,7 +86,7 @@ const VisionMissionSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              We do things differently
+              {/* We do things differently */}
             </motion.p>
 
             {/* Main Heading */}

@@ -10,7 +10,7 @@ const locations = [
     name: "Lagos",
     hours: "Mon-Sat 9am to 5pm.",
     address: "Plot 3/4 Water Corporation Road, Oniru, Victoria Island, Lagos",
-    phone: "+234 913 582 7236, +234 818 453 2278",
+    phone: "+234 913 582 7236",
     email: "info@kimberly-ryan.net",
   },
   {
@@ -19,7 +19,7 @@ const locations = [
     hours: "Mon-Fri 9am to 5pm.",
     address:
       "No. 3 Atbara Street, off Cairo Street, Ademola Adetokunbo Crescent, Wuse 2, Abuja",
-    phone: "+234 818 453 2278",
+    phone: "+234 913 582 7236",
     email: "info@kimberly-ryan.net",
   },
   {

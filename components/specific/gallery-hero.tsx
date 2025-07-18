@@ -25,28 +25,28 @@ export default function GalleryHero() {
             </h1>
 
             {/* Subscribe text - only on desktop */}
-            <p className="hidden lg:block text-lg leading-relaxed lg:max-w-md text-amberwood-50">
+            {/* <p className="hidden lg:block text-lg leading-relaxed lg:max-w-md text-amberwood-50">
               Subscribe to learn about new product features, the latest in
               technology, solutions, and updates.
-            </p>
+            </p> */}
           </div>
 
           {/* 3. Form and content positioned below the row */}
           <div className="space-y-4">
             {/* Desktop Form - positioned first */}
             <div className="hidden lg:block max-w-md">
-              <NewsletterSubscriptionForm source="gallery_page" />
+              {/* <NewsletterSubscriptionForm source="gallery_page" /> */}
             </div>
 
             {/* Subscribe text - only on mobile */}
-            <p className="lg:hidden text-lg leading-relaxed text-amberwood-50">
+            {/* <p className="lg:hidden text-lg leading-relaxed text-amberwood-50">
               Subscribe to learn about new product features, the latest in
               technology, solutions, and updates.
-            </p>
+            </p> */}
 
             {/* Mobile Form - positioned last */}
             <div className="lg:hidden max-w-md">
-              <NewsletterSubscriptionForm source="gallery_page" />
+              {/* <NewsletterSubscriptionForm source="gallery_page" /> */}
             </div>
           </div>
         </motion.div>

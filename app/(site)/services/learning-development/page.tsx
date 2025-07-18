@@ -18,6 +18,7 @@ export default async function LearningDevelopmentPage() {
 
   return (
     <>
+      <LearningDevelopmentCTA brochures={brochures} />
       <LearningDevelopmentHero />
       <LearningDevelopmentMethods />
       <LearningDevelopmentStrategicLeadership />
@@ -26,7 +27,6 @@ export default async function LearningDevelopmentPage() {
         totalCount={totalCount}
         initialHasMore={hasMore}
       />
-      <LearningDevelopmentCTA brochures={brochures} />
       <NewsletterSubscription />
     </>
   );
