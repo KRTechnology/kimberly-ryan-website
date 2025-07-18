@@ -18,7 +18,10 @@ export default async function LearningDevelopmentPage() {
 
   return (
     <>
-      <LearningDevelopmentCTA brochures={brochures} />
+      {/* Add padding-top to account for fixed header */}
+      <div className="pt-20">
+        <LearningDevelopmentCTA brochures={brochures} />
+      </div>
       <LearningDevelopmentHero />
       <LearningDevelopmentMethods />
       <LearningDevelopmentStrategicLeadership />

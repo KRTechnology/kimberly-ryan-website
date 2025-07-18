@@ -4,6 +4,8 @@ import { urlFor } from "@/lib/sanity";
 import { Person } from "@/types/sanity";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { Linkedin } from "lucide-react";
 
 interface OurPeopleManagementProps {
   managementTeam: Person[];
@@ -105,9 +107,21 @@ const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
 
                   {/* Member Info */}
                   <div className="space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-900 font-sans">
-                      {member.name}
-                    </h3>
+                    <div className="flex items-center justify-center gap-2">
+                      <h3 className="text-lg font-semibold text-gray-900 font-sans">
+                        {member.name}
+                      </h3>
+                      {member.linkedInUrl && (
+                        <Link
+                          href={member.linkedInUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-6 h-6 bg-sunset-200 hover:bg-sunset-300 rounded-md transition-colors duration-200"
+                        >
+                          <Linkedin className="w-4 h-4 text-white" />
+                        </Link>
+                      )}
+                    </div>
                     <p className="text-sm text-sunset-200 font-medium">
                       {member.position}
                     </p>
@@ -155,9 +169,21 @@ const OurPeopleManagement = ({ managementTeam }: OurPeopleManagementProps) => {
 
                   {/* Member Info */}
                   <div className="space-y-1">
-                    <h3 className="text-lg font-semibold text-gray-900 font-sans">
-                      {member.name}
-                    </h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-semibold text-gray-900 font-sans">
+                        {member.name}
+                      </h3>
+                      {member.linkedInUrl && (
+                        <Link
+                          href={member.linkedInUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-6 h-6 bg-sunset-200 hover:bg-sunset-300 rounded-md transition-colors duration-200"
+                        >
+                          <Linkedin className="w-4 h-4 text-white" />
+                        </Link>
+                      )}
+                    </div>
                     <p className="text-sm text-sunset-200 font-medium">
                       {member.position}
                     </p>
