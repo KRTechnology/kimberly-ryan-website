@@ -56,7 +56,7 @@ const CompanyIntroductionVideo = () => {
           >
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black">
               <iframe
-                src="https://www.youtube.com/embed/6SU1uKMk-kw"
+                src="https://www.youtube.com/embed/kj_1dpBesEM"
                 title="Company Introduction Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
