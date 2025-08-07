@@ -1067,7 +1067,7 @@ export async function getPublication(slug: string) {
 // Helper function to get what's new items with cache tags
 export async function getWhatsNewItems() {
   const now = new Date().toISOString();
-  
+
   return client.fetch(
     `
     *[_type == "whatsNew" && active == true && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
@@ -1117,7 +1117,7 @@ export async function getWhatsNewItems() {
 // Helper function to get featured what's new items with cache tags
 export async function getFeaturedWhatsNewItems() {
   const now = new Date().toISOString();
-  
+
   return client.fetch(
     `
     *[_type == "whatsNew" && active == true && featured == true && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
@@ -1167,7 +1167,7 @@ export async function getFeaturedWhatsNewItems() {
 // Helper function to get what's new items by category with cache tags
 export async function getWhatsNewItemsByCategory(category: string) {
   const now = new Date().toISOString();
-  
+
   return client.fetch(
     `
     *[_type == "whatsNew" && active == true && category == $category && publishedAt <= $now && (expiresAt == null || expiresAt > $now)] | order(displayOrder asc, publishedAt desc) {
@@ -1209,6 +1209,42 @@ export async function getWhatsNewItemsByCategory(category: string) {
       next: {
         revalidate: 300, // Cache for 5 minutes (what's new changes more frequently)
         tags: ["whats-new", `whats-new-${category}`],
+      },
+    }
+  );
+}
+
+// Helper function to get all people/team members for sitemap
+export async function getPeople() {
+  return client.fetch(
+    `
+    *[_type == "person" && showOnWebsite == true] | order(displayOrder asc, name asc) {
+      _id,
+      name,
+      slug,
+      position,
+      department,
+      level,
+      image,
+      bio,
+      linkedInUrl,
+      email,
+      phoneNumber,
+      expertise,
+      yearsOfExperience,
+      displayOrder,
+      featured,
+      showOnWebsite,
+      showOnLeadershipPage,
+      showOnManagementPage,
+      joinedDate
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 1800, // Cache for 30 minutes (team changes less frequently)
+        tags: ["team-members", "people"],
       },
     }
   );
