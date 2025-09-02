@@ -99,6 +99,22 @@ const VisionMissionSection = () => {
               Our Vision and Mission
             </motion.h2>
 
+            {/* Brand Vision */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+            >
+              <h3 className="text-[20px] font-semibold text-white font-plex">
+                Brand Vision
+              </h3>
+              <p className="text-[16px] leading-relaxed text-white font-inter">
+                Our Vision is to be the leading African Human Resources
+                Solutions Provider.
+              </p>
+            </motion.div>
+
             {/* Brand Mission */}
             <motion.div
               className="space-y-4"
@@ -113,22 +129,6 @@ const VisionMissionSection = () => {
                 Our brand mission is to lead in attracting, developing and
                 retaining superior Human Capital that create a dramatic business
                 advantage for our clients.
-              </p>
-            </motion.div>
-
-            {/* Brand Vision */}
-            <motion.div
-              className="space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-            >
-              <h3 className="text-[20px] font-semibold text-white font-plex">
-                Brand Vision
-              </h3>
-              <p className="text-[16px] leading-relaxed text-white font-inter">
-                Our Vision is to be the leading African Human Resources
-                Solutions Provider.
               </p>
             </motion.div>
           </div>
