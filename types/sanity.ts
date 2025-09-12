@@ -360,7 +360,13 @@ export interface WhatsNew {
   };
   description: string;
   image: SanityImage;
-  contentType: "publication" | "blog" | "webinar" | "event" | "external" | "custom";
+  contentType:
+    | "publication"
+    | "blog"
+    | "webinar"
+    | "event"
+    | "external"
+    | "custom";
   contentReference?: {
     _id: string;
     _type: string;
@@ -406,4 +412,64 @@ export interface Page {
     title: string;
     description: string;
   };
+}
+
+export interface TrainingModule {
+  title: string;
+  topics: string[];
+}
+
+export interface TrainingVenue {
+  name: string;
+  description: string;
+  address: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  mapEmbedUrl?: string;
+}
+
+export interface TrainingEventDetails {
+  duration: string;
+  contactEmail: string;
+  venue: TrainingVenue;
+}
+
+export interface TrainingPricingOption {
+  label: string;
+  price: string;
+  description?: string;
+}
+
+export interface TrainingProgramFees {
+  description: string;
+  pricingOptions: TrainingPricingOption[];
+}
+
+export interface TrainingDesignedFor {
+  image: SanityImage;
+  mainText: string;
+  targetAudience: string[];
+}
+
+export interface Training {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  subtitle: string;
+  brochureUrl?: string;
+  brochureTitle?: string;
+  designedFor: TrainingDesignedFor;
+  programModules: TrainingModule[];
+  eventDetails: TrainingEventDetails;
+  programFees: TrainingProgramFees;
+  category: string;
+  registrationUrl?: string;
+  featured: boolean;
+  publishedAt: string;
+  validUntil?: string;
+  tags?: string[];
 }

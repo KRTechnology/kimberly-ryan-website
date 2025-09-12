@@ -13,6 +13,7 @@ import publication from "./publication";
 import whatsNew from "./whats-new";
 import { contactSubmission } from "./contact-submission";
 import { newsletterSubscription } from "./newsletter-subscription";
+import { training } from "./training";
 
 export const schemaTypes = [
   blog,
@@ -30,4 +31,5 @@ export const schemaTypes = [
   whatsNew,
   contactSubmission,
   newsletterSubscription,
+  training,
 ];

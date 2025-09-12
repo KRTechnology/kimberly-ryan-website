@@ -2,31 +2,15 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Training } from "@/types/sanity";
 
-const TrainingProgrammeFees = () => {
-  const pricingOptions = [
-    {
-      label: "Early Bird",
-      price: "N350,000",
-      labelColor: "#C26811", // amberwood-300
-    },
-    {
-      label: "Individual Fee",
-      price: "N400,000",
-      labelColor: "#C26811", // amberwood-300
-    },
-    {
-      label: "Group of Three (3)",
-      price: "N1000,000",
-      labelColor: "#C26811", // amberwood-300
-    },
-    {
-      label: "Accommodation fee (Optional)",
-      price: "N400,000/Night",
-      labelColor: "#C26811", // amberwood-300
-    },
-  ];
+interface TrainingProgrammeFeesProps {
+  trainingData: Training;
+}
 
+const TrainingProgrammeFees = ({
+  trainingData,
+}: TrainingProgrammeFeesProps) => {
   return (
     <section className="py-16 md:py-24" style={{ backgroundColor: "#FFFDF6" }}>
       <div className="container mx-auto px-4">
@@ -54,8 +38,7 @@ const TrainingProgrammeFees = () => {
               fontSize: "18px",
             }}
           >
-            Training Fees cover feeding (Tea Break and Lunch) and training
-            materials (Inclusive of a training bag)
+            {trainingData.programFees.description}
           </p>
         </motion.div>
 
@@ -72,13 +55,13 @@ const TrainingProgrammeFees = () => {
         {/* Desktop Layout - 4 columns */}
         <div className="hidden md:block">
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            {pricingOptions.map((option, index) => (
+            {trainingData.programFees.pricingOptions.map((option, index) => (
               <motion.div
                 key={index}
                 className="bg-gray-50 shadow p-6 rounded-lg text-center"
@@ -94,7 +77,7 @@ const TrainingProgrammeFees = () => {
                 >
                   <span
                     className="font-inter font-medium text-sm"
-                    style={{ color: option.labelColor }}
+                    style={{ color: "#C26811" }}
                   >
                     {option.label}
                   </span>
@@ -126,7 +109,7 @@ const TrainingProgrammeFees = () => {
 
         {/* Mobile Layout - Stacked */}
         <div className="md:hidden space-y-6">
-          {pricingOptions.map((option, index) => (
+          {trainingData.programFees.pricingOptions.map((option, index) => (
             <motion.div
               key={index}
               className="bg-white border border-gray-200 p-6 text-center rounded-lg"
@@ -142,7 +125,7 @@ const TrainingProgrammeFees = () => {
               >
                 <span
                   className="font-inter font-medium text-sm"
-                  style={{ color: option.labelColor }}
+                  style={{ color: "#C26811" }}
                 >
                   {option.label}
                 </span>

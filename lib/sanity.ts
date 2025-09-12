@@ -1249,3 +1249,197 @@ export async function getPeople() {
     }
   );
 }
+
+// Training-related functions
+export async function getLatestTraining() {
+  return client.fetch(
+    `
+    *[_type == "training" && active == true] | order(publishedAt desc)[0] {
+      _id,
+      title,
+      slug,
+      subtitle,
+      "brochureUrl": brochure->pdfFile.asset->url,
+      "brochureTitle": brochure->title,
+      designedFor {
+        image {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        mainText,
+        targetAudience
+      },
+      programModules[] {
+        title,
+        topics
+      },
+      eventDetails {
+        duration,
+        contactEmail,
+        venue {
+          name,
+          description,
+          address,
+          coordinates {
+            lat,
+            lng
+          },
+          mapEmbedUrl
+        }
+      },
+      programFees {
+        description,
+        pricingOptions[] {
+          label,
+          price,
+          description
+        }
+      },
+      category,
+      registrationUrl,
+      featured,
+      publishedAt,
+      tags
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes
+        tags: ["training", "latest-training"],
+      },
+    }
+  );
+}
+
+export async function getTrainings() {
+  return client.fetch(
+    `
+    *[_type == "training" && active == true] | order(publishedAt desc) {
+      _id,
+      title,
+      slug,
+      subtitle,
+      "brochureUrl": brochure->pdfFile.asset->url,
+      "brochureTitle": brochure->title,
+      designedFor {
+        image {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        mainText,
+        targetAudience
+      },
+      programModules[] {
+        title,
+        topics
+      },
+      eventDetails {
+        duration,
+        contactEmail,
+        venue {
+          name,
+          description,
+          address,
+          coordinates {
+            lat,
+            lng
+          },
+          mapEmbedUrl
+        }
+      },
+      programFees {
+        description,
+        pricingOptions[] {
+          label,
+          price,
+          description
+        }
+      },
+      category,
+      registrationUrl,
+      featured,
+      publishedAt,
+      tags
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 300,
+        tags: ["training"],
+      },
+    }
+  );
+}
+
+export async function getTraining(slug: string) {
+  return client.fetch(
+    `
+    *[_type == "training" && active == true && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      subtitle,
+      "brochureUrl": brochure->pdfFile.asset->url,
+      "brochureTitle": brochure->title,
+      designedFor {
+        image {
+          asset->{
+            _id,
+            url
+          },
+          alt
+        },
+        mainText,
+        targetAudience
+      },
+      programModules[] {
+        title,
+        topics
+      },
+      eventDetails {
+        duration,
+        contactEmail,
+        venue {
+          name,
+          description,
+          address,
+          coordinates {
+            lat,
+            lng
+          },
+          mapEmbedUrl
+        }
+      },
+      programFees {
+        description,
+        pricingOptions[] {
+          label,
+          price,
+          description
+        }
+      },
+      category,
+      registrationUrl,
+      featured,
+      publishedAt,
+      validUntil,
+      tags
+    }
+  `,
+    { slug },
+    {
+      next: {
+        revalidate: 300,
+        tags: ["training", `training-${slug}`],
+      },
+    }
+  );
+}

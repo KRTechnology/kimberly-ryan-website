@@ -2,8 +2,13 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Training } from "@/types/sanity";
 
-const TrainingHero = () => {
+interface TrainingHeroProps {
+  trainingData: Training;
+}
+
+const TrainingHero = ({ trainingData }: TrainingHeroProps) => {
   return (
     <section
       className="relative pt-24 pb-16 md:pt-28 md:pb-24"
@@ -32,7 +37,7 @@ const TrainingHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                Strategic Leadership Programme
+                {trainingData.title}
               </motion.h1>
 
               <motion.p
@@ -42,13 +47,7 @@ const TrainingHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                The role of HR has undergone a significant transformation, and
-                HR leaders are now essential in aligning people strategies with
-                business objectives, driving performance, and fostering
-                innovation. The Strategic HR Leadership Program (SHLP) is
-                specifically designed to empower HR professionals with the
-                essential skills, knowledge, and expertise required to excel as
-                strategic business partners and leaders.
+                {trainingData.subtitle}
               </motion.p>
 
               <motion.div
@@ -58,7 +57,7 @@ const TrainingHero = () => {
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
                 <Link
-                  href="/consultation"
+                  href={trainingData.registrationUrl || "/consultation"}
                   className="inline-block bg-sunset-200 text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
                   style={{
                     padding: "12px 18px",
@@ -70,18 +69,22 @@ const TrainingHero = () => {
                   Register Now
                 </Link>
 
-                <Link
-                  href="#"
-                  className="inline-block bg-slate-50 text-sunset-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
-                  style={{
-                    padding: "12px 18px",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Download the brochure
-                </Link>
+                {trainingData.brochureUrl && (
+                  <Link
+                    href={trainingData.brochureUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block bg-slate-50 text-sunset-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+                    style={{
+                      padding: "12px 18px",
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Download the brochure
+                  </Link>
+                )}
               </motion.div>
             </motion.div>
           </div>
@@ -101,7 +104,7 @@ const TrainingHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                Strategic Leadership Programme
+                {trainingData.title}
               </motion.h1>
 
               <motion.p
@@ -110,13 +113,7 @@ const TrainingHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                The role of HR has undergone a significant transformation, and
-                HR leaders are now essential in aligning people strategies with
-                business objectives, driving performance, and fostering
-                innovation. The Strategic HR Leadership Program (SHLP) is
-                specifically designed to empower HR professionals with the
-                essential skills, knowledge, and expertise required to excel as
-                strategic business partners and leaders.
+                {trainingData.subtitle}
               </motion.p>
 
               <motion.div
@@ -126,7 +123,7 @@ const TrainingHero = () => {
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
                 <Link
-                  href="/consultation"
+                  href={trainingData.registrationUrl || "/consultation"}
                   className="block w-full bg-sunset-200 text-white transition-all duration-300 text-center"
                   style={{
                     padding: "12px 18px",
@@ -138,18 +135,22 @@ const TrainingHero = () => {
                   Register Now
                 </Link>
 
-                <Link
-                  href="#"
-                  className="block w-full bg-slate-50 text-sunset-600 transition-all duration-300 text-center"
-                  style={{
-                    padding: "12px 18px",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Download the brochure
-                </Link>
+                {trainingData.brochureUrl && (
+                  <Link
+                    href={trainingData.brochureUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full bg-slate-50 text-sunset-600 transition-all duration-300 text-center"
+                    style={{
+                      padding: "12px 18px",
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Download the brochure
+                  </Link>
+                )}
               </motion.div>
             </motion.div>
           </div>

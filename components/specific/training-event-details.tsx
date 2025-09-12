@@ -2,8 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Mail, MapPin } from "lucide-react";
+import { Training } from "@/types/sanity";
 
-const TrainingEventDetails = () => {
+interface TrainingEventDetailsProps {
+  trainingData: Training;
+}
+
+const TrainingEventDetails = ({ trainingData }: TrainingEventDetailsProps) => {
   return (
     <section className="py-16 md:py-24" style={{ backgroundColor: "#373433" }}>
       <div className="container mx-auto px-4">
@@ -47,10 +52,10 @@ const TrainingEventDetails = () => {
                       Duration
                     </h3>
                     <p className="text-amberwood-50 font-inter text-base">
-                      3 Days
+                      {trainingData.eventDetails.duration}
                     </p>
                     <p className="text-white font-inter text-sm mt-2">
-                      hi@untitledui.com
+                      {trainingData.eventDetails.contactEmail}
                     </p>
                   </div>
                 </div>
@@ -73,12 +78,10 @@ const TrainingEventDetails = () => {
                       Venue
                     </h3>
                     <p className="text-amberwood-50 font-inter text-base mb-3">
-                      Come say hello at our office HQ.
+                      {trainingData.eventDetails.venue.description}
                     </p>
                     <p className="text-white font-inter text-sm">
-                      100 Smith Street
-                      <br />
-                      Collingwood VIC 3066 AU
+                      {trainingData.eventDetails.venue.address}
                     </p>
                   </div>
                 </div>
@@ -94,14 +97,17 @@ const TrainingEventDetails = () => {
               viewport={{ once: true }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7557388574375!2d3.4243315739621994!3d6.423830624045444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2d7a2e3c43%3A0xa9b9d8c6d7e5f4c3!2sLandmark%20Village%2C%20Victoria%20Island%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1701234567890!5m2!1sen!2sus"
+                src={
+                  trainingData.eventDetails.venue.mapEmbedUrl ||
+                  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7557388574375!2d3.4243315739621994!3d6.423830624045444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2d7a2e3c43%3A0xa9b9d8c6d7e5f4c3!2sLandmark%20Village%2C%20Victoria%20Island%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1701234567890!5m2!1sen!2sus"
+                }
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Kimberly Ryan Office Location - Landmark Village, Victoria Island, Lagos"
+                title={`${trainingData.eventDetails.venue.name} - ${trainingData.eventDetails.venue.address}`}
               />
             </motion.div>
           </div>
@@ -137,9 +143,11 @@ const TrainingEventDetails = () => {
                 <h3 className="text-white font-plex font-semibold text-lg mb-1">
                   Duration
                 </h3>
-                <p className="text-amberwood-50 font-inter text-base">3 Days</p>
+                <p className="text-amberwood-50 font-inter text-base">
+                  {trainingData.eventDetails.duration}
+                </p>
                 <p className="text-white font-inter text-sm mt-2">
-                  hi@untitledui.com
+                  {trainingData.eventDetails.contactEmail}
                 </p>
               </div>
             </div>
@@ -162,12 +170,10 @@ const TrainingEventDetails = () => {
                   Venue
                 </h3>
                 <p className="text-amberwood-50 font-inter text-base mb-3">
-                  Come say hello at our office HQ.
+                  {trainingData.eventDetails.venue.description}
                 </p>
                 <p className="text-white font-inter text-sm">
-                  100 Smith Street
-                  <br />
-                  Collingwood VIC 3066 AU
+                  {trainingData.eventDetails.venue.address}
                 </p>
               </div>
             </div>
@@ -182,14 +188,17 @@ const TrainingEventDetails = () => {
             viewport={{ once: true }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7557388574375!2d3.4243315739621994!3d6.423830624045444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2d7a2e3c43%3A0xa9b9d8c6d7e5f4c3!2sLandmark%20Village%2C%20Victoria%20Island%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1701234567890!5m2!1sen!2sus"
+              src={
+                trainingData.eventDetails.venue.mapEmbedUrl ||
+                "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7557388574375!2d3.4243315739621994!3d6.423830624045444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2d7a2e3c43%3A0xa9b9d8c6d7e5f4c3!2sLandmark%20Village%2C%20Victoria%20Island%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1701234567890!5m2!1sen!2sus"
+              }
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Kimberly Ryan Office Location - Landmark Village, Victoria Island, Lagos"
+              title={`${trainingData.eventDetails.venue.name} - ${trainingData.eventDetails.venue.address}`}
             />
           </motion.div>
         </div>

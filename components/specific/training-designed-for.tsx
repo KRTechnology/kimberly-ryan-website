@@ -3,15 +3,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Check } from "lucide-react";
+import { Training } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 
-const TrainingDesignedFor = () => {
-  const focusAreas = [
-    "Talent Management",
-    "Organizational Development",
-    "HR Leadership",
-    "Business Acumen",
-  ];
+interface TrainingDesignedForProps {
+  trainingData: Training;
+}
 
+const TrainingDesignedFor = ({ trainingData }: TrainingDesignedForProps) => {
   return (
     <section className="w-full" style={{ backgroundColor: "#FFFDF6" }}>
       <div className="w-full">
@@ -26,8 +25,14 @@ const TrainingDesignedFor = () => {
             viewport={{ once: true }}
           >
             <Image
-              src="/images/training-image.jpg"
-              alt="Professional HR leaders in strategic meeting"
+              src={urlFor(trainingData.designedFor.image)
+                .width(800)
+                .height(600)
+                .url()}
+              alt={
+                trainingData.designedFor.image.alt ||
+                "Training designed for professionals"
+              }
               fill
               style={{ objectFit: "cover" }}
               className="object-cover"
@@ -63,8 +68,7 @@ const TrainingDesignedFor = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 viewport={{ once: true }}
               >
-                Organisations aiming to enhance the strategic capabilities of
-                their Mid-level to Senior HR leaders in:
+                {trainingData.designedFor.mainText}
               </motion.p>
 
               <motion.div
@@ -74,7 +78,7 @@ const TrainingDesignedFor = () => {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 viewport={{ once: true }}
               >
-                {focusAreas.map((area, index) => (
+                {trainingData.designedFor.targetAudience.map((area, index) => (
                   <motion.div
                     key={area}
                     className="flex items-center gap-3"
@@ -125,8 +129,7 @@ const TrainingDesignedFor = () => {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                Organisations aiming to enhance the strategic capabilities of
-                their Mid-level to Senior HR leaders in:
+                {trainingData.designedFor.mainText}
               </motion.p>
 
               <motion.div
@@ -136,7 +139,7 @@ const TrainingDesignedFor = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 viewport={{ once: true }}
               >
-                {focusAreas.map((area, index) => (
+                {trainingData.designedFor.targetAudience.map((area, index) => (
                   <motion.div
                     key={area}
                     className="flex items-center gap-3"

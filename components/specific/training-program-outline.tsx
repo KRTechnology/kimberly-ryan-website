@@ -1,62 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Training } from "@/types/sanity";
 
-const TrainingProgramOutline = () => {
-  const modules = [
-    {
-      title: "MODULE 1: HR & ORGANIZATIONAL STRATEGY",
-      topics: [
-        "Understanding HR's role in organizational success",
-        "Aligning HR strategies with business objectives",
-        "Key components of an effective HR strategy",
-        "Case studies: HR strategy in successful organizations",
-      ],
-    },
-    {
-      title: "MODULE 2: HR & ECONOMIC TRENDS",
-      topics: [
-        "Global and local economic trends affecting HR",
-        "The impact of inflation, talent scarcity, and remote work trends",
-        "Adapting HR strategies to changing economic climates",
-        "Case studies: HR responses to economic disruptions",
-      ],
-    },
-    {
-      title: "MODULE 3: PERFORMANCE MANAGEMENT",
-      topics: [
-        "Redesigning performance management for the modern workforce",
-        "Continuous feedback, coaching, and mentoring",
-        "Linking performance to business outcomes",
-        "Tools for effective performance appraisals",
-      ],
-    },
-    {
-      title: "MODULE 4: UNDERSTANDING THE BUSINESS ENVIRONMENT",
-      topics: [
-        "Key business drivers: Revenue, profit, market share, and operational efficiency",
-        "How economic trends and industry-specific factors impact HR strategy",
-        "The HR-business connection: Supporting business objectives through effective talent management",
-      ],
-    },
-    {
-      title: "MODULE 5: COMMUNICATING HR'S BUSINESS VALUE",
-      topics: [
-        "Building a business case for HR initiatives: Framing HR contributions in financial and operational terms",
-        "Speaking the language of business: Effective communication with the C-suite and key stakeholders",
-        "Role-playing exercise: Presenting an HR strategy to senior leadership, demonstrating ROI and business impact",
-      ],
-    },
-    {
-      title: "MODULE 6: DEVELOPING A BUSINESS-FOCUSED HR STRATEGY",
-      topics: [
-        "Creating HR strategies that are tightly aligned with business functions such as sales, operations, and finance",
-        "Identifying opportunities for HR to contribute to revenue generation, innovation, and cost reduction",
-        "Group activity: Designing an HR strategy based on a real-world business scenario, with measurable business outcomes",
-      ],
-    },
-  ];
+interface TrainingProgramOutlineProps {
+  trainingData: Training;
+}
 
+const TrainingProgramOutline = ({
+  trainingData,
+}: TrainingProgramOutlineProps) => {
   return (
     <section className="py-16 md:py-24" style={{ backgroundColor: "#FFFDF6" }}>
       <div className="container mx-auto px-4">
@@ -80,7 +33,7 @@ const TrainingProgramOutline = () => {
         {/* Desktop Layout */}
         <div className="hidden md:block">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {modules.map((module, index) => (
+            {trainingData.programModules.map((module, index) => (
               <motion.div
                 key={index}
                 className="bg-zinc-50 p-8"
@@ -135,7 +88,7 @@ const TrainingProgramOutline = () => {
 
         {/* Mobile Layout */}
         <div className="md:hidden space-y-6">
-          {modules.map((module, index) => (
+          {trainingData.programModules.map((module, index) => (
             <motion.div
               key={index}
               className="bg-zinc-50 p-6"
