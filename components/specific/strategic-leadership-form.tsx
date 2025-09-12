@@ -96,7 +96,7 @@ export default function StrategicLeadershipForm() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50 min-h-screen">
+    <section className="py-16 lg:py-24 bg-slate-50 min-h-screen">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-2xl mx-auto">
           {/* Form Container */}
