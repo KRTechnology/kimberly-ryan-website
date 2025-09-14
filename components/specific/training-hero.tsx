@@ -1,8 +1,8 @@
 "use client";
 
+import { Training } from "@/types/sanity";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Training } from "@/types/sanity";
 
 interface TrainingHeroProps {
   trainingData: Training;

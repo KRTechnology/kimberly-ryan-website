@@ -1,8 +1,8 @@
 "use client";
 
+import { Training } from "@/types/sanity";
 import { motion } from "framer-motion";
 import { Mail, MapPin } from "lucide-react";
-import { Training } from "@/types/sanity";
 
 interface TrainingEventDetailsProps {
   trainingData: Training;

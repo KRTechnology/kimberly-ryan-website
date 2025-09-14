@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Training } from "@/types/sanity";
+import { motion } from "framer-motion";
 
 interface TrainingProgramOutlineProps {
   trainingData: Training;

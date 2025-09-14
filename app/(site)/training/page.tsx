@@ -1,9 +1,9 @@
-import TrainingHero from "@/components/specific/training-hero";
-import TrainingDesignedFor from "@/components/specific/training-designed-for";
-import TrainingProgramOutline from "@/components/specific/training-program-outline";
-import TrainingEventDetails from "@/components/specific/training-event-details";
-import TrainingProgrammeFees from "@/components/specific/training-programme-fees";
 import NewsletterSubscription from "@/components/specific/newsletter-subscription";
+import TrainingDesignedFor from "@/components/specific/training-designed-for";
+import TrainingEventDetails from "@/components/specific/training-event-details";
+import TrainingHero from "@/components/specific/training-hero";
+import TrainingProgramOutline from "@/components/specific/training-program-outline";
+import TrainingProgrammeFees from "@/components/specific/training-programme-fees";
 import { getLatestTraining } from "@/lib/sanity";
 import { Training } from "@/types/sanity";
 

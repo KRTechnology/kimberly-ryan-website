@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { motion } from "framer-motion";
+import { AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
-import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const subscriptionSchema = z.object({
   email: z
