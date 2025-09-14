@@ -468,8 +468,123 @@ export interface Training {
   programFees: TrainingProgramFees;
   category: string;
   registrationUrl?: string;
+  registrationForm?: TrainingRegistrationForm;
   featured: boolean;
   publishedAt: string;
   validUntil?: string;
   tags?: string[];
+}
+
+export interface TrainingRegistrationFormField {
+  fieldName: string;
+  label: string;
+  fieldType:
+    | "text"
+    | "email"
+    | "number"
+    | "tel"
+    | "select"
+    | "textarea"
+    | "radio"
+    | "checkbox";
+  placeholder?: string;
+  required: boolean;
+  options?: string[];
+  validation?: {
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+    pattern?: string;
+    errorMessage?: string;
+  };
+  displayOrder: number;
+  width: "full" | "half" | "third" | "two-thirds";
+}
+
+export interface TrainingRegistrationFormSettings {
+  submitButtonText: string;
+  successMessage: string;
+  redirectUrl?: string;
+  notificationEmail?: string;
+}
+
+export interface TrainingRegistrationForm {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  description?: string;
+  training: Training;
+  formFields: TrainingRegistrationFormField[];
+  settings: TrainingRegistrationFormSettings;
+  active: boolean;
+  publishedAt: string;
+  expiresAt?: string;
+  maxSubmissions?: number;
+  internalNotes?: string;
+}
+
+export interface TrainingRegistrationFormResponse {
+  fieldName: string;
+  fieldLabel: string;
+  value?: string;
+  fieldType?: string;
+}
+
+export interface TrainingRegistrationCommunicationLog {
+  date: string;
+  type:
+    | "email_sent"
+    | "phone_call"
+    | "sms_sent"
+    | "meeting_scheduled"
+    | "follow_up_required";
+  note: string;
+  staff?: string;
+}
+
+export interface TrainingRegistrationDetails {
+  confirmed: boolean;
+  confirmationDate?: string;
+  paymentStatus: "pending" | "paid" | "partial" | "refunded" | "waived";
+  amountPaid?: number;
+  paymentMethod?: string;
+  invoiceNumber?: string;
+}
+
+export interface TrainingRegistrationSubmission {
+  _id: string;
+  registrationForm: TrainingRegistrationForm;
+  training: Training;
+  firstName: string;
+  lastName: string;
+  personalEmail: string;
+  workEmail: string;
+  jobRole: string;
+  yearsOfExperience: number;
+  formData: {
+    responses: TrainingRegistrationFormResponse[];
+  };
+  submissionDate: string;
+  status:
+    | "new"
+    | "reviewed"
+    | "contacted"
+    | "registered"
+    | "cancelled"
+    | "no_show"
+    | "completed";
+  source: string;
+  ipAddress?: string;
+  userAgent?: string;
+  referrer?: string;
+  primaryContact: "personal_email" | "work_email" | "phone";
+  communicationLog?: TrainingRegistrationCommunicationLog[];
+  assignedTo?: string;
+  priority: "low" | "normal" | "high" | "urgent";
+  tags?: string[];
+  internalNotes?: string;
+  registrationDetails?: TrainingRegistrationDetails;
 }

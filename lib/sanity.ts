@@ -1261,6 +1261,12 @@ export async function getLatestTraining() {
       subtitle,
       "brochureUrl": brochure->pdfFile.asset->url,
       "brochureTitle": brochure->title,
+      registrationForm-> {
+        _id,
+        slug,
+        title,
+        active
+      },
       designedFor {
         image {
           asset->{

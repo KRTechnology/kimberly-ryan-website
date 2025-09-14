@@ -96,7 +96,11 @@ const TrainingProgrammeFees = ({
 
                 {/* CTA Button */}
                 <Link
-                  href="/consultation"
+                  href={
+                    trainingData.registrationForm?.active
+                      ? `/training/registration/${trainingData.registrationForm.slug.current}`
+                      : trainingData.registrationUrl || "/consultation"
+                  }
                   className="block w-full bg-sunset-200 text-white font-semibold py-3 px-6 rounded-lg hover:bg-sunset-300 transition-colors duration-300"
                   style={{ fontSize: "16px" }}
                 >
@@ -144,7 +148,11 @@ const TrainingProgrammeFees = ({
 
               {/* CTA Button */}
               <Link
-                href="/consultation"
+                href={
+                  trainingData.registrationForm?.active
+                    ? `/training/registration/${trainingData.registrationForm.slug.current}`
+                    : trainingData.registrationUrl || "/consultation"
+                }
                 className="block w-full bg-sunset-200 text-white font-semibold py-3 px-6 rounded-lg hover:bg-sunset-300 transition-colors duration-300"
                 style={{ fontSize: "16px" }}
               >

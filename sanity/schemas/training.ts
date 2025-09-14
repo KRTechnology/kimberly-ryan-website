@@ -38,6 +38,13 @@ export const training = defineType({
       to: [{ type: "brochure" }],
       description: "Link to the downloadable brochure for this training",
     }),
+    defineField({
+      name: "registrationForm",
+      title: "Registration Form",
+      type: "reference",
+      to: [{ type: "trainingRegistrationForm" }],
+      description: "Custom registration form for this training",
+    }),
 
     // Designed For Section
     defineField({

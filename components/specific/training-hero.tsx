@@ -57,7 +57,11 @@ const TrainingHero = ({ trainingData }: TrainingHeroProps) => {
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
                 <Link
-                  href={trainingData.registrationUrl || "/consultation"}
+                  href={
+                    trainingData.registrationForm?.active
+                      ? `/training/registration/${trainingData.registrationForm.slug.current}`
+                      : trainingData.registrationUrl || "/consultation"
+                  }
                   className="inline-block bg-sunset-200 text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
                   style={{
                     padding: "12px 18px",
@@ -123,7 +127,11 @@ const TrainingHero = ({ trainingData }: TrainingHeroProps) => {
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
                 <Link
-                  href={trainingData.registrationUrl || "/consultation"}
+                  href={
+                    trainingData.registrationForm?.active
+                      ? `/training/registration/${trainingData.registrationForm.slug.current}`
+                      : trainingData.registrationUrl || "/consultation"
+                  }
                   className="block w-full bg-sunset-200 text-white transition-all duration-300 text-center"
                   style={{
                     padding: "12px 18px",

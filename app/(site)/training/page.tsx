@@ -4,6 +4,7 @@ import TrainingEventDetails from "@/components/specific/training-event-details";
 import TrainingHero from "@/components/specific/training-hero";
 import TrainingProgramOutline from "@/components/specific/training-program-outline";
 import TrainingProgrammeFees from "@/components/specific/training-programme-fees";
+import TrainingVideoSection from "@/components/specific/training-video-section";
 import { getLatestTraining } from "@/lib/sanity";
 import { Training } from "@/types/sanity";
 
@@ -31,6 +32,7 @@ export default async function TrainingPage() {
   return (
     <>
       <TrainingHero trainingData={trainingData} />
+      <TrainingVideoSection trainingData={trainingData} />
       <TrainingDesignedFor trainingData={trainingData} />
       <TrainingProgramOutline trainingData={trainingData} />
       <TrainingEventDetails trainingData={trainingData} />
