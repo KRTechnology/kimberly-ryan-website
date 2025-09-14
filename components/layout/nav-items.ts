@@ -11,6 +11,7 @@ import {
   UserCircle,
   Users,
   LifeBuoy,
+  Calendar,
 } from "lucide-react";
 
 export interface DropdownItem {
@@ -88,6 +89,12 @@ export const navItems: NavItem[] = [
         href: "/services/outsourcing",
         icon: Building2,
         description: "Streamline operations with our expert services",
+      },
+      {
+        label: "Training",
+        href: "/training",
+        icon: Calendar,
+        description: "Professional development and training programs",
       },
       // {
       //   label: "HR Management Templates",
