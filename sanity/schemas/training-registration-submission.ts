@@ -48,6 +48,16 @@ export const trainingRegistrationSubmission = defineType({
       validation: (rule) => rule.required().email(),
     }),
     defineField({
+      name: "phoneNumber",
+      title: "Phone Number",
+      type: "string",
+    }),
+    defineField({
+      name: "organization",
+      title: "Organization",
+      type: "string",
+    }),
+    defineField({
       name: "jobRole",
       title: "Job Role",
       type: "string",
@@ -354,19 +364,33 @@ export const trainingRegistrationSubmission = defineType({
       firstName: "firstName",
       lastName: "lastName",
       email: "personalEmail",
+      phoneNumber: "phoneNumber",
+      organization: "organization",
       training: "training.title",
       status: "status",
       submissionDate: "submissionDate",
     },
-    prepare({ firstName, lastName, email, training, status, submissionDate }) {
+    prepare({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      organization,
+      training,
+      status,
+      submissionDate,
+    }) {
       const formattedDate = submissionDate
         ? new Date(submissionDate).toLocaleDateString()
         : "No date";
 
+      const contactInfo = [email, phoneNumber].filter(Boolean).join(" • ");
+      const orgInfo = organization ? ` (${organization})` : "";
+
       return {
-        title: `${firstName} ${lastName}`,
+        title: `${firstName} ${lastName}${orgInfo}`,
         subtitle: `${training} • ${status} • ${formattedDate}`,
-        description: email,
+        description: contactInfo,
       };
     },
   },

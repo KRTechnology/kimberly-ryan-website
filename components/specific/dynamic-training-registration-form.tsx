@@ -174,6 +174,24 @@ const DynamicTrainingRegistrationForm = ({
           dataAny.personal_email ||
           dataAny.email ||
           "",
+        phoneNumber:
+          dataAny.phoneNumber ||
+          dataAny.phone_number ||
+          dataAny.phone ||
+          dataAny.mobile ||
+          dataAny.mobileNumber ||
+          dataAny.mobile_number ||
+          dataAny.contact ||
+          dataAny.contactNumber ||
+          dataAny.contact_number ||
+          "",
+        organization:
+          dataAny.organization ||
+          dataAny.company ||
+          dataAny.employer ||
+          dataAny.workplace ||
+          dataAny.business ||
+          "",
         jobRole:
           dataAny.jobRole ||
           dataAny.job_role ||
@@ -207,6 +225,8 @@ const DynamicTrainingRegistrationForm = ({
         lastName: coreFieldMapping.lastName,
         personalEmail: coreFieldMapping.personalEmail,
         workEmail: coreFieldMapping.workEmail,
+        phoneNumber: coreFieldMapping.phoneNumber,
+        organization: coreFieldMapping.organization,
         jobRole: coreFieldMapping.jobRole,
         yearsOfExperience: coreFieldMapping.yearsOfExperience,
         formData: data, // Send all form data

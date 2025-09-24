@@ -562,6 +562,8 @@ export interface TrainingRegistrationSubmission {
   lastName: string;
   personalEmail: string;
   workEmail: string;
+  phoneNumber?: string;
+  organization?: string;
   jobRole: string;
   yearsOfExperience: number;
   formData: {

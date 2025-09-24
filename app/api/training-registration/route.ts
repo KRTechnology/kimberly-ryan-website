@@ -9,6 +9,8 @@ interface TrainingRegistrationFormData {
   lastName?: string;
   personalEmail?: string;
   workEmail?: string;
+  phoneNumber?: string;
+  organization?: string;
   jobRole?: string;
   yearsOfExperience?: number;
   formData: Record<string, any>;
@@ -113,20 +115,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert form data to the expected format
-    const responses: TrainingRegistrationFormResponse[] = Object.entries(
-      body.formData
-    ).map(([fieldName, value]) => {
-      const fieldDef = registrationForm.formFields.find(
-        (f: any) => f.fieldName === fieldName
-      );
-      return {
-        fieldName,
-        fieldLabel: fieldDef?.label || fieldName,
-        value: String(value),
-        fieldType: fieldDef?.fieldType || "text",
-      };
-    });
+    // Convert form data to the expected format with unique _key for each item
+    const responses: (TrainingRegistrationFormResponse & { _key: string })[] =
+      Object.entries(body.formData).map(([fieldName, value], index) => {
+        const fieldDef = registrationForm.formFields.find(
+          (f: any) => f.fieldName === fieldName
+        );
+        return {
+          _key: `${fieldName}_${Date.now()}_${index}`, // Generate unique key
+          fieldName,
+          fieldLabel: fieldDef?.label || fieldName,
+          value: String(value),
+          fieldType: fieldDef?.fieldType || "text",
+        };
+      });
 
     // Create the submission document
     const submissionDoc = {
@@ -143,6 +145,8 @@ export async function POST(request: NextRequest) {
       lastName: body.lastName || "",
       personalEmail: body.personalEmail || "",
       workEmail: body.workEmail || body.personalEmail || "",
+      phoneNumber: body.phoneNumber || "",
+      organization: body.organization || "",
       jobRole: body.jobRole || "",
       yearsOfExperience: body.yearsOfExperience || 0,
       formData: {
