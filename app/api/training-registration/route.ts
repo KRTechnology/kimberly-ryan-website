@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { client, adminClient } from "@/lib/sanity";
 import { TrainingRegistrationFormResponse } from "@/types/sanity";
+import { EmailService } from "@/lib/email";
 
 interface TrainingRegistrationFormData {
   registrationFormId: string;
@@ -166,17 +167,32 @@ export async function POST(request: NextRequest) {
     // Save to Sanity using admin client with write permissions
     const result = await adminClient.create(submissionDoc);
 
-    // Send notification email if configured
-    if (registrationForm.settings?.notificationEmail) {
-      // TODO: Implement email notification
-      console.log(
-        `New registration submission for ${registrationForm.training.title}:`,
-        {
-          submissionId: result._id,
-          registrant: `${body.firstName} ${body.lastName}`,
-          email: body.workEmail,
-          notificationEmail: registrationForm.settings.notificationEmail,
-        }
+    // Send email notification
+    try {
+      await EmailService.sendTrainingRegistrationNotification({
+        firstName: body.firstName || "",
+        lastName: body.lastName || "",
+        personalEmail: body.personalEmail || "",
+        workEmail: body.workEmail || body.personalEmail || "",
+        phoneNumber: body.phoneNumber,
+        organization: body.organization,
+        jobRole: body.jobRole || "",
+        yearsOfExperience: body.yearsOfExperience || 0,
+        formData: body.formData,
+        formFields: registrationForm.formFields,
+        trainingTitle: registrationForm.training.title,
+        registrationFormTitle: registrationForm.title,
+        submissionDate: new Date().toISOString(),
+        submissionId: result._id,
+        ipAddress: ipAddress,
+        userAgent: userAgent,
+        referrer: referrer,
+      });
+    } catch (emailError) {
+      // Log email error but don't fail the API call
+      console.error(
+        "Failed to send training registration email notification:",
+        emailError
       );
     }
 

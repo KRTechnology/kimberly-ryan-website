@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { submitNewsletterSubscription } from "@/lib/sanity";
+import { EmailService } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -24,6 +25,24 @@ export async function POST(request: Request) {
     });
 
     if (result.success) {
+      // Send email notification
+      try {
+        await EmailService.sendNewsletterSubscriptionNotification({
+          email: email,
+          source: source || "website_footer",
+          subscriptionDate: result.data?._createdAt || new Date().toISOString(),
+          subscriptionId: result.data?._id,
+          status: result.data?.status || "active",
+          isReactivation: result.reactivated || false,
+        });
+      } catch (emailError) {
+        // Log email error but don't fail the API call
+        console.error(
+          "Failed to send newsletter subscription email notification:",
+          emailError
+        );
+      }
+
       if (result.reactivated) {
         return NextResponse.json({
           success: true,

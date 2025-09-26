@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { submitContactForm } from "@/lib/sanity";
+import { EmailService } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -37,6 +38,28 @@ export async function POST(request: Request) {
     const result = await submitContactForm(body);
 
     if (result.success) {
+      // Send email notification
+      try {
+        await EmailService.sendContactFormNotification({
+          firstName: body.firstName,
+          lastName: body.lastName,
+          email: body.email,
+          phone: body.phone,
+          howDidYouHear: body.howDidYouHear,
+          serviceInterested: body.serviceInterested,
+          message: body.message,
+          agreeToPrivacy: body.agreeToPrivacy,
+          submissionDate: result.data?._createdAt || new Date().toISOString(),
+          submissionId: result.data?._id,
+        });
+      } catch (emailError) {
+        // Log email error but don't fail the API call
+        console.error(
+          "Failed to send contact form email notification:",
+          emailError
+        );
+      }
+
       return NextResponse.json({
         success: true,
         message: "Thank you for your message! We'll get back to you soon.",

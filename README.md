@@ -1,26 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kimberly Ryan Website
 
-## Getting Started
+A modern, responsive website for Kimberly Ryan built with Next.js 15, TypeScript, and Sanity CMS.
 
-First, run the development server:
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- Sanity account (for CMS)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd kimberly-ryan-website
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Setup environment variables**
+
+   ```bash
+   cp env.example .env.local
+   # Edit .env.local with your actual values
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the website.
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the [`docs/`](./docs/) folder:
+
+- **[Services Documentation](./docs/services/)** - Email service, Sanity CMS setup
+- **[Features Documentation](./docs/features/)** - Sitemap generation, training registration
+- **[Main Documentation Index](./docs/README.md)** - Complete documentation overview
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **CMS**: Sanity
+- **Email**: Resend + React Email
+- **Forms**: React Hook Form + Zod validation
+- **Animations**: Framer Motion
+
+## 🛠️ Development
+
+### Available Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Validation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Check your environment configuration:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run check:env
+```
 
-## Learn More
+### Project Structure
+
+```
+├── app/                    # Next.js app directory
+├── components/             # React components
+│   ├── common/            # Shared components
+│   ├── layout/            # Layout components
+│   ├── specific/          # Page-specific components
+│   └── emails/            # Email templates
+├── docs/                  # Documentation
+│   ├── services/          # Service documentation
+│   ├── features/          # Feature documentation
+│   └── sanity/            # Sanity CMS documentation
+├── lib/                   # Utility functions
+├── sanity/                # Sanity schemas and configuration
+└── types/                 # TypeScript type definitions
+```
+
+## 📖 Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
