@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { urlFor } from "@/lib/sanity";
 import { WhatsNew } from "@/types/sanity";
+import { sendGAEvent } from "@/lib/gtag";
 
 interface WhatsNewSectionProps {
   items: WhatsNew[];
@@ -60,6 +61,24 @@ const WhatsNewSection = ({ items }: WhatsNewSectionProps) => {
     featuredItem.contentType === "publication" ||
     featuredItem.contentType === "external";
 
+  // 🔥 GA TRACKING — Featured link click
+  const handleFeaturedClick = () => {
+    sendGAEvent("whats_new_featured_click", {
+      title: featuredItem.title,
+      type: featuredItem.contentType,
+      url: link,
+    });
+  };
+
+  // 🔥 GA TRACKING — More Updates item click
+  const handleItemClick = (item: WhatsNew, itemLink: string) => {
+    sendGAEvent("whats_new_item_click", {
+      title: item.title,
+      type: item.contentType,
+      url: itemLink,
+    });
+  };
+
   return (
     <section className="bg-white py-9 px-8 border-t border-[#EDECEB]">
       <div className="container mx-auto">
@@ -108,6 +127,7 @@ const WhatsNewSection = ({ items }: WhatsNewSectionProps) => {
 
               <Link
                 href={link}
+                onClick={handleFeaturedClick} // 🔥 TRACK FEATURED CLICK
                 target={shouldOpenInNewTab ? "_blank" : "_self"}
                 rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
                 className="inline-flex items-center text-[#EB821D] font-medium text-base hover:text-[#B56314] transition-colors duration-300"
@@ -149,9 +169,9 @@ const WhatsNewSection = ({ items }: WhatsNewSectionProps) => {
                   height={0}
                   sizes="100vw"
                   className="w-full h-auto rounded-lg shadow-md"
-                  style={{ 
+                  style={{
                     width: "100%",
-                    height: "auto"
+                    height: "auto",
                   }}
                   priority
                 />
@@ -183,6 +203,7 @@ const WhatsNewSection = ({ items }: WhatsNewSectionProps) => {
                     <Link
                       key={item._id}
                       href={itemLink}
+                      onClick={() => handleItemClick(item, itemLink)} // 🔥 TRACK ITEM CLICK
                       target={itemShouldOpenInNewTab ? "_blank" : "_self"}
                       rel={
                         itemShouldOpenInNewTab
