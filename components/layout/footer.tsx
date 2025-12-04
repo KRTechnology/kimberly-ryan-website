@@ -44,7 +44,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
             </p>
             <div className="space-y-2">
               <p className="text-sm">Phone: +234(0)9135827236</p>
-              <p className="text-sm">Email: info@kimberly-ryan.com</p>
+              <p className="text-sm">Email: info@kimberly-ryan.net</p>
             </div>
           </div>
 
