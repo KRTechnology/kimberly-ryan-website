@@ -38,10 +38,10 @@ const LearningDevelopmentCTA = ({ brochures }: LearningDevelopmentCTAProps) => {
               className="space-y-4 text-amberwood-50"
             >
               <h2 className="text-3xl lg:text-4xl xl:text-5xl font-semibold font-plex leading-tight">
-                Start your learning journey in 2025
+                Start your learning journey in 2026
               </h2>
               <p className="font-inter text-lg lg:text-xl leading-relaxed">
-                Download our 2025 training brochures
+                Download our 2026 training brochures
               </p>
             </motion.div>
 
@@ -73,10 +73,10 @@ const LearningDevelopmentCTA = ({ brochures }: LearningDevelopmentCTAProps) => {
               className="space-y-4"
             >
               <h2 className="text-2xl sm:text-3xl font-semibold text-white font-plex leading-tight">
-                Start your learning journey in 2025
+                Start your learning journey in 2026
               </h2>
               <p className="text-white/90 font-inter text-base sm:text-lg leading-relaxed">
-                Download our 2025 training brochures
+                Download our 2026 training brochures
               </p>
             </motion.div>
 
