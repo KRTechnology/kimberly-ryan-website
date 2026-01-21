@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const LearningDevelopmentStrategicLeadership = () => {
   return (
@@ -50,9 +51,11 @@ const LearningDevelopmentStrategicLeadership = () => {
                   viewport={{ once: true }}
                   className="pt-4"
                 >
+                  <Link href="/training">
                   <button className="px-6 py-3 bg-sunset-200 text-white rounded-lg hover:bg-sunset-300 transition-colors duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                     Learn more
                   </button>
+                  </Link>
                 </motion.div>
               </motion.div>
             </div>
