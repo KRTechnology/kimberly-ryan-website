@@ -66,7 +66,7 @@ const TrainingVideoSection = ({ trainingData }: TrainingVideoSectionProps) => {
                 <div className="relative pb-[56.25%] h-0">
                   {" "}
                   {/* 16:9 aspect ratio */}
-                  <iframe
+                  {/*<iframe
                     className="absolute top-0 left-0 w-full h-full"
                     src={videoEmbedUrl}
                     title="Training Program Overview"
@@ -74,7 +74,7 @@ const TrainingVideoSection = ({ trainingData }: TrainingVideoSectionProps) => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
-                  />
+                  />*/}
                 </div>
 
                 {/* Overlay for loading state */}
