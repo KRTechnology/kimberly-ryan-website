@@ -317,6 +317,49 @@ export default function ContactUsForm() {
                       />
                     </div>
                   </div>
+                  {/* Organization */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                      Organization <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      {...register("organization")}
+                      type="text"
+                      placeholder="Your company name"
+                      onFocus={handleFormInteraction}
+                      className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                        errors.organization ? "border-red-500" : "border-gray-200"
+                      }`}
+                    />
+                    {errors.organization && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.organization.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Designation */}
+                  <div>
+                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                      Designation <span className="text-orange-500">*</span>
+                    </label>
+                    <input
+                      {...register("designation")}
+                      type="text"
+                      placeholder="Your job title"
+                      onFocus={handleFormInteraction}
+                      className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                        errors.designation ? "border-red-500" : "border-gray-200"
+                      }`}
+                    />
+                    {errors.designation && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.designation.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
 
                   {/* How Did You Hear About Us */}
                   <div>
