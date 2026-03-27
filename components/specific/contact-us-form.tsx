@@ -19,6 +19,8 @@ const contactSchema = z.object({
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
+  organization: z.string().min(1, "Organization is required"),   // ← add this
+  designation: z.string().min(1, "Designation is required"),
   howDidYouHear: z.string().min(1, "Please select how you heard about us"),
   serviceInterested: z.string().min(1, "Please select a service"),
   message: z
