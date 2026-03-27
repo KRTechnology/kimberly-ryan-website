@@ -29,6 +29,18 @@ export const contactSubmission = defineType({
       type: "string",
     }),
     defineField({
+      name: "organization",
+      title: "Organization",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "designation",
+      title: "Designation / Job Title",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "howDidYouHear",
       title: "How Did You Hear About Us",
       type: "string",
@@ -115,9 +127,10 @@ export const contactSubmission = defineType({
       firstName: "firstName",
       lastName: "lastName",
       submissionDate: "submissionDate",
+      organization: "organization",
     },
     prepare(selection) {
-      const { title, subtitle, firstName, lastName, submissionDate } =
+      const { title, subtitle, firstName, lastName, submissionDate, organization } =
         selection;
       const formattedDate = submissionDate
         ? new Date(submissionDate).toLocaleDateString()
@@ -125,7 +138,7 @@ export const contactSubmission = defineType({
 
       return {
         title: `${firstName} ${lastName} (${title})`,
-        subtitle: `${subtitle} • ${formattedDate}`,
+        subtitle: `${organization} • ${subtitle} • ${formattedDate}`,
       };
     },
   },
