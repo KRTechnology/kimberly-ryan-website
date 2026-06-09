@@ -43,6 +43,12 @@ export const navItems: NavItem[] = [
         description: "Learn about our mission and values",
       },
       {
+        label: "KRSR",
+        href: "/about/krsr",
+        icon: Handshake,
+        description: "Learn about our Social responsibility",
+      },
+      {
         label: "Our People",
         href: "/about/our-people",
         icon: UserCircle,
