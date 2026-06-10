@@ -1,4 +1,3 @@
-import "./krsr-styles.css";
 import Hero         from "@/components/specific/krsr-hero";
 import About        from "@/components/specific/krsr-about";
 import Schools      from "@/components/specific/krsr-schools";
