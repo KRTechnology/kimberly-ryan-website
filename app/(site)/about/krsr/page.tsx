@@ -1,4 +1,4 @@
-import KRSRPage from "@/components/KRSRPage";
+import KRSRPage from "./KRSRPage";
 
 export const metadata = {
   title: "KRSR – Kimberly Ryan Social Responsibility",
