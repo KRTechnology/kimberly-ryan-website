@@ -10,6 +10,7 @@ import {
   User,
   UserCircle,
   Users,
+  Blocks,
   LifeBuoy,
   Calendar,
 } from "lucide-react";
@@ -45,7 +46,7 @@ export const navItems: NavItem[] = [
       {
         label: "KRSR",
         href: "/about/krsr",
-        icon: Handshake,
+        icon: Blocks,
         description: "Learn about our Social responsibility",
       },
       {
