@@ -1,17 +1,17 @@
 import "./krsr-styles.css";
-import Hero         from "./components/Hero";
-import About        from "./components/About";
-import Schools      from "./components/Schools";
-import Topics       from "./components/Topics";
-import Testimonials from "./components/Testimonials";
-import Gallery      from "./components/Gallery";
-import Goals        from "./components/Goals";
-import Documents    from "./components/Documents";
-import CTA          from "./components/CTA";
+import Hero         from "@/components/specific/krsr-hero";
+import About        from "@/components/specific/krsr-about";
+import Schools      from "@/components/specific/krsr-schools";
+import Topics       from "@/components/specific/krsr-topics";
+import Testimonials from "@/components/specific/krsr-testimonials";
+import Gallery      from "@/components/specific/krsr-gallery";
+import Goals        from "@/components/specific/krsr-goals";
+import Documents    from "@/components/specific/krsr-documents";
+import CTA          from "@/components/specific/krsr-cta";
 
 export default function KRSRPage() {
   return (
-    <>
+    <main>
       <Hero />
       <About />
       <Schools />
@@ -21,6 +21,6 @@ export default function KRSRPage() {
       <Goals />
       <Documents />
       <CTA />
-    </>
+    </main>
   );
 }
