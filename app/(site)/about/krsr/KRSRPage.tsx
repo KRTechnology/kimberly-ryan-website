@@ -225,7 +225,7 @@ const Hero: React.FC = () => (
       Kimberly Ryan Social Responsibility
     </span>
 
-    <h1 className="mb-4 max-w-2xl font-serif text-4xl font-bold leading-tight text-white md:text-5xl">
+    <h1 className="mb-4 max-w-2xl font-sans text-4xl font-bold leading-tight text-white md:text-5xl">
       Shaping Careers.
       <br />
       <span className="text-[#E87722]">Building Futures.</span>
@@ -249,7 +249,7 @@ const Hero: React.FC = () => (
         ] as [string, string][]
       ).map(([num, label]) => (
         <div key={label}>
-          <p className="font-serif text-3xl font-bold text-[#E87722]">{num}</p>
+          <p className="font-sans text-3xl font-bold text-[#E87722]">{num}</p>
           <p className="mt-1 text-[0.68rem] uppercase tracking-wide text-white/50">{label}</p>
         </div>
       ))}
@@ -264,7 +264,7 @@ const About: React.FC = () => (
         <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
           About KRSR
         </p>
-        <h2 className="mb-4 font-serif text-3xl font-bold leading-tight text-[#2C2A27] md:text-4xl">
+        <h2 className="mb-4 font-sans text-3xl font-bold leading-tight text-[#2C2A27] md:text-4xl">
           Bridging the Gap Between Campus &amp; Career
         </h2>
         <p className="mb-7 max-w-lg text-sm leading-relaxed text-[#5A5550]">
@@ -305,7 +305,7 @@ const Schools: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       Where We&apos;ve Been
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-[#2C2A27] md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-[#2C2A27] md:text-4xl">
       The Mission.
     </h2>
     <p className="mb-12 max-w-lg text-sm leading-relaxed text-[#5A5550]">
@@ -329,7 +329,7 @@ const Schools: React.FC = () => (
           </div>
 
           <div className="p-5">
-            <h3 className="mb-3 font-serif text-base font-bold text-[#2C2A27]">{school.name}</h3>
+            <h3 className="mb-3 font-sans text-base font-bold text-[#2C2A27]">{school.name}</h3>
             <ul className="flex flex-col gap-1.5">
               {school.checks.map((c) => (
                 <li key={c} className="flex items-start gap-2 text-xs leading-snug text-[#5A5550]">
@@ -350,7 +350,7 @@ const Topics: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       What We Teach
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-white md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-white md:text-4xl">
       Topics That Transform
     </h2>
     <p className="mb-12 max-w-lg text-sm leading-relaxed text-white/60">
@@ -364,7 +364,7 @@ const Topics: React.FC = () => (
           key={topic}
           className="rounded-xl border border-white/[0.08] bg-white/[0.05] p-6 transition-colors duration-200 hover:border-[#E87722]/30 hover:bg-[#E87722]/10"
         >
-          <p className="mb-3 font-serif text-2xl font-bold text-[#E87722]/30">
+          <p className="mb-3 font-sans text-2xl font-bold text-[#E87722]/30">
             {String(i + 1).padStart(2, "0")}
           </p>
           <h4 className="text-sm font-semibold leading-snug text-white">{topic}</h4>
@@ -379,7 +379,7 @@ const Testimonials: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       Student Voices
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-[#2C2A27] md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-[#2C2A27] md:text-4xl">
       What They Said
     </h2>
     <p className="mb-12 max-w-lg text-sm leading-relaxed text-[#5A5550]">
@@ -390,7 +390,7 @@ const Testimonials: React.FC = () => (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {testimonials.map((t, i) => (
         <div key={i} className="relative rounded-2xl bg-[#F4F2EE] p-7">
-          <span className="pointer-events-none absolute left-5 top-2 font-serif text-6xl leading-none text-[#E87722]/20">
+          <span className="pointer-events-none absolute left-5 top-2 font-sans text-6xl leading-none text-[#E87722]/20">
             &ldquo;
           </span>
           <p className="relative z-10 mt-5 text-xs italic leading-relaxed text-[#2C2A27]">
@@ -409,7 +409,7 @@ const Gallery: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       Event Gallery
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-[#2C2A27] md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-[#2C2A27] md:text-4xl">
       Moments That Matter
     </h2>
     <p className="mb-10 max-w-lg text-sm leading-relaxed text-[#5A5550]">
@@ -444,7 +444,7 @@ const Goals: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       Looking Ahead
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-white md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-white md:text-4xl">
       Our 5-Year Impact Goals
     </h2>
     <p className="mb-12 max-w-lg text-sm leading-relaxed text-white/60">
@@ -458,7 +458,7 @@ const Goals: React.FC = () => (
           key={g.num}
           className="rounded-r-2xl border-l-4 border-[#E87722] bg-white/5 p-7 transition-colors duration-200 hover:bg-white/[0.08]"
         >
-          <p className="mb-2 font-serif text-4xl font-bold text-[#E87722]">{g.num}</p>
+          <p className="mb-2 font-sans text-4xl font-bold text-[#E87722]">{g.num}</p>
           <p className="text-sm leading-relaxed text-white/70">{g.desc}</p>
         </div>
       ))}
@@ -471,7 +471,7 @@ const Documents: React.FC = () => (
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
       Resources
     </p>
-    <h2 className="mb-3 font-serif text-3xl font-bold text-[#2C2A27] md:text-4xl">
+    <h2 className="mb-3 font-sans text-3xl font-bold text-[#2C2A27] md:text-4xl">
       Download Our Reports
     </h2>
     <p className="mb-12 max-w-lg text-sm leading-relaxed text-[#5A5550]">
@@ -518,7 +518,7 @@ const Documents: React.FC = () => (
 
 const CTA: React.FC = () => (
   <section className="bg-[#E87722] px-10 py-20 text-center md:px-16">
-    <h2 className="mb-4 font-serif text-3xl font-bold text-white md:text-4xl">
+    <h2 className="mb-4 font-sans text-3xl font-bold text-white md:text-4xl">
       Partner With Us to Shape Nigeria&apos;s Future
     </h2>
     <p className="mx-auto mb-8 max-w-xl whitespace-pre-line text-sm leading-loose text-white/85">
