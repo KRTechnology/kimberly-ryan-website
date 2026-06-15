@@ -78,9 +78,9 @@ export async function POST(req: Request) {
 
     // ── Send backup email via Resend ──
     await resend.emails.send({
-      from:    "KRSR Registrations <onboarding@resend.dev>", // ← replace with your verified Resend sender
+      from:    "Roundtable Registrations <info@kimberly-ryan.net>", // ← replace with your verified Resend sender
       to:      process.env.REGISTRATION_EMAIL ?? "",
-      subject: `New KRSR Registration — ${firstName} ${lastName}`,
+      subject: `New Roundtable Registration — ${firstName} ${lastName}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#2C2A27">
 
