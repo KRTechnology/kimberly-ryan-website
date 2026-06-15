@@ -66,7 +66,7 @@ export default function RegistrationPage() {
     setError("");
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/hr-roundtable/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
