@@ -89,11 +89,9 @@ export default function RegistrationPage() {
     <main className="min-h-screen bg-[#F4F2EE]">
       {/* ── Header band ── */}
       <div className="bg-[#3A3530] px-6 py-14 text-center">
-        <span className="mb-4 inline-block rounded-full bg-[#E87722]/20 px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
-          KRSR — Career Pathway 360
-        </span>
+        
         <h1 className="font-sans text-3xl font-bold text-white md:text-4xl">
-          Register Your Interest
+          Register For The Roundtable
         </h1>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/60">
           Fill in your details below and a member of our team will be in touch with next steps.
@@ -105,9 +103,6 @@ export default function RegistrationPage() {
         {status === "success" ? (
           /* ── Success state ── */
           <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
-            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#E87722]/10 text-3xl">
-              ✅
-            </div>
             <h2 className="mb-2 text-xl font-bold text-[#2C2A27]">Registration Received</h2>
             <p className="text-sm leading-relaxed text-[#5A5550]">
               Thank you for registering. We&apos;ve received your details and will be in touch shortly.
