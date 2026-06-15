@@ -40,13 +40,13 @@ const fields: {
   required: boolean;
   half?: boolean;
 }[] = [
-  { key: "firstName",     label: "First Name",             type: "text",  placeholder: "e.g. Amara",                 required: true,  half: true },
-  { key: "lastName",      label: "Last Name",              type: "text",  placeholder: "e.g. Okafor",                required: true,  half: true },
-  { key: "email",         label: "Email Address",          type: "email", placeholder: "e.g. amara@gmail.com",       required: true,  half: true },
-  { key: "phone",         label: "Phone Number",           type: "tel",   placeholder: "e.g. +234 800 000 0000",    required: true,  half: true },
-  { key: "organization",  label: "Organization",           type: "text",  placeholder: "e.g. Acme Ltd",             required: true,  half: true },
-  { key: "jobTitle",      label: "Job Title",              type: "text",  placeholder: "e.g. HR Manager",           required: true,  half: true },
-  { key: "officialEmail", label: "Official Email Address", type: "email", placeholder: "e.g. amara@acmeltd.com",    required: true,  half: false },
+  { key: "firstName",     label: "First Name",             type: "text",  placeholder: "Enter First Name",                 required: true,  half: true },
+  { key: "lastName",      label: "Last Name",              type: "text",  placeholder: "Enter Last Name",                required: true,  half: true },
+  { key: "email",         label: "Email Address",          type: "email", placeholder: "Enter Email Address",       required: true,  half: true },
+  { key: "phone",         label: "Phone Number",           type: "tel",   placeholder: "Enter Phone Number",    required: true,  half: true },
+  { key: "organization",  label: "Organization",           type: "text",  placeholder: "Enter Organization",             required: true,  half: true },
+  { key: "jobTitle",      label: "Job Title",              type: "text",  placeholder: "Enter Job Title",           required: true,  half: true },
+  { key: "officialEmail", label: "Official Email Address", type: "email", placeholder: "Enter Official Email",    required: true,  half: false },
   { key: "city",          label: "City",                   type: "text",  placeholder: "e.g. Lagos",                required: true,  half: true },
   { key: "country",       label: "Country / Region",       type: "text",  placeholder: "e.g. Nigeria",              required: true,  half: true },
 ];
