@@ -88,10 +88,10 @@ export default function RegistrationPage() {
   return (
     <main className="min-h-screen bg-[#F4F2EE]">
       {/* ── Header band ── */}
-      <div className="bg-[#3A3530] px-6 py-14 text-center">
+      <div className="bg-[#3A3530] px-6 pb-16 pt-24 text-center">
         
         <h1 className="font-sans text-3xl font-bold text-white md:text-4xl">
-          Register For The Roundtable
+          Register For The HR Roundtable
         </h1>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/60">
           Fill in your details below and a member of our team will be in touch with next steps.
