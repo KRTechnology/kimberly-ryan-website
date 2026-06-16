@@ -91,7 +91,7 @@ export default function RegistrationPage() {
       <div className="bg-[#3A3530] px-6 pb-16 pt-24 text-center">
         
         <h1 className="font-sans text-3xl font-bold text-white md:text-4xl">
-          Register For The HR Roundtable
+          Register for the Building Career Resilience in the Era of AI and Automation Roundtable Discussion
         </h1>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/60">
           Fill in your details below and a member of our team will be in touch with next steps.
