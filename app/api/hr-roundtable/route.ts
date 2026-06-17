@@ -140,10 +140,10 @@ await resend.emails.send({
       <div style="background:#3A3530;padding:32px;border-radius:12px 12px 0 0;text-align:center">
         <p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:2px;
                   text-transform:uppercase;color:#E87722">
-          HR ROUNDTABLE
+          JULY ROUNDTABLE DISCUSSION
         </p>
         <h1 style="margin:0;font-size:22px;font-weight:700;color:#ffffff">
-          Registration Confirmed ✓
+          Registration Confirmed
         </h1>
       </div>
 
