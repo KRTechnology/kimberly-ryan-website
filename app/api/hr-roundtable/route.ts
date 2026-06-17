@@ -86,7 +86,7 @@ await resend.emails.send({
       <div style="background:#3A3530;padding:28px 32px;border-radius:12px 12px 0 0">
         <p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:2px;
                   text-transform:uppercase;color:#E87722">
-          KRSR — Career Pathway 360
+          Roundtable Registration
         </p>
         <h1 style="margin:0;font-size:20px;font-weight:700;color:#ffffff">
           New Registration Received
