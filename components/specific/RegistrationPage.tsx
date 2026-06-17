@@ -98,8 +98,17 @@ export default function RegistrationPage() {
         </p>
       </div>
 
+      {/* ── Roundtable image ── */}
+      <div className="mx-auto max-w-2xl px-4 pt-14">
+        <img
+          src="/images/roundtable-image.jpeg"
+          alt="Building Career Resilience in the Era of AI and Automation – A Virtual HR Round Table"
+          className="w-full rounded-2xl shadow-sm"
+        />
+      </div>
+
       {/* ── Form card ── */}
-      <div className="mx-auto max-w-2xl px-4 py-14">
+      <div className="mx-auto max-w-2xl px-4 py-10">
         {status === "success" ? (
           /* ── Success state ── */
           <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
