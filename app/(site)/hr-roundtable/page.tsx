@@ -5,8 +5,8 @@
 import RegistrationPage from "@/components/specific/RegistrationPage";
 
 export const metadata = {
-  title: "Register – KRSR Career Pathway 360",
-  description: "Register your interest in the KRSR Career Pathway 360 programme.",
+  title: "Register – HR Roundtable",
+  description: "Register your interest in the Building Career Resilience in the Era of AI and Automation Roundtable Discussion.",
 };
 
 export default function Page() {
