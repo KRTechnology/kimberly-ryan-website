@@ -483,33 +483,16 @@ const Documents: React.FC = () => (
       {docs.map((d) => (
         <div
           key={d.title}
-          className="flex items-start gap-5 rounded-2xl bg-white p-7 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
+          className="rounded-2xl bg-white p-7 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
         >
-          <div
-            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-2xl ${
-              d.cls === "pptx" ? "bg-[#E87722]/10" : "bg-blue-600/10"
-            }`}
+          <h4 className="mb-2 text-sm font-bold text-[#2C2A27]">{d.title}</h4>
+          <p className="mb-4 text-xs leading-relaxed text-[#5A5550]">{d.desc}</p>
+          <a
+            href={d.href}
+            className="inline-flex items-center gap-1.5 rounded bg-[#E87722] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#F5A44A]"
           >
-            {d.icon}
-          </div>
-          <div>
-            <h4 className="mb-2 text-sm font-bold text-[#2C2A27]">{d.title}</h4>
-            <p className="mb-4 text-xs leading-relaxed text-[#5A5550]">{d.desc}</p>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href={d.href}
-                className="inline-flex items-center gap-1.5 rounded bg-[#E87722] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#F5A44A]"
-              >
-                ↓ {d.dl}
-              </a>
-              <a
-                href={d.href}
-                className="inline-flex items-center gap-1.5 rounded border-2 border-[#E87722] px-4 py-2 text-xs font-semibold text-[#E87722] transition-colors hover:bg-[#E87722]/10"
-              >
-                View Online
-              </a>
-            </div>
-          </div>
+            ↓ {d.dl}
+          </a>
         </div>
       ))}
     </div>
@@ -527,9 +510,6 @@ const CTA: React.FC = () => (
     <div className="flex flex-wrap justify-center gap-4">
       <button className="rounded bg-white px-8 py-3 text-sm font-bold text-[#E87722] transition-colors hover:bg-white/90">
         Partner With Us
-      </button>
-      <button className="rounded border-2 border-white/70 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-white">
-        Schedule a Consultation
       </button>
     </div>
   </section>
