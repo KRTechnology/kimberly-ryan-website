@@ -154,6 +154,7 @@ const goals: Goal[] = [
 const docs: DocItem[] = [
   {
     cls: "pptx",
+    icon: "📊",
     title: "KRSR 2025 Impact Report",
     desc: "A comprehensive presentation covering our vision, school engagements, student feedback, facilitator profiles, and 5-year impact goals.",
     dl: "Download PPTX",
@@ -161,6 +162,7 @@ const docs: DocItem[] = [
   },
   {
     cls: "docx",
+    icon: "📊",
     title: "KRSR Career Pathway 360 — Impact Highlight 2025–2026",
     desc: "A detailed document covering all 6 schools, session design, student quotes, feedback data, and the road ahead.",
     dl: "Download DOCX",
