@@ -79,6 +79,15 @@ export default function RegistrationPage() {
 
       setStatus("success");
       setForm(initialForm);
+
+
+      if (typeof window !== "undefined" && (window as any).lintrk) {
+        (window as any).lintrk("track", {
+          conversion_id: 28491122,
+        });
+      }
+
+      
     } catch (err: unknown) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
