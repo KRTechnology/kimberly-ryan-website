@@ -26,8 +26,6 @@ interface Goal {
 }
 
 interface DocItem {
-  cls: string;
-  icon: string;
   title: string;
   desc: string;
   dl: string;
@@ -153,22 +151,19 @@ const goals: Goal[] = [
 
 const docs: DocItem[] = [
   {
-    cls: "pptx",
-    icon: "📊",
     title: "KRSR 2025 Impact Report",
     desc: "A comprehensive presentation covering our vision, school engagements, student feedback, facilitator profiles, and 5-year impact goals.",
-    dl: "Download PDF",
-    href: "./krsr/docs/KRSR_Impact_Report.pdf", // ← replace with your hosted file URL
+    dl: "Download PPTX",
+    href: "https://mega.nz/file/JNBkCBJa#_RqOnaOyUMQkkkIffzK1ULHzqnkvo-3WYh8xdunZrV4",
   },
   {
-    cls: "docx",
-    icon: "📊",
     title: "KRSR Career Pathway 360 — Impact Highlight 2025–2026",
     desc: "A detailed document covering all 6 schools, session design, student quotes, feedback data, and the road ahead.",
-    dl: "Download PDF",
-    href: "./krsr/docs/KRSR_Impact_Highlight.pdf", // ← replace with your hosted file URL
+    dl: "Download DOCX",
+    href: "https://mega.nz/file/YZwRHQyR#F1FFYCXUanyoQ6zAuZ2kqNJqx6uSSCMSBzLOg6qed30",
   },
 ];
+
 
 // ─────────────────────────────────────────────
 // SMALL SHARED COMPONENTS
@@ -300,6 +295,27 @@ const About: React.FC = () => (
   </section>
 );
 
+const highlights = [
+  {
+    name: "Bells University",
+    badge: "University",
+    stat: "105 Students",
+    desc: "Pre-event surveys, interactive career discovery sessions, and strong demand for mentorship and internship opportunities.",
+  },
+  {
+    name: "NUTM",
+    badge: "Postgraduate",
+    stat: "MSc & MBA",
+    desc: "Executive-level career mapping sessions with mid-career professionals exploring transitions and leadership presence.",
+  },
+  {
+    name: "CMS Grammar School",
+    badge: "Secondary",
+    stat: "Future Leaders",
+    desc: "Early career awareness, professional discovery, and mentorship Q&A introducing students to real-world pathways.",
+  },
+];
+
 const Schools: React.FC = () => (
   <section id="schools" className="bg-[#F4F2EE] px-10 py-20 md:px-16">
     <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[2px] text-[#E87722]">
@@ -308,40 +324,47 @@ const Schools: React.FC = () => (
     <h2 className="mb-3 font-sans text-3xl font-bold text-[#2C2A27] md:text-4xl">
       The Mission.
     </h2>
-    <p className="mb-12 max-w-lg text-sm leading-relaxed text-[#5A5550]">
-      From bustling university halls to secondary school classrooms, KRSR has carried its
-      message across Lagos and beyond.
+    <p className="mb-10 max-w-lg text-sm leading-relaxed text-[#5A5550]">
+      From university halls to secondary school classrooms, KRSR has carried its message
+      of career empowerment across Lagos and beyond — and we&apos;re just getting started.
     </p>
 
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {schools.map((school) => (
-        <div
-          key={school.name}
-          className="overflow-hidden rounded-2xl bg-white shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
-        >
-          {/* photo placeholder */}
-          <div className="relative flex h-40 flex-col items-center justify-center gap-2 bg-[#e2ddd7] text-[#b0a89e]">
-            <span className="absolute left-2.5 top-2.5 rounded-full bg-[#E87722] px-2.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-white">
-              {school.badge}
-            </span>
-            <GalleryIcon />
-            <span className="text-xs font-medium">{school.name}</span>
-          </div>
+    {/* stat banner */}
+    <div className="mb-12 flex flex-wrap items-center gap-6 rounded-2xl bg-[#3A3530] px-8 py-6">
+      <div className="flex items-end gap-3">
+        <span className="font-sans text-5xl font-bold text-[#E87722]">6+</span>
+        <span className="mb-1.5 text-sm font-semibold text-white">Schools &amp; Counting</span>
+      </div>
+      <div className="h-10 w-px bg-white/10 max-sm:hidden" />
+      <p className="max-w-md text-sm leading-relaxed text-white/60">
+        We&apos;ve visited universities, postgraduate institutions, and secondary schools — 
+        with more partnerships being confirmed every week.
+      </p>
+    </div>
 
-          <div className="p-5">
-            <h3 className="mb-3 font-sans text-base font-bold text-[#2C2A27]">{school.name}</h3>
-            <ul className="flex flex-col gap-1.5">
-              {school.checks.map((c) => (
-                <li key={c} className="flex items-start gap-2 text-xs leading-snug text-[#5A5550]">
-                  <span className="mt-px shrink-0 font-bold text-green-500">✓</span>
-                  {c}
-                </li>
-              ))}
-            </ul>
+    {/* highlight cards */}
+    <div className="grid gap-5 sm:grid-cols-3">
+      {highlights.map((h) => (
+        <div
+          key={h.name}
+          className="rounded-2xl bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <span className="rounded-full bg-[#E87722] px-3 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-white">
+              {h.badge}
+            </span>
+            <span className="text-xs font-semibold text-[#E87722]">{h.stat}</span>
           </div>
+          <h3 className="mb-2 font-sans text-base font-bold text-[#2C2A27]">{h.name}</h3>
+          <p className="text-xs leading-relaxed text-[#5A5550]">{h.desc}</p>
         </div>
       ))}
     </div>
+
+    <p className="mt-8 text-center text-xs text-[#b0a89e]">
+      Institutions visited include Bells University, Covenant University, NUTM, 
+      Saint Gregory&apos;s College, Holy Child Secondary School, and CMS Grammar School.
+    </p>
   </section>
 );
 
