@@ -16,7 +16,6 @@ interface FormData {
   partnershipType: string;
   howDidYouHear:   string;
   message:         string;
-  agreeToPrivacy:  boolean;
 }
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
@@ -31,7 +30,6 @@ const initialForm: FormData = {
   partnershipType: "",
   howDidYouHear:   "",
   message:         "",
-  agreeToPrivacy:  false,
 };
 
 const partnershipOptions = [
@@ -251,25 +249,7 @@ export default function PartnerPage() {
                     className={`${inputClass} resize-none`} />
                 </div>
 
-                {/* Privacy checkbox */}
-                <div className="sm:col-span-2">
-                  <label className="flex cursor-pointer items-start gap-3">
-                    <input type="checkbox" name="agreeToPrivacy"
-                      checked={form.agreeToPrivacy} onChange={handleChange}
-                      required
-                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#E87722]" />
-                    <span className="text-xs leading-relaxed text-[#5A5550]">
-                      I agree to the{" "}
-                      <a href="/privacy-policy"
-                        className="font-semibold text-[#E87722] underline underline-offset-2">
-                        Privacy Policy
-                      </a>{" "}
-                      and consent to Kimberly Ryan storing my information for the
-                      purpose of this enquiry. <span className="text-[#E87722]">*</span>
-                    </span>
-                  </label>
-                </div>
-
+               
               </div>
 
               {/* Error message */}
