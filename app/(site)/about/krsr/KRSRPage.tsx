@@ -4,6 +4,7 @@
 // No separate CSS file needed — all styles use Tailwind utility classes.
 
 import React from "react";
+import Link from "next/link";
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -531,9 +532,9 @@ const CTA: React.FC = () => (
       {`KRSR welcomes strategic partners committed to advancing youth development and strengthening workforce readiness across Nigeria.\n\nSponsorship opportunities can include in-kind support like learning resources, technology solutions, and placement for interns.\n\nTo explore partnership opportunities, connect with our team.`}
     </p>
     <div className="flex flex-wrap justify-center gap-4">
-      <button className="rounded bg-white px-8 py-3 text-sm font-bold text-[#E87722] transition-colors hover:bg-white/90">
+      <Link href="/krsr-partner" className="rounded bg-white px-8 py-3 text-sm font-bold text-[#E87722] transition-colors hover:bg-white/90">
         Partner With Us
-      </button>
+      </Link>
     </div>
   </section>
 );
