@@ -44,7 +44,6 @@ export async function POST(req: Request) {
       partnershipType,
       howDidYouHear,
       message,
-      agreeToPrivacy,
     } = body;
 
     // ── Server-side validation ──
@@ -56,12 +55,6 @@ export async function POST(req: Request) {
     if (required.some((v) => !v || String(v).trim() === "")) {
       return NextResponse.json(
         { message: "All fields are required." },
-        { status: 400 }
-      );
-    }
-    if (!agreeToPrivacy) {
-      return NextResponse.json(
-        { message: "You must agree to the privacy policy." },
         { status: 400 }
       );
     }
@@ -78,7 +71,6 @@ export async function POST(req: Request) {
       partnershipType,
       howDidYouHear,
       message,
-      agreeToPrivacy,
       submissionDate:  new Date().toISOString(),
       status:          "new",
       source:          "krsr_website",
