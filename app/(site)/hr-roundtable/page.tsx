@@ -2,6 +2,7 @@
 // Create a new folder: app/register/
 // Then save this file inside it as page.tsx
 
+/*
 import RegistrationPage from "@/components/specific/RegistrationPage";
 
 export const metadata = {
@@ -12,3 +13,4 @@ export const metadata = {
 export default function Page() {
   return <RegistrationPage />;
 }
+*/
