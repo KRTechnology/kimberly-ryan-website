@@ -1,3 +1,4 @@
+/*
 
 import { NextResponse } from "next/server";
 import { google }       from "googleapis";
@@ -225,3 +226,5 @@ await resend.emails.send({
     );
   }
 }
+
+*/
