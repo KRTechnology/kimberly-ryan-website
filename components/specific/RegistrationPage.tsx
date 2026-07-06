@@ -2,6 +2,7 @@
 // Drop this into your components/ folder.
 // Then create app/register/page.tsx and import this component.
 
+/*
 "use client";
 
 import { useState } from "react";
@@ -96,7 +97,7 @@ export default function RegistrationPage() {
 
   return (
     <main className="min-h-screen bg-[#F4F2EE]">
-      {/* ── Header band ── */}
+      {// ── Header band ── }
       <div className="bg-[#3A3530] px-6 pb-16 pt-24 text-center">
         
         <h1 className="font-sans text-3xl font-bold text-white md:text-4xl">
@@ -107,7 +108,7 @@ export default function RegistrationPage() {
         </p>
       </div>
 
-      {/* ── Roundtable image ── */}
+      {// ── Roundtable image ── }
       <div className="mx-auto max-w-2xl px-4 pt-14">
         <img
           src="/images/roundtable-image.jpeg"
@@ -116,10 +117,10 @@ export default function RegistrationPage() {
         />
       </div>
 
-      {/* ── Form card ── */}
+      {// ── Form card ── }
       <div className="mx-auto max-w-2xl px-4 py-10">
         {status === "success" ? (
-          /* ── Success state ── */
+          // ── Success state ── 
           <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
             <h2 className="mb-2 text-xl font-bold text-[#2C2A27]">Registration Received</h2>
             <p className="text-sm leading-relaxed text-[#5A5550]">
@@ -133,7 +134,7 @@ export default function RegistrationPage() {
             </button>
           </div>
         ) : (
-          /* ── Form ── */
+          // ── Form ── 
           <div className="rounded-2xl bg-white p-8 shadow-sm md:p-10">
             <form onSubmit={handleSubmit} noValidate>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -165,14 +166,14 @@ export default function RegistrationPage() {
                 ))}
               </div>
 
-              {/* Error message */}
+              {// Error message }
               {status === "error" && (
                 <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
                   {error}
                 </div>
               )}
 
-              {/* Submit */}
+              {// Submit }
               <button
                 type="submit"
                 disabled={status === "submitting"}
@@ -191,3 +192,6 @@ export default function RegistrationPage() {
     </main>
   );
 }
+
+
+*/
