@@ -2,7 +2,7 @@
 // Drop this into your components/ folder.
 // Then create app/register/page.tsx and import this component.
 
-/*
+
 "use client";
 
 import { useState } from "react";
@@ -193,5 +193,3 @@ export default function RegistrationPage() {
   );
 }
 
-
-*/
