@@ -2,7 +2,7 @@
 // Create the folder: app/(site)/privacy-policy/
 // Then save this file inside it as page.tsx
 
-import PrivacyPolicyPage from "@/components/specific/PrivacyPolicyPage.tsx";
+import PrivacyPolicyPage from "@/components/specific/PrivacyPolicyPage";
 
 export const metadata = {
   title: "Privacy Policy | Kimberly Ryan",
