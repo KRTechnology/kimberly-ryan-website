@@ -102,10 +102,19 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
 
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-400 mb-4 md:mb-0">
-              © 2025 KIMBERLY RYAN LIMITED, ALL RIGHTS RESERVED
-            </p>
+            <div className="flex flex-col md:flex-row justify-between items-center">
+                <div className="flex flex-col md:flex-row items-center gap-4 mb-4 md:mb-0">
+                  <p className="text-sm text-gray-400">
+                    © 2025 KIMBERLY RYAN LIMITED, ALL RIGHTS RESERVED
+                  </p>
+                  <span className="hidden md:block text-gray-600">|</span>
+                  <Link
+                    href="/privacy-policy"
+                    className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    Privacy Policy
+                  </Link>
+                </div>
             <div className="flex space-x-6">
               <Link
                 key="facebook"
