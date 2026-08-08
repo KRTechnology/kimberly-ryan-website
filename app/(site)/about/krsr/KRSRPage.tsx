@@ -5,6 +5,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -443,9 +444,8 @@ const Gallery: React.FC = () => (
     {/* grid: featured cell spans 2 cols × 2 rows */}
     <div className="grid grid-cols-2 grid-rows-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "200px" }}>
       {/* featured */}
-      <div className="col-span-2 row-span-2 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#e2ddd7] text-[#a09890]">
-        {/* Replace with <Image src="..." alt="..." fill className="object-cover rounded-2xl" /> */}
-        <Image src="/images/krsr-nav-the-future.JPG" alt="KR at CMS Grammar school 2026" fill className="object-cover rounded-2xl" />
+      <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-[#e2ddd7]">
+        <Image src="/images/krsr-nav-the-future.JPG" alt="KR at CMS Grammar school 2026" fill className="object-cover" />
       </div>
 
       {["Event photo", "Event photo", "Event photo", "Event photo"].map((label, i) => (
