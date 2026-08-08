@@ -291,7 +291,7 @@ const About: React.FC = () => (
       </div>
 
       {/* Replace with <Image src="..." alt="..." fill className="object-cover" /> when ready */}
-      <ImagePlaceholder label="Event photo goes here" className="h-80 md:h-[380px]" />
+      <Image src="/images/krsr-hero-img.JPG" alt="KR at NUTM 2026" fill className="object-cover" />
     </div>
   </section>
 );
@@ -445,8 +445,7 @@ const Gallery: React.FC = () => (
       {/* featured */}
       <div className="col-span-2 row-span-2 flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#e2ddd7] text-[#a09890]">
         {/* Replace with <Image src="..." alt="..." fill className="object-cover rounded-2xl" /> */}
-        <GalleryIcon size={32} />
-        <span className="text-xs font-medium">Featured photo</span>
+        <Image src="/images/krsr-nav-the-future.JPG" alt="KR at CMS Grammar school 2026" fill className="object-cover rounded-2xl" />
       </div>
 
       {["Event photo", "Event photo", "Event photo", "Event photo"].map((label, i) => (
