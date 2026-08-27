@@ -291,8 +291,9 @@ const About: React.FC = () => (
         </div>
       </div>
 
-      {/* Replace with <Image src="..." alt="..." fill className="object-cover" /> when ready */}
-      <Image src="/images/krsr-hero-img.JPG" alt="KR at NUTM 2026" fill className="object-cover" />
+       <div className="relative h-[420px] w-full overflow-hidden rounded-2xl">
+        <Image src="/images/krsr-hero-img.JPG" alt="KR at NUTM 2026" fill className="object-cover" />
+      </div>
     </div>
   </section>
 );
