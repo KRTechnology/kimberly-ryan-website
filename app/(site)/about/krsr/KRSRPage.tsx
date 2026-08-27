@@ -442,23 +442,33 @@ const Gallery: React.FC = () => (
       Scenes from our Career Clinics across institutions.
     </p>
 
-    {/* grid: featured cell spans 2 cols × 2 rows */}
-    <div className="grid grid-cols-2 grid-rows-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "200px" }}>
-      {/* featured */}
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "200px" }}>
+
+      {/* Featured — spans 2 cols × 2 rows — replace src with your image */}
       <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/krsr-nav-the-future.JPG" alt="KR at CMS Grammar school 2026" fill className="object-cover" />
+        <Image src="/images/krsr-nav-the-future.JPG" alt="KRSR Event" fill className="object-cover" />
       </div>
 
-      {["Event photo", "Event photo", "Event photo", "Event photo"].map((label, i) => (
-        <div
-          key={i}
-          className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-[#e2ddd7] text-[#a09890]"
-        >
-          {/* Replace with <Image src="..." alt="..." fill className="object-cover rounded-2xl" /> */}
-          <GalleryIcon size={22} />
-          <span className="text-xs font-medium">{label}</span>
-        </div>
-      ))}
+      {/* Cell 2 — replace src with your image */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
+        <Image src="/images/krsr-holy_child.JPG" alt="KRSR Event" fill className="object-cover" />
+      </div>
+
+      {/* Cell 3 — replace src with your image */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
+        <Image src="/images/krsr-gbenga-cms.JPG" alt="KRSR Event" fill className="object-cover" />
+      </div>
+
+      {/* Cell 4 — replace src with your image */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
+        <Image src="/images/YOUR-IMAGE-4.JPG" alt="KRSR Event" fill className="object-cover" />
+      </div>
+
+      {/* Cell 5 — replace src with your image */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
+        <Image src="/images/YOUR-IMAGE-5.JPG" alt="KRSR Event" fill className="object-cover" />
+      </div>
+
     </div>
   </section>
 );
