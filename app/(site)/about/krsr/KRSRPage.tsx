@@ -446,27 +446,27 @@ const Gallery: React.FC = () => (
 
       {/* Featured — spans 2 cols × 2 rows — replace src with your image */}
       <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/krsr-nav-the-future.JPG" alt="KRSR Event" fill className="object-cover" />
+        <Image src="/images/krsr-nav-the-future.JPG" alt="Navigating the future" fill className="object-cover" />
       </div>
 
       {/* Cell 2 — replace src with your image */}
       <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/krsr-holy_child.JPG" alt="KRSR Event" fill className="object-cover" />
+        <Image src="/images/krsr-holy_child.JPG" alt="KRSR at holy child" fill className="object-cover" />
       </div>
 
       {/* Cell 3 — replace src with your image */}
       <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/krsr-gbenga-cms.JPG" alt="KRSR Event" fill className="object-cover" />
+        <Image src="/images/krsr-gbenga-cms.JPG" alt="KRSR at CMS grammar school" fill className="object-cover" />
       </div>
 
       {/* Cell 4 — replace src with your image */}
       <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/YOUR-IMAGE-4.JPG" alt="KRSR Event" fill className="object-cover" />
+        <Image src="/images/krsr-st-gregory.jpg" alt="KRSR at Saint Gregory's College lagos" fill className="object-cover" />
       </div>
 
       {/* Cell 5 — replace src with your image */}
       <div className="relative overflow-hidden rounded-2xl bg-[#e2ddd7]">
-        <Image src="/images/YOUR-IMAGE-5.JPG" alt="KRSR Event" fill className="object-cover" />
+        <Image src="/images/krsr-NUTM.JPG" alt="KRSR at NUTM" fill className="object-cover" />
       </div>
 
     </div>
