@@ -155,4 +155,10 @@ export const navItems: NavItem[] = [
       },
     ],
   },
+  {
+    label: "Careers",
+    href: "/services/careers",
+    icon: FileText,
+    description: "Explore exciting career opportunities at Kimberly Ryan",
+  },
 ];
