@@ -158,7 +158,5 @@ export const navItems: NavItem[] = [
   {
     label: "Careers",
     href: "https://www.kracada.com/jobs",
-    icon: FileText,
-    description: "Explore exciting career opportunities at Kimberly Ryan",
   },
 ];
