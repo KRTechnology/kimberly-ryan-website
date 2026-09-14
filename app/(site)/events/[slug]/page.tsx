@@ -34,10 +34,11 @@ export async function generateStaticParams() {
 }
 
 // Generate page metadata from the event name
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const event = await client.fetch(
     `*[_type == "event" && slug.current == $slug][0]{ name, description }`,
-    { slug: params.slug }
+    { slug }
   );
   if (!event) return { title: "Event Not Found" };
   return {
@@ -49,9 +50,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function EventRegistrationPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  // Fetch full event details from Sanity
+  const { slug } = await params;
   const event = await client.fetch(
     `*[_type == "event" && slug.current == $slug && active == true][0]{
       _id,
@@ -63,7 +64,7 @@ export default async function EventRegistrationPage({
       images,
       "coverImage": images[0]
     }`,
-    { slug: params.slug }
+    { slug }
   );
 
   // Show 404 if event doesn't exist or isn't active
