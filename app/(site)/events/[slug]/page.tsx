@@ -11,6 +11,7 @@ import { notFound }               from "next/navigation";
 import { createClient }           from "@sanity/client";
 import imageUrlBuilder            from "@sanity/image-url";
 import EventRegistrationForm      from "@/components/specific/EventRegistrationForm";
+import { Brochure, Publication }  from "@/types/sanity";
 
 export const dynamic = "force-dynamic";
 
@@ -48,20 +49,39 @@ export default async function EventRegistrationPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const event = await client.fetch(
-    `*[_type == "event" && slug.current == $slug && active == true][0]{
-      _id,
-      name,
-      "slug": slug.current,
-      description,
-      eventDate,
-      location,
-      images,
-      "coverImage": images[0]
-    }`,
-    { slug }
-  );
+  const { slug } = await params;  const [event, brochures, publications] = await Promise.all([
+    client.fetch(
+      `*[_type == "event" && slug.current == $slug && active == true][0]{
+        _id,
+        name,
+        "slug": slug.current,
+        description,
+        eventDate,
+        location,
+        images,
+        "coverImage": images[0]
+      }`,
+      { slug }
+    ),
+    client.fetch(
+      `*[_type == "brochure" && active == true] | order(displayOrder asc, publishedAt desc){
+        _id, title, slug, description,
+        pdfFile{ asset->{ _id, url, originalFilename } },
+        coverImage{ asset->{ _id, url } },
+        category, year, fileSize, pageCount,
+        displayOrder, featured, active, tags
+      }`
+    ),
+    client.fetch(
+      `*[_type == "publication" && active == true] | order(displayOrder asc, publishedDate desc)[0...6]{
+        _id, title, slug, description,
+        image{ asset->{ _id, url } },
+        pdfFile{ asset->{ _id, url, originalFilename } },
+        category, author, publishedDate,
+        fileSize, pageCount, featured, active, tags, summary
+      }`
+    ),
+  ]);
 
   // Show 404 if event doesn't exist or isn't active
   if (!event) {
@@ -81,6 +101,8 @@ export default async function EventRegistrationPage({
       eventLocation={event.location}
       eventDescription={event.description}
       coverImageUrl={coverImageUrl}
+      brochures={brochures as Brochure[]}
+      publications={publications as Publication[]}
     />
   );
 }
