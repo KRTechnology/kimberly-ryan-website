@@ -16,6 +16,13 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Download,
+  FileText,
+  ExternalLink,
+} from "lucide-react";
+import { Brochure, Publication } from "@/types/sanity";
+import { urlFor } from "@/lib/sanity";
 
 // ── Zod schema — identical structure to ContactUsForm ──────────────────────
 const registrationSchema = z.object({
@@ -35,13 +42,87 @@ type RegistrationFormData = z.infer<typeof registrationSchema>;
 
 // ── Props passed in from the server page ───────────────────────────────────
 interface EventRegistrationFormProps {
-  eventName:        string;
-  eventSlug:        string;
-  eventDate?:       string;
-  eventLocation?:   string;
+  eventName:         string;
+  eventSlug:         string;
+  eventDate?:        string;
+  eventLocation?:    string;
   eventDescription?: string;
-  coverImageUrl?:   string;
+  coverImageUrl?:    string;
+  brochures?:        Brochure[];
+  publications?:     Publication[];
 }
+
+function handleBrochureDownload(brochure: Brochure) {
+  if (!brochure?.pdfFile?.asset?.url) {
+    alert("Brochure file is not available for download.");
+    return;
+  }
+  const pdfUrl = brochure.pdfFile.asset.url;
+  const newWindow = window.open(pdfUrl, "_blank");
+  if (!newWindow || newWindow.closed) {
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download =
+      brochure.pdfFile.asset.originalFilename ||
+      `${brochure.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}-brochure.pdf`;
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+const socialLinks = [
+  {
+    label: "LinkedIn",
+    href:  "https://www.linkedin.com/company/kimberly-ryan-limited/",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href:  "https://www.facebook.com/KimberlyRyanLimited",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "X (Twitter)",
+    href:  "https://twitter.com/KimberlyRyanLtd",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    href:  "https://www.instagram.com/kimberlyryanltd/",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href:  "https://www.youtube.com/@kracada01",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+      </svg>
+    ),
+  },
+];
 
 export default function EventRegistrationForm({
   eventName,
@@ -50,6 +131,8 @@ export default function EventRegistrationForm({
   eventLocation,
   eventDescription,
   coverImageUrl,
+  brochures = [],
+  publications = [],
 }: EventRegistrationFormProps) {
   const [isSubmitting,          setIsSubmitting]          = useState(false);
   const [submitStatus,          setSubmitStatus]          = useState<"idle" | "success" | "error">("idle");
@@ -110,6 +193,11 @@ export default function EventRegistrationForm({
       setIsSubmitting(false);
     }
   };
+
+
+    // ── Active brochures and publications ──
+  const activeBrochures    = brochures.filter((b) => b.active);
+  const activePublications = publications.filter((p) => p.active);
 
   return (
     <section className="py-16 lg:py-24 bg-white">
@@ -408,6 +496,153 @@ export default function EventRegistrationForm({
 
         </div>
       </div>
+            {/* ══ RESOURCES SECTION ══ */}
+      <section className="bg-[#F4F2EE] py-16 px-4 lg:px-8">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[2px] text-orange-500">
+              Resources
+            </p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-[#181D27] mb-3">
+              Explore Our Resources
+            </h2>
+            <p className="text-[#535862] max-w-xl mx-auto text-sm leading-relaxed">
+              Download our brochures, read our white papers, and connect with us on social media.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            {/* Brochures */}
+            {activeBrochures.length > 0 && (
+              <div className="lg:col-span-1">
+                <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
+                  <FileText size={18} className="text-orange-500" />
+                  Training Brochures
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {activeBrochures.map((brochure) => (
+                    <div key={brochure._id} className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow duration-200">
+                      <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-orange-50 overflow-hidden flex items-center justify-center">
+                        {brochure.coverImage ? (
+                          <Image
+                            src={urlFor(brochure.coverImage).width(48).height(48).url()}
+                            alt={brochure.title}
+                            width={48}
+                            height={48}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <FileText size={20} className="text-orange-400" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-[#181D27] leading-tight line-clamp-2 mb-1">{brochure.title}</p>
+                        <p className="text-[0.68rem] text-[#535862]">{brochure.year}</p>
+                      </div>
+                      <button
+                        onClick={() => handleBrochureDownload(brochure)}
+                        className="flex-shrink-0 flex items-center gap-1 px-3 py-1.5 bg-orange-500 text-white rounded-lg text-xs font-semibold hover:bg-orange-600 transition-colors duration-200"
+                      >
+                        <Download size={12} />
+                        Download
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Publications */}
+            {activePublications.length > 0 && (
+              <div className="lg:col-span-1">
+                <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
+                  <FileText size={18} className="text-orange-500" />
+                  White Papers &amp; Publications
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {activePublications.map((pub) => (
+                    <div key={pub._id} className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow duration-200">
+                      <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-orange-50 overflow-hidden flex items-center justify-center">
+                        {pub.image ? (
+                          <Image
+                            src={urlFor(pub.image).width(48).height(48).url()}
+                            alt={pub.title}
+                            width={48}
+                            height={48}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <FileText size={20} className="text-orange-400" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-[#181D27] leading-tight line-clamp-2 mb-1">{pub.title}</p>
+                        {pub.category && (
+                          <p className="text-[0.68rem] text-orange-500 capitalize">{pub.category.replace(/_/g, " ")}</p>
+                        )}
+                      </div>
+                      {pub.pdfFile?.asset?.url && (
+                        
+                          href={pub.pdfFile.asset.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-shrink-0 flex items-center gap-1 px-3 py-1.5 bg-orange-500 text-white rounded-lg text-xs font-semibold hover:bg-orange-600 transition-colors duration-200"
+                        >
+                          <Download size={12} />
+                          Download
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Social media */}
+            <div className="lg:col-span-1">
+              <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
+                <ExternalLink size={18} className="text-orange-500" />
+                Follow Us
+              </h3>
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <p className="text-sm text-[#535862] mb-6 leading-relaxed">
+                  Stay up to date with the latest news, insights, and opportunities from Kimberly Ryan.
+                </p>
+                <div className="flex flex-col gap-3">
+                  {socialLinks.map((s) => (
+                    
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-100 text-[#181D27] hover:border-orange-300 hover:text-orange-500 transition-colors duration-200"
+                    >
+                      <span className="text-orange-500">{s.icon}</span>
+                      <span className="text-sm font-medium">{s.label}</span>
+                      <ExternalLink size={12} className="ml-auto text-gray-400" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-4 bg-[#3A3530] rounded-xl p-6 text-center">
+                <p className="text-white text-sm font-semibold mb-1">Want to learn more?</p>
+                <p className="text-white/60 text-xs mb-4">Visit our website to explore our full range of services.</p>
+                
+                  href="https://www.kimberly-ryan.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors duration-200"
+                >
+                  Visit Website
+                  <ExternalLink size={13} />
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
     </section>
   );
 }
