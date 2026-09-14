@@ -200,6 +200,7 @@ export default function EventRegistrationForm({
   const activePublications = publications.filter((p) => p.active);
 
   return (
+    <>
     <section className="py-16 lg:py-24 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
 
@@ -644,5 +645,6 @@ export default function EventRegistrationForm({
         </div>
       </section>
     </section>
+    </>
   );
 }
