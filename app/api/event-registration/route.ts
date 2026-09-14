@@ -36,11 +36,10 @@ export async function POST(request: Request) {
     } = body;
 
     // ── Validate required fields ──
-    if (
+ if (
       !firstName || !lastName || !email ||
       !organization || !designation ||
-      !howDidYouHear || !message ||
-      !agreeToPrivacy || !eventSlug
+      !message || !agreeToPrivacy || !eventSlug
     ) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
@@ -74,7 +73,7 @@ export async function POST(request: Request) {
       phone:           phone || "",
       organization,
       designation,
-      howDidYouHear,
+      howDidYouHear: howDidYouHear || "",
       message,
       agreeToPrivacy,
       submissionDate:  new Date().toISOString(),
@@ -93,19 +92,19 @@ export async function POST(request: Request) {
           email,
           phone:             phone || "",
           howDidYouHear,
-          serviceInterested: `Event Registration: ${event.name} | ${organization} — ${designation}`,
+          serviceInterested: `Consultation at: ${event.name} | ${organization} — ${designation}`,
           message,
           agreeToPrivacy,
           submissionDate:    submission._createdAt || new Date().toISOString(),
           submissionId:      submission._id,
         });
       } catch (emailError) {
-        console.error("Failed to send event registration email notification:", emailError);
+        console.error("Failed to send consultation email notification:", emailError);
       }
 
     return NextResponse.json({
       success: true,
-      message: `Thank you for registering for ${event.name}! We'll be in touch with event details shortly.`,
+      message: `Thank you for registering for reaching out to us! We'll be in touch with you shortly.`,
     });
 
   } catch (error: unknown) {
