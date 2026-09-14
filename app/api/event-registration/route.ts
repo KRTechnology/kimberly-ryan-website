@@ -104,7 +104,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: `Thank you for registering for reaching out to us! We'll be in touch with you shortly.`,
+      message: `Thank you for reaching out to us! We'll be in touch with you shortly.`,
     });
 
   } catch (error: unknown) {
