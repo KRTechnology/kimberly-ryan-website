@@ -17,6 +17,8 @@ import { training } from "./training";
 import { trainingRegistrationForm } from "./training-registration-form";
 import { trainingRegistrationSubmission } from "./training-registration-submission";
 import { partnerSubmission } from "./partner-submission";
+import { eventRegistrationSubmission } from "./event-registration-submission";
+
 
 export const schemaTypes = [
   blog,
@@ -38,4 +40,5 @@ export const schemaTypes = [
   trainingRegistrationForm,
   trainingRegistrationSubmission,
   partnerSubmission,
+  eventRegistrationSubmission,
 ];
