@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   );
   if (!event) return { title: "Event Not Found" };
   return {
-    title:       `Register — ${event.name} | Kimberly Ryan`,
-    description: event.description || `Register for ${event.name}`,
+    title:       `Schedule a Consultation — ${event.name} | Kimberly Ryan`,
+    description: event.description || `Schedule a Consultation for ${event.name}`,
   };
 }
 
