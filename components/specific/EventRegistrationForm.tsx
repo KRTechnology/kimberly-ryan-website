@@ -189,21 +189,11 @@ export default function EventRegistrationForm({
                     <CheckCircle size={32} className="text-green-600" />
                   </div>
                   <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
-                    Registration Confirmed!
+                    Submittion Confirmed!
                   </h2>
                   <p className="text-[#535862] text-base mb-4 leading-relaxed">
                     {submitMessage}
                   </p>
-                  <p className="text-[#535862] text-sm mb-8 leading-relaxed">
-                    We&apos;ll be in touch with event details and joining instructions.
-                  </p>
-                  <button
-                    onClick={handleMakeAnotherEnquiry}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
-                  >
-                    <RefreshCw size={16} />
-                    Register Another Person
-                  </button>
                 </motion.div>
               )}
 
