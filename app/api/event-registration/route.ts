@@ -86,25 +86,22 @@ export async function POST(request: Request) {
     // Uses EmailService from your existing lib/email — same pattern as contact form.
     // If EmailService doesn't have a method for event registrations yet,
     // fall back to the contact form notification so it still sends.
-    try {
-      await EmailService.sendContactFormNotification({
-        firstName,
-        lastName,
-        email,
-        phone:              phone || "",
-        howDidYouHear,
-        serviceInterested:  `Event Registration: ${event.name}`,
-        message,
-        agreeToPrivacy,
-        submissionDate:     submission._createdAt || new Date().toISOString(),
-        submissionId:       submission._id,
-        organization,
-        designation,
-      });
-    } catch (emailError) {
-      // Log but don't fail — registration is already saved to Sanity
-      console.error("Failed to send event registration email notification:", emailError);
-    }
+      try {
+        await EmailService.sendContactFormNotification({
+          firstName,
+          lastName,
+          email,
+          phone:             phone || "",
+          howDidYouHear,
+          serviceInterested: `Event Registration: ${event.name} | ${organization} — ${designation}`,
+          message,
+          agreeToPrivacy,
+          submissionDate:    submission._createdAt || new Date().toISOString(),
+          submissionId:      submission._id,
+        });
+      } catch (emailError) {
+        console.error("Failed to send event registration email notification:", emailError);
+      }
 
     return NextResponse.json({
       success: true,
