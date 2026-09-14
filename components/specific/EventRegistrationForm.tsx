@@ -25,22 +25,13 @@ const registrationSchema = z.object({
   phone:          z.string().optional(),
   organization:   z.string().min(1, "Organization is required"),
   designation:    z.string().min(1, "Designation is required"),
-  howDidYouHear:  z.string().min(1, "Please select how you heard about us"),
+  howDidYouHear:  z.string().optional(),
   message:        z.string().min(10, "Please provide a brief description (minimum 10 characters)"),
   agreeToPrivacy: z.boolean().refine((val) => val === true, "You must agree to our privacy policy"),
 });
 
 type RegistrationFormData = z.infer<typeof registrationSchema>;
 
-const howDidYouHearOptions = [
-  "Referral",
-  "Google Search",
-  "Social Media",
-  "Website",
-  "Advertisement",
-  "Event/Conference",
-  "Other",
-];
 
 // ── Props passed in from the server page ───────────────────────────────────
 interface EventRegistrationFormProps {
@@ -61,12 +52,9 @@ export default function EventRegistrationForm({
   coverImageUrl,
 }: EventRegistrationFormProps) {
   const [isSubmitting,          setIsSubmitting]          = useState(false);
-  const [isHowDidYouHearOpen,   setIsHowDidYouHearOpen]   = useState(false);
   const [submitStatus,          setSubmitStatus]          = useState<"idle" | "success" | "error">("idle");
   const [submitMessage,         setSubmitMessage]         = useState("");
   const [showSuccessScreen,     setShowSuccessScreen]     = useState(false);
-
-  const howDidYouHearRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
@@ -83,21 +71,8 @@ export default function EventRegistrationForm({
     },
   });
 
-  const watchHowDidYouHear = watch("howDidYouHear");
 
-  // Click-outside handler for dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        howDidYouHearRef.current &&
-        !howDidYouHearRef.current.contains(event.target as Node)
-      ) {
-        setIsHowDidYouHearOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
 
   const handleMakeAnotherEnquiry = () => {
     reset();
@@ -142,9 +117,6 @@ export default function EventRegistrationForm({
 
         {/* ── Event header ── */}
         <div className="mb-12 text-center">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[2px] text-orange-500">
-            Event Registration
-          </p>
           <h1 className="text-3xl lg:text-4xl font-bold text-[#181D27] leading-tight mb-4">
             {eventName}
           </h1>
@@ -186,10 +158,10 @@ export default function EventRegistrationForm({
               {!showSuccessScreen ? (
                 <>
                   <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
-                    Register for this Event
+                    How Can We Assist Your Business?
                   </h2>
                   <p className="text-[#535862] text-base mb-6 leading-relaxed">
-                    Fill in your details below and we&apos;ll confirm your registration shortly.
+                    Thank you for your interest in our services.
                   </p>
 
                   <AnimatePresence>
@@ -348,52 +320,11 @@ export default function EventRegistrationForm({
                     </div>
                   </div>
 
-                  {/* How Did You Hear About Us */}
-                  <div>
-                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                      How Did You Hear About This Event?{" "}
-                      <span className="text-orange-500">*</span>
-                    </label>
-                    <div className="relative" ref={howDidYouHearRef}>
-                      <button
-                        type="button"
-                        onClick={() => setIsHowDidYouHearOpen(!isHowDidYouHearOpen)}
-                        className={`w-full flex items-center justify-between px-4 py-3 border rounded-lg text-sm text-left focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.howDidYouHear ? "border-red-500" : "border-gray-200"
-                        }`}
-                      >
-                        <span className={watchHowDidYouHear ? "text-[#181D27]" : "text-gray-500"}>
-                          {watchHowDidYouHear || "Select an option"}
-                        </span>
-                        <ChevronDown size={16} className="text-gray-400" />
-                      </button>
-                      {isHowDidYouHearOpen && (
-                        <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                          {howDidYouHearOptions.map((option) => (
-                            <button
-                              key={option}
-                              type="button"
-                              onClick={() => {
-                                setValue("howDidYouHear", option);
-                                setIsHowDidYouHearOpen(false);
-                              }}
-                              className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg transition-colors duration-200"
-                            >
-                              {option}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    {errors.howDidYouHear && (
-                      <p className="mt-1 text-sm text-red-500">{errors.howDidYouHear.message}</p>
-                    )}
-                  </div>
-
+                 
                   {/* Message */}
                   <div>
                     <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                      Anything you&apos;d like us to know?{" "}
+                      What Can We Do For You?{" "}
                       <span className="text-orange-500">*</span>
                     </label>
                     <textarea
