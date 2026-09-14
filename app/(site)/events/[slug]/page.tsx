@@ -12,6 +12,8 @@ import { createClient }           from "@sanity/client";
 import imageUrlBuilder            from "@sanity/image-url";
 import EventRegistrationForm      from "@/components/specific/EventRegistrationForm";
 
+export const dynamic = "force-dynamic";
+
 const client = createClient({
   projectId:  "h28ja2xu",
   dataset:    "production",
@@ -25,13 +27,7 @@ function urlFor(source: any) {
   return builder.image(source);
 }
 
-// Tell Next.js to generate pages for all active events at build time
-export async function generateStaticParams() {
-  const events = await client.fetch(
-    `*[_type == "event" && active == true]{ "slug": slug.current }`
-  );
-  return events.map((e: { slug: string }) => ({ slug: e.slug }));
-}
+
 
 // Generate page metadata from the event name
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
