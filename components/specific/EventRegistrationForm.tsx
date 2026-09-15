@@ -1,30 +1,24 @@
 // components/specific/EventRegistrationForm.tsx
-// This is a "use client" component — drop it into components/specific/.
-// It is used by the dynamic page at app/(site)/events/[slug]/page.tsx
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
-  ChevronDown,
   CheckCircle,
   AlertTriangle,
-  RefreshCw,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
   Download,
   FileText,
   ExternalLink,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Brochure, Publication } from "@/types/sanity";
 import { urlFor } from "@/lib/sanity";
 
-// ── Zod schema — identical structure to ContactUsForm ──────────────────────
+// ── Zod schema ──────────────────────────────────────────────────────────────
 const registrationSchema = z.object({
   firstName:      z.string().min(1, "First name is required"),
   lastName:       z.string().min(1, "Last name is required"),
@@ -39,8 +33,7 @@ const registrationSchema = z.object({
 
 type RegistrationFormData = z.infer<typeof registrationSchema>;
 
-
-// ── Props passed in from the server page ───────────────────────────────────
+// ── Props ───────────────────────────────────────────────────────────────────
 interface EventRegistrationFormProps {
   eventName:         string;
   eventSlug:         string;
@@ -52,6 +45,7 @@ interface EventRegistrationFormProps {
   publications?:     Publication[];
 }
 
+// ── Brochure download helper ─────────────────────────────────────────────────
 function handleBrochureDownload(brochure: Brochure) {
   if (!brochure?.pdfFile?.asset?.url) {
     alert("Brochure file is not available for download.");
@@ -72,6 +66,7 @@ function handleBrochureDownload(brochure: Brochure) {
   }
 }
 
+// ── Social links ─────────────────────────────────────────────────────────────
 const socialLinks = [
   {
     label: "LinkedIn",
@@ -124,6 +119,7 @@ const socialLinks = [
   },
 ];
 
+// ── Main component ────────────────────────────────────────────────────────────
 export default function EventRegistrationForm({
   eventName,
   eventSlug,
@@ -134,10 +130,10 @@ export default function EventRegistrationForm({
   brochures = [],
   publications = [],
 }: EventRegistrationFormProps) {
-  const [isSubmitting,          setIsSubmitting]          = useState(false);
-  const [submitStatus,          setSubmitStatus]          = useState<"idle" | "success" | "error">("idle");
-  const [submitMessage,         setSubmitMessage]         = useState("");
-  const [showSuccessScreen,     setShowSuccessScreen]     = useState(false);
+  const [isSubmitting,      setIsSubmitting]      = useState(false);
+  const [submitStatus,      setSubmitStatus]      = useState<"idle" | "success" | "error">("idle");
+  const [submitMessage,     setSubmitMessage]     = useState("");
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
 
   const {
     register,
@@ -154,9 +150,6 @@ export default function EventRegistrationForm({
     },
   });
 
-
-
-
   const handleMakeAnotherEnquiry = () => {
     reset();
     setShowSuccessScreen(false);
@@ -167,16 +160,13 @@ export default function EventRegistrationForm({
   const onSubmit = async (data: RegistrationFormData) => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
-
     try {
       const response = await fetch("/api/event-registration", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({ ...data, eventSlug }),
       });
-
       const result = await response.json();
-
       if (result.success) {
         setSubmitStatus("success");
         setSubmitMessage(result.message);
@@ -194,310 +184,310 @@ export default function EventRegistrationForm({
     }
   };
 
-
-    // ── Active brochures and publications ──
+  // ── Active brochures and publications ──
   const activeBrochures    = brochures.filter((b) => b.active);
   const activePublications = publications.filter((p) => p.active);
 
   return (
     <>
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="container mx-auto px-4 lg:px-8">
+      {/* ── Form section ── */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="container mx-auto px-4 lg:px-8">
 
-        {/* ── Event header ── */}
-        <div className="mb-12 text-center">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#181D27] leading-tight mb-4">
-            {eventName}
-          </h1>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-[#535862]">
-            {eventDate && (
-              <span className="flex items-center gap-1.5">
-                📅{" "}
-                {new Date(eventDate).toLocaleDateString("en-GB", {
-                  weekday: "long",
-                  day:     "numeric",
-                  month:   "long",
-                  year:    "numeric",
-                })}
-              </span>
-            )}
-            {eventLocation && (
-              <span className="flex items-center gap-1.5">
-                📍 {eventLocation}
-              </span>
+          {/* Event header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-3xl lg:text-4xl font-bold text-[#181D27] leading-tight mb-4">
+              {eventName}
+            </h1>
+            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-[#535862]">
+              {eventDate && (
+                <span className="flex items-center gap-1.5">
+                  📅{" "}
+                  {new Date(eventDate).toLocaleDateString("en-GB", {
+                    weekday: "long",
+                    day:     "numeric",
+                    month:   "long",
+                    year:    "numeric",
+                  })}
+                </span>
+              )}
+              {eventLocation && (
+                <span className="flex items-center gap-1.5">
+                  📍 {eventLocation}
+                </span>
+              )}
+            </div>
+            {eventDescription && (
+              <p className="mt-4 max-w-2xl mx-auto text-[#535862] leading-relaxed">
+                {eventDescription}
+              </p>
             )}
           </div>
-          {eventDescription && (
-            <p className="mt-4 max-w-2xl mx-auto text-[#535862] leading-relaxed">
-              {eventDescription}
-            </p>
-          )}
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 lg:items-stretch justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 lg:items-stretch justify-center">
 
-          {/* ── Form ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="order-2 lg:order-1 flex flex-col mx-auto lg:mx-0 w-full max-w-lg"
-          >
-            <div className="w-full">
-              {!showSuccessScreen ? (
-                <>
-                  <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
-                    How Can We Assist Your Business?
-                  </h2>
-                  <p className="text-[#535862] text-base mb-6 leading-relaxed">
-                    Thank you for your interest in our services.
-                  </p>
-
-                  <AnimatePresence>
-                    {submitStatus === "error" && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="p-4 rounded-lg flex items-center gap-3 mb-6 bg-red-50 border border-red-200 text-red-800"
-                      >
-                        <AlertTriangle size={20} className="text-red-600 flex-shrink-0" />
-                        <span className="text-sm font-medium">{submitMessage}</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-center py-12"
-                >
-                  <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle size={32} className="text-green-600" />
-                  </div>
-                  <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
-                    Submittion Confirmed!
-                  </h2>
-                  <p className="text-[#535862] text-base mb-4 leading-relaxed">
-                    {submitMessage}
-                  </p>
-                </motion.div>
-              )}
-
-              {!showSuccessScreen && (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-                  {/* First Name & Last Name */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                        First name <span className="text-orange-500">*</span>
-                      </label>
-                      <input
-                        {...register("firstName")}
-                        type="text"
-                        placeholder="First name"
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.firstName ? "border-red-500" : "border-gray-200"
-                        }`}
-                      />
-                      {errors.firstName && (
-                        <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
+            {/* Form */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="order-2 lg:order-1 flex flex-col mx-auto lg:mx-0 w-full max-w-lg"
+            >
+              <div className="w-full">
+                {!showSuccessScreen ? (
+                  <>
+                    <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
+                      How Can We Assist Your Business?
+                    </h2>
+                    <p className="text-[#535862] text-base mb-6 leading-relaxed">
+                      Thank you for your interest in our services.
+                    </p>
+                    <AnimatePresence>
+                      {submitStatus === "error" && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="p-4 rounded-lg flex items-center gap-3 mb-6 bg-red-50 border border-red-200 text-red-800"
+                        >
+                          <AlertTriangle size={20} className="text-red-600 flex-shrink-0" />
+                          <span className="text-sm font-medium">{submitMessage}</span>
+                        </motion.div>
                       )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                        Last name <span className="text-orange-500">*</span>
-                      </label>
-                      <input
-                        {...register("lastName")}
-                        type="text"
-                        placeholder="Last name"
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.lastName ? "border-red-500" : "border-gray-200"
-                        }`}
-                      />
-                      {errors.lastName && (
-                        <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                      Company Email <span className="text-orange-500">*</span>
-                    </label>
-                    <input
-                      {...register("email")}
-                      type="email"
-                      placeholder="you@company.com"
-                      className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                        errors.email ? "border-red-500" : "border-gray-200"
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                    )}
-                  </div>
-
-                  {/* Phone */}
-                  <div>
-                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                      Phone number
-                    </label>
-                    <div className="flex">
-                      <select className="px-3 py-3 border border-r-0 rounded-l-lg text-sm bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                        <option value="NG">NG</option>
-                        <option value="US">US</option>
-                        <option value="UK">UK</option>
-                      </select>
-                      <input
-                        {...register("phone")}
-                        type="tel"
-                        placeholder="+234 (0) 000 0000"
-                        className="flex-1 px-4 py-3 border rounded-r-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Organization & Designation */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                        Organization <span className="text-orange-500">*</span>
-                      </label>
-                      <input
-                        {...register("organization")}
-                        type="text"
-                        placeholder="Your company name"
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.organization ? "border-red-500" : "border-gray-200"
-                        }`}
-                      />
-                      {errors.organization && (
-                        <p className="mt-1 text-sm text-red-500">{errors.organization.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                        Designation <span className="text-orange-500">*</span>
-                      </label>
-                      <input
-                        {...register("designation")}
-                        type="text"
-                        placeholder="Your job title"
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.designation ? "border-red-500" : "border-gray-200"
-                        }`}
-                      />
-                      {errors.designation && (
-                        <p className="mt-1 text-sm text-red-500">{errors.designation.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                 
-                  {/* Message */}
-                  <div>
-                    <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                      What Can We Do For You?{" "}
-                      <span className="text-orange-500">*</span>
-                    </label>
-                    <textarea
-                      {...register("message")}
-                      rows={4}
-                      placeholder="Leave us a message..."
-                      className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 resize-none ${
-                        errors.message ? "border-red-500" : "border-gray-200"
-                      }`}
-                    />
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
-                    )}
-                  </div>
-
-                  {/* Privacy */}
-                  <div className="flex items-start space-x-3">
-                    <input
-                      {...register("agreeToPrivacy")}
-                      type="checkbox"
-                      id="privacy"
-                      className="mt-1 w-4 h-4 text-orange-500 bg-white border-gray-300 rounded focus:ring-orange-500 focus:ring-2 checked:bg-orange-500 checked:border-orange-500"
-                    />
-                    <label htmlFor="privacy" className="text-sm text-[#535862] leading-relaxed">
-                      You agree to our friendly{" "}
-                      <a
-                        href="/privacy-policy"
-                        className="text-[#181D27] underline hover:text-orange-500 transition-colors duration-200"
-                      >
-                        privacy policy
-                      </a>
-                      .
-                    </label>
-                  </div>
-                  {errors.agreeToPrivacy && (
-                    <p className="text-sm text-red-500">{errors.agreeToPrivacy.message}</p>
-                  )}
-
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || submitStatus === "success"}
-                    className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium flex items-center justify-center gap-2"
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center py-12"
                   >
-                    {isSubmitting && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                      <CheckCircle size={32} className="text-green-600" />
+                    </div>
+                    <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
+                      Submittion Confirmed!
+                    </h2>
+                    <p className="text-[#535862] text-base mb-4 leading-relaxed">
+                      {submitMessage}
+                    </p>
+                  </motion.div>
+                )}
+
+                {!showSuccessScreen && (
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+                    {/* First Name & Last Name */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                          First name <span className="text-orange-500">*</span>
+                        </label>
+                        <input
+                          {...register("firstName")}
+                          type="text"
+                          placeholder="First name"
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                            errors.firstName ? "border-red-500" : "border-gray-200"
+                          }`}
+                        />
+                        {errors.firstName && (
+                          <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                          Last name <span className="text-orange-500">*</span>
+                        </label>
+                        <input
+                          {...register("lastName")}
+                          type="text"
+                          placeholder="Last name"
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                            errors.lastName ? "border-red-500" : "border-gray-200"
+                          }`}
+                        />
+                        {errors.lastName && (
+                          <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                        Company Email <span className="text-orange-500">*</span>
+                      </label>
+                      <input
+                        {...register("email")}
+                        type="email"
+                        placeholder="you@company.com"
+                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                          errors.email ? "border-red-500" : "border-gray-200"
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                      )}
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                        Phone number
+                      </label>
+                      <div className="flex">
+                        <select className="px-3 py-3 border border-r-0 rounded-l-lg text-sm bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                          <option value="NG">NG</option>
+                          <option value="US">US</option>
+                          <option value="UK">UK</option>
+                        </select>
+                        <input
+                          {...register("phone")}
+                          type="tel"
+                          placeholder="+234 (0) 000 0000"
+                          className="flex-1 px-4 py-3 border rounded-r-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Organization & Designation */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                          Organization <span className="text-orange-500">*</span>
+                        </label>
+                        <input
+                          {...register("organization")}
+                          type="text"
+                          placeholder="Your company name"
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                            errors.organization ? "border-red-500" : "border-gray-200"
+                          }`}
+                        />
+                        {errors.organization && (
+                          <p className="mt-1 text-sm text-red-500">{errors.organization.message}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                          Designation <span className="text-orange-500">*</span>
+                        </label>
+                        <input
+                          {...register("designation")}
+                          type="text"
+                          placeholder="Your job title"
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
+                            errors.designation ? "border-red-500" : "border-gray-200"
+                          }`}
+                        />
+                        {errors.designation && (
+                          <p className="mt-1 text-sm text-red-500">{errors.designation.message}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                        What Can We Do For You?{" "}
+                        <span className="text-orange-500">*</span>
+                      </label>
+                      <textarea
+                        {...register("message")}
+                        rows={4}
+                        placeholder="Leave us a message..."
+                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 resize-none ${
+                          errors.message ? "border-red-500" : "border-gray-200"
+                        }`}
+                      />
+                      {errors.message && (
+                        <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+                      )}
+                    </div>
+
+                    {/* Privacy */}
+                    <div className="flex items-start space-x-3">
+                      <input
+                        {...register("agreeToPrivacy")}
+                        type="checkbox"
+                        id="privacy"
+                        className="mt-1 w-4 h-4 text-orange-500 bg-white border-gray-300 rounded focus:ring-orange-500 focus:ring-2 checked:bg-orange-500 checked:border-orange-500"
+                      />
+                      <label htmlFor="privacy" className="text-sm text-[#535862] leading-relaxed">
+                        You agree to our friendly{" "}
+                        <a
+                          href="/privacy-policy"
+                          className="text-[#181D27] underline hover:text-orange-500 transition-colors duration-200"
+                        >
+                          privacy policy
+                        </a>
+                        .
+                      </label>
+                    </div>
+                    {errors.agreeToPrivacy && (
+                      <p className="text-sm text-red-500">{errors.agreeToPrivacy.message}</p>
                     )}
-                    {isSubmitting
-                      ? "Submitting..."
-                      : submitStatus === "success"
-                        ? "Registered!"
-                        : "Register Now"}
-                  </button>
-                </form>
-              )}
-            </div>
-          </motion.div>
 
-          {/* ── Image / event card ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="order-1 lg:order-2 hidden lg:block"
-          >
-            <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-2xl bg-gray-100">
-              {coverImageUrl ? (
-                <Image
-                  src={coverImageUrl}
-                  alt={eventName}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                  <span className="text-sm font-medium">Event image</span>
-                </div>
-              )}
-            </div>
-          </motion.div>
+                    {/* Submit */}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || submitStatus === "success"}
+                      className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium flex items-center justify-center gap-2"
+                    >
+                      {isSubmitting && (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                        />
+                      )}
+                      {isSubmitting
+                        ? "Submitting..."
+                        : submitStatus === "success"
+                          ? "Registered!"
+                          : "Register Now"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </motion.div>
 
+            {/* Cover image */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="order-1 lg:order-2 hidden lg:block"
+            >
+              <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-2xl bg-gray-100">
+                {coverImageUrl ? (
+                  <Image
+                    src={coverImageUrl}
+                    alt={eventName}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span className="text-sm font-medium">Event image</span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+
+          </div>
         </div>
-      </div>
-            {/* ══ RESOURCES SECTION ══ */}
+      </section>
+
+      {/* ══ RESOURCES SECTION ══ */}
       <section className="bg-[#F4F2EE] py-16 px-4 lg:px-8">
         <div className="container mx-auto">
           <div className="text-center mb-12">
@@ -584,7 +574,7 @@ export default function EventRegistrationForm({
                         )}
                       </div>
                       {pub.pdfFile?.asset?.url && (
-                        
+                        <a
                           href={pub.pdfFile.asset.url}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -612,7 +602,7 @@ export default function EventRegistrationForm({
                 </p>
                 <div className="flex flex-col gap-3">
                   {socialLinks.map((s) => (
-                    
+                    <a
                       key={s.label}
                       href={s.href}
                       target="_blank"
@@ -629,7 +619,7 @@ export default function EventRegistrationForm({
               <div className="mt-4 bg-[#3A3530] rounded-xl p-6 text-center">
                 <p className="text-white text-sm font-semibold mb-1">Want to learn more?</p>
                 <p className="text-white/60 text-xs mb-4">Visit our website to explore our full range of services.</p>
-                
+                <a
                   href="https://www.kimberly-ryan.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -644,7 +634,6 @@ export default function EventRegistrationForm({
           </div>
         </div>
       </section>
-    </section>
     </>
   );
 }
