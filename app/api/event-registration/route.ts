@@ -30,16 +30,19 @@ export async function POST(request: Request) {
       organization,
       designation,
       howDidYouHear,
-      message,
+      peopleManagementAreas,
+      otherPeopleManagement,
+      consultationInterest,
       agreeToPrivacy,
-      eventSlug,        // passed from the form alongside the form data
+      eventSlug,
     } = body;
 
     // ── Validate required fields ──
- if (
+if (
       !firstName || !lastName || !email ||
       !organization || !designation ||
-      !message || !agreeToPrivacy || !eventSlug
+      !peopleManagementAreas?.length ||
+      !consultationInterest || !agreeToPrivacy || !eventSlug
     ) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
