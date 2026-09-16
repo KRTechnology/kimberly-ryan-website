@@ -98,7 +98,7 @@ if (
           phone:             phone || "",
           howDidYouHear,
           serviceInterested: `Consultation at: ${event.name} | ${organization} — ${designation} | Areas: ${(peopleManagementAreas || []).join(", ")} | Interest: ${consultationInterest}`,
-          message,
+          message: `Areas: ${(peopleManagementAreas || []).join(", ")} | Interest: ${consultationInterest}`,
           agreeToPrivacy,
           submissionDate:    submission._createdAt || new Date().toISOString(),
           submissionId:      submission._id,
