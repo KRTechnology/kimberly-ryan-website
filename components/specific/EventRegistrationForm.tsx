@@ -27,7 +27,9 @@ const registrationSchema = z.object({
   organization:   z.string().min(1, "Organization is required"),
   designation:    z.string().min(1, "Designation is required"),
   howDidYouHear:  z.string().optional(),
-  message:        z.string().min(10, "Please provide a brief description (minimum 10 characters)"),
+  peopleManagementAreas: z.array(z.string()).min(1, "Please select at least one area"),
+  otherPeopleManagement: z.string().optional(),
+  consultationInterest:  z.string().min(1, "Please select an option"),
   agreeToPrivacy: z.boolean().refine((val) => val === true, "You must agree to our privacy policy"),
 });
 
@@ -119,6 +121,27 @@ const socialLinks = [
   },
 ];
 
+
+const peopleManagementOptions = [
+  "Talent attraction and retention",
+  "Employee engagement and experience",
+  "Leadership development",
+  "Performance management",
+  "Learning and capability development",
+  "Rewards and compensation",
+  "Workforce planning and productivity",
+  "HR technology and transformation",
+  "Organisational culture",
+  "Employee of record (EOR) / Outsourcing",
+  "Others - please specify",
+];
+
+const consultationInterestOptions = [
+  "Yes, I'd like to schedule a conversation",
+  "I'd like to learn more",
+  "I'd like to explore relevant solutions and insights",
+];
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function EventRegistrationForm({
   eventName,
@@ -145,8 +168,11 @@ export default function EventRegistrationForm({
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
-      howDidYouHear:  "",
-      agreeToPrivacy: false,
+      howDidYouHear:         "",
+      agreeToPrivacy:        false,
+      peopleManagementAreas: [],
+      otherPeopleManagement: "",
+      consultationInterest:  "",
     },
   });
 
@@ -388,22 +414,71 @@ export default function EventRegistrationForm({
                       </div>
                     </div>
 
-                    {/* Message */}
+                    {/* People management areas */}
                     <div>
-                      <label className="block text-sm font-medium text-[#181D27] mb-1.5">
-                        What Can We Do For You?{" "}
+                      <label className="block text-sm font-medium text-[#181D27] mb-2">
+                        Which areas of people management are currently most relevant to you?{" "}
                         <span className="text-orange-500">*</span>
                       </label>
-                      <textarea
-                        {...register("message")}
-                        rows={4}
-                        placeholder="Leave us a message..."
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 resize-none ${
-                          errors.message ? "border-red-500" : "border-gray-200"
-                        }`}
-                      />
-                      {errors.message && (
-                        <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+                      <p className="text-xs text-[#535862] mb-3">Select all that apply.</p>
+                      <div className="flex flex-col gap-2">
+                        {peopleManagementOptions.map((option) => (
+                          <label key={option} className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              value={option}
+                              {...register("peopleManagementAreas")}
+                              className="mt-0.5 w-4 h-4 text-orange-500 bg-white border-gray-300 rounded focus:ring-orange-500 focus:ring-2 checked:bg-orange-500 checked:border-orange-500 flex-shrink-0"
+                            />
+                            <span className="text-sm text-[#535862] group-hover:text-[#181D27] transition-colors duration-200">
+                              {option}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                      {errors.peopleManagementAreas && (
+                        <p className="mt-2 text-sm text-red-500">{errors.peopleManagementAreas.message}</p>
+                      )}
+                    </div>
+
+                    {/* Other - please specify */}
+                    {watch("peopleManagementAreas")?.includes("Others - please specify") && (
+                      <div>
+                        <label className="block text-sm font-medium text-[#181D27] mb-1.5">
+                          Please specify
+                        </label>
+                        <input
+                          {...register("otherPeopleManagement")}
+                          type="text"
+                          placeholder="Please describe..."
+                          className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200"
+                        />
+                      </div>
+                    )}
+
+                    {/* Consultation interest */}
+                    <div>
+                      <label className="block text-sm font-medium text-[#181D27] mb-3">
+                        Would you be interested in a conversation with our Consultants about your people priorities?{" "}
+                        <span className="text-orange-500">*</span>
+                      </label>
+                      <div className="flex flex-col gap-2">
+                        {consultationInterestOptions.map((option) => (
+                          <label key={option} className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="radio"
+                              value={option}
+                              {...register("consultationInterest")}
+                              className="mt-0.5 w-4 h-4 text-orange-500 bg-white border-gray-300 focus:ring-orange-500 focus:ring-2 checked:bg-orange-500 checked:border-orange-500 flex-shrink-0"
+                            />
+                            <span className="text-sm text-[#535862] group-hover:text-[#181D27] transition-colors duration-200">
+                              {option}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                      {errors.consultationInterest && (
+                        <p className="mt-2 text-sm text-red-500">{errors.consultationInterest.message}</p>
                       )}
                     </div>
 
@@ -447,7 +522,7 @@ export default function EventRegistrationForm({
                         ? "Submitting..."
                         : submitStatus === "success"
                           ? "Registered!"
-                          : "Register Now"}
+                          : "Connect"}
                     </button>
                   </form>
                 )}
