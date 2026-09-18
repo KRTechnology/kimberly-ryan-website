@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,7 @@ import {
   Download,
   FileText,
   ExternalLink,
+  ChevronDown,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brochure, Publication } from "@/types/sanity";
@@ -20,17 +21,17 @@ import { urlFor } from "@/lib/sanity";
 
 // ── Zod schema ──────────────────────────────────────────────────────────────
 const registrationSchema = z.object({
-  firstName:      z.string().min(1, "First name is required"),
-  lastName:       z.string().min(1, "Last name is required"),
-  email:          z.string().email("Please enter a valid email address"),
-  phone:          z.string().optional(),
-  organization:   z.string().min(1, "Organization is required"),
-  designation:    z.string().min(1, "Designation is required"),
-  howDidYouHear:  z.string().optional(),
+  firstName:             z.string().min(1, "First name is required"),
+  lastName:              z.string().min(1, "Last name is required"),
+  email:                 z.string().email("Please enter a valid email address"),
+  phone:                 z.string().optional(),
+  organization:          z.string().min(1, "Organization is required"),
+  designation:           z.string().min(1, "Designation is required"),
+  howDidYouHear:         z.string().optional(),
   peopleManagementAreas: z.array(z.string()).min(1, "Please select at least one area"),
   otherPeopleManagement: z.string().optional(),
   consultationInterest:  z.string().min(1, "Please select an option"),
-  agreeToPrivacy: z.boolean().refine((val) => val === true, "You must agree to our privacy policy"),
+  agreeToPrivacy:        z.boolean().refine((val) => val === true, "You must agree to our privacy policy"),
 });
 
 type RegistrationFormData = z.infer<typeof registrationSchema>;
@@ -73,8 +74,9 @@ const socialLinks = [
   {
     label: "LinkedIn",
     href:  "https://www.linkedin.com/company/kimberly-ryan/",
+    color: "#0A66C2",
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
         <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
       </svg>
@@ -83,8 +85,9 @@ const socialLinks = [
   {
     label: "Facebook",
     href:  "https://www.facebook.com/kimberlyryanlimited",
+    color: "#1877F2",
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
       </svg>
     ),
@@ -92,8 +95,9 @@ const socialLinks = [
   {
     label: "X (Twitter)",
     href:  "https://x.com/KRyanlimited",
+    color: "#000000",
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
       </svg>
     ),
@@ -101,8 +105,9 @@ const socialLinks = [
   {
     label: "Instagram",
     href:  "https://www.instagram.com/kimberlyryanlimited/",
+    color: "#E1306C",
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
@@ -112,15 +117,15 @@ const socialLinks = [
   {
     label: "YouTube",
     href:  "https://www.youtube.com/@KimberlyRyanLimited",
+    color: "#FF0000",
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
         <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
       </svg>
     ),
   },
 ];
-
 
 const peopleManagementOptions = [
   "Talent attraction and retention",
@@ -158,11 +163,17 @@ export default function EventRegistrationForm({
   const [submitMessage,     setSubmitMessage]     = useState("");
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
 
+  // Ref for smooth scroll to resources
+  const resourcesRef = useRef<HTMLElement>(null);
+
+  const scrollToResources = () => {
+    resourcesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const {
     register,
     handleSubmit,
     watch,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<RegistrationFormData>({
@@ -197,6 +208,8 @@ export default function EventRegistrationForm({
         setSubmitStatus("success");
         setSubmitMessage(result.message);
         setShowSuccessScreen(true);
+        // Scroll to resources after short delay so success screen renders first
+        setTimeout(() => scrollToResources(), 400);
       } else {
         setSubmitStatus("error");
         setSubmitMessage(result.error || "There was an error submitting your form. Please try again.");
@@ -210,7 +223,6 @@ export default function EventRegistrationForm({
     }
   };
 
-  // ── Active brochures and publications ──
   const activeBrochures    = brochures.filter((b) => b.active);
   const activePublications = publications.filter((p) => p.active);
 
@@ -230,17 +242,13 @@ export default function EventRegistrationForm({
                 <span className="flex items-center gap-1.5">
                   📅{" "}
                   {new Date(eventDate).toLocaleDateString("en-GB", {
-                    weekday: "long",
-                    day:     "numeric",
-                    month:   "long",
-                    year:    "numeric",
+                    weekday: "long", day: "numeric",
+                    month:   "long", year: "numeric",
                   })}
                 </span>
               )}
               {eventLocation && (
-                <span className="flex items-center gap-1.5">
-                  📍 {eventLocation}
-                </span>
+                <span className="flex items-center gap-1.5">📍 {eventLocation}</span>
               )}
             </div>
             {eventDescription && (
@@ -287,17 +295,35 @@ export default function EventRegistrationForm({
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="text-center py-12"
+                    className="text-center py-8"
                   >
                     <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                       <CheckCircle size={32} className="text-green-600" />
                     </div>
                     <h2 className="text-2xl lg:text-[26px] font-semibold text-[#181D27] mb-3 leading-tight">
-                      Submittion Confirmed!
+                      Submission Confirmed!
                     </h2>
                     <p className="text-[#535862] text-base mb-4 leading-relaxed">
                       {submitMessage}
                     </p>
+                    <p className="text-[#535862] text-sm mb-8 leading-relaxed">
+                      While you wait to hear from us, explore our brochures, white papers and insights below.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <button
+                        onClick={scrollToResources}
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium text-sm"
+                      >
+                        Explore Resources
+                        <ChevronDown size={16} />
+                      </button>
+                      <button
+                        onClick={handleMakeAnotherEnquiry}
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 text-[#181D27] rounded-lg hover:border-orange-300 hover:text-orange-500 transition-colors duration-200 font-medium text-sm"
+                      >
+                        Submit Another
+                      </button>
+                    </div>
                   </motion.div>
                 )}
 
@@ -314,13 +340,9 @@ export default function EventRegistrationForm({
                           {...register("firstName")}
                           type="text"
                           placeholder="First name"
-                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                            errors.firstName ? "border-red-500" : "border-gray-200"
-                          }`}
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${errors.firstName ? "border-red-500" : "border-gray-200"}`}
                         />
-                        {errors.firstName && (
-                          <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
-                        )}
+                        {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-[#181D27] mb-1.5">
@@ -330,13 +352,9 @@ export default function EventRegistrationForm({
                           {...register("lastName")}
                           type="text"
                           placeholder="Last name"
-                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                            errors.lastName ? "border-red-500" : "border-gray-200"
-                          }`}
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${errors.lastName ? "border-red-500" : "border-gray-200"}`}
                         />
-                        {errors.lastName && (
-                          <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
-                        )}
+                        {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>}
                       </div>
                     </div>
 
@@ -349,13 +367,9 @@ export default function EventRegistrationForm({
                         {...register("email")}
                         type="email"
                         placeholder="you@company.com"
-                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                          errors.email ? "border-red-500" : "border-gray-200"
-                        }`}
+                        className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${errors.email ? "border-red-500" : "border-gray-200"}`}
                       />
-                      {errors.email && (
-                        <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                      )}
+                      {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
                     </div>
 
                     {/* Phone */}
@@ -388,13 +402,9 @@ export default function EventRegistrationForm({
                           {...register("organization")}
                           type="text"
                           placeholder="Your company name"
-                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                            errors.organization ? "border-red-500" : "border-gray-200"
-                          }`}
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${errors.organization ? "border-red-500" : "border-gray-200"}`}
                         />
-                        {errors.organization && (
-                          <p className="mt-1 text-sm text-red-500">{errors.organization.message}</p>
-                        )}
+                        {errors.organization && <p className="mt-1 text-sm text-red-500">{errors.organization.message}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-[#181D27] mb-1.5">
@@ -404,13 +414,9 @@ export default function EventRegistrationForm({
                           {...register("designation")}
                           type="text"
                           placeholder="Your job title"
-                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${
-                            errors.designation ? "border-red-500" : "border-gray-200"
-                          }`}
+                          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200 ${errors.designation ? "border-red-500" : "border-gray-200"}`}
                         />
-                        {errors.designation && (
-                          <p className="mt-1 text-sm text-red-500">{errors.designation.message}</p>
-                        )}
+                        {errors.designation && <p className="mt-1 text-sm text-red-500">{errors.designation.message}</p>}
                       </div>
                     </div>
 
@@ -492,10 +498,7 @@ export default function EventRegistrationForm({
                       />
                       <label htmlFor="privacy" className="text-sm text-[#535862] leading-relaxed">
                         You agree to our friendly{" "}
-                        <a
-                          href="/privacy-policy"
-                          className="text-[#181D27] underline hover:text-orange-500 transition-colors duration-200"
-                        >
+                        <a href="/privacy-policy" className="text-[#181D27] underline hover:text-orange-500 transition-colors duration-200">
                           privacy policy
                         </a>
                         .
@@ -521,7 +524,7 @@ export default function EventRegistrationForm({
                       {isSubmitting
                         ? "Submitting..."
                         : submitStatus === "success"
-                          ? "Registered!"
+                          ? "Connected!"
                           : "Connect"}
                     </button>
                   </form>
@@ -538,13 +541,7 @@ export default function EventRegistrationForm({
             >
               <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-2xl bg-gray-100">
                 {coverImageUrl ? (
-                  <Image
-                    src={coverImageUrl}
-                    alt={eventName}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                  <Image src={coverImageUrl} alt={eventName} fill className="object-cover" priority />
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -562,138 +559,191 @@ export default function EventRegistrationForm({
         </div>
       </section>
 
-      {/* ══ RESOURCES SECTION ══ */}
-      <section className="bg-[#F4F2EE] py-16 px-4 lg:px-8">
+      {/* ══════════════════════════════════════════════════════
+          RESOURCES SECTION — dark background, tall image cards
+      ══════════════════════════════════════════════════════ */}
+      <section ref={resourcesRef} className="bg-[#3A3530] py-20 px-4 lg:px-8">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-[2px] text-orange-500">
+
+          {/* Section header */}
+          <div className="text-center mb-14">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[3px] text-[#E87722]">
               Resources
             </p>
-            <h2 className="text-2xl lg:text-3xl font-bold text-[#181D27] mb-3">
-              Explore Our Resources
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              Everything You Need, In One Place
             </h2>
-            <p className="text-[#535862] max-w-xl mx-auto text-sm leading-relaxed">
-              Download our brochures, read our white papers, and connect with us on social media.
+            <p className="text-white/60 max-w-xl mx-auto text-sm leading-relaxed">
+              Explore our training brochures, white papers, and connect with us across our social channels.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            {/* Brochures */}
-            {activeBrochures.length > 0 && (
-              <div className="lg:col-span-1">
-                <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
-                  <FileText size={18} className="text-orange-500" />
-                  Training Brochures
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {activeBrochures.map((brochure) => (
-                    <div key={brochure._id} className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow duration-200">
-                      <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-orange-50 overflow-hidden flex items-center justify-center">
-                        {brochure.coverImage ? (
-                          <Image
-                            src={urlFor(brochure.coverImage).width(48).height(48).url()}
-                            alt={brochure.title}
-                            width={48}
-                            height={48}
-                            className="object-cover w-full h-full"
-                          />
-                        ) : (
-                          <FileText size={20} className="text-orange-400" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-[#181D27] leading-tight line-clamp-2 mb-1">{brochure.title}</p>
-                        <p className="text-[0.68rem] text-[#535862]">{brochure.year}</p>
-                      </div>
+          {/* ── Brochures — tall image cards ── */}
+          {activeBrochures.length > 0 && (
+            <div className="mb-16">
+              <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
+                <span className="h-px flex-1 bg-white/10" />
+                Training Brochures
+                <span className="h-px flex-1 bg-white/10" />
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {activeBrochures.map((brochure) => (
+                  <motion.div
+                    key={brochure._id}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.2 }}
+                    className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E87722]/50 hover:shadow-[0_8px_32px_rgba(232,119,34,0.2)] transition-all duration-300"
+                  >
+                    {/* Cover image — tall */}
+                    <div className="relative h-52 overflow-hidden bg-white/10 flex-shrink-0">
+                      {brochure.coverImage ? (
+                        <Image
+                          src={urlFor(brochure.coverImage).width(400).height(280).url()}
+                          alt={brochure.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-full gap-3 text-white/30">
+                          <FileText size={36} />
+                          <span className="text-xs">Brochure</span>
+                        </div>
+                      )}
+                      {/* Year badge */}
+                      <span className="absolute top-3 left-3 bg-[#E87722] text-white text-[0.65rem] font-bold px-2 py-0.5 rounded-full">
+                        {brochure.year}
+                      </span>
+                    </div>
+                    {/* Card body */}
+                    <div className="flex flex-col flex-1 p-4">
+                      <p className="text-xs font-semibold text-white leading-snug line-clamp-2 mb-1 flex-1">
+                        {brochure.title}
+                      </p>
+                      <p className="text-[0.65rem] text-white/40 capitalize mb-4">
+                        {brochure.category?.replace(/_/g, " ")}
+                      </p>
                       <button
                         onClick={() => handleBrochureDownload(brochure)}
-                        className="flex-shrink-0 flex items-center gap-1 px-3 py-1.5 bg-orange-500 text-white rounded-lg text-xs font-semibold hover:bg-orange-600 transition-colors duration-200"
+                        className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#E87722] text-white rounded-lg text-xs font-semibold hover:bg-[#F5A44A] transition-colors duration-200"
                       >
-                        <Download size={12} />
+                        <Download size={13} />
                         Download
                       </button>
                     </div>
-                  ))}
-                </div>
+                  </motion.div>
+                ))}
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Publications */}
-            {activePublications.length > 0 && (
-              <div className="lg:col-span-1">
-                <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
-                  <FileText size={18} className="text-orange-500" />
-                  White Papers &amp; Publications
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {activePublications.map((pub) => (
-                    <div key={pub._id} className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow duration-200">
-                      <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-orange-50 overflow-hidden flex items-center justify-center">
-                        {pub.image ? (
-                          <Image
-                            src={urlFor(pub.image).width(48).height(48).url()}
-                            alt={pub.title}
-                            width={48}
-                            height={48}
-                            className="object-cover w-full h-full"
-                          />
-                        ) : (
-                          <FileText size={20} className="text-orange-400" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-[#181D27] leading-tight line-clamp-2 mb-1">{pub.title}</p>
-                        {pub.category && (
-                          <p className="text-[0.68rem] text-orange-500 capitalize">{pub.category.replace(/_/g, " ")}</p>
-                        )}
-                      </div>
-                      {pub.pdfFile?.asset?.url && (
+          {/* ── Publications — tall image cards ── */}
+          {activePublications.length > 0 && (
+            <div className="mb-16">
+              <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
+                <span className="h-px flex-1 bg-white/10" />
+                White Papers &amp; Publications
+                <span className="h-px flex-1 bg-white/10" />
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {activePublications.map((pub) => (
+                  <motion.div
+                    key={pub._id}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.2 }}
+                    className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E87722]/50 hover:shadow-[0_8px_32px_rgba(232,119,34,0.2)] transition-all duration-300"
+                  >
+                    {/* Cover image — tall */}
+                    <div className="relative h-52 overflow-hidden bg-white/10 flex-shrink-0">
+                      {pub.image ? (
+                        <Image
+                          src={urlFor(pub.image).width(400).height(280).url()}
+                          alt={pub.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-full gap-3 text-white/30">
+                          <FileText size={36} />
+                          <span className="text-xs">Publication</span>
+                        </div>
+                      )}
+                      {/* Category badge */}
+                      {pub.category && (
+                        <span className="absolute top-3 left-3 bg-[#E87722] text-white text-[0.65rem] font-bold px-2 py-0.5 rounded-full capitalize">
+                          {pub.category.replace(/_/g, " ")}
+                        </span>
+                      )}
+                    </div>
+                    {/* Card body */}
+                    <div className="flex flex-col flex-1 p-4">
+                      <p className="text-xs font-semibold text-white leading-snug line-clamp-2 mb-1 flex-1">
+                        {pub.title}
+                      </p>
+                      {pub.author && (
+                        <p className="text-[0.65rem] text-white/40 mb-4">{pub.author}</p>
+                      )}
+                      {pub.pdfFile?.asset?.url ? (
                         <a
                           href={pub.pdfFile.asset.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-shrink-0 flex items-center gap-1 px-3 py-1.5 bg-orange-500 text-white rounded-lg text-xs font-semibold hover:bg-orange-600 transition-colors duration-200"
+                          className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#E87722] text-white rounded-lg text-xs font-semibold hover:bg-[#F5A44A] transition-colors duration-200"
                         >
-                          <Download size={12} />
+                          <Download size={13} />
                           Download
                         </a>
+                      ) : (
+                        <div className="w-full py-2.5 bg-white/10 text-white/30 rounded-lg text-xs font-semibold text-center">
+                          Coming soon
+                        </div>
                       )}
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Social media */}
-            <div className="lg:col-span-1">
-              <h3 className="text-base font-bold text-[#181D27] mb-4 flex items-center gap-2">
-                <ExternalLink size={18} className="text-orange-500" />
-                Follow Us
-              </h3>
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <p className="text-sm text-[#535862] mb-6 leading-relaxed">
-                  Stay up to date with the latest news, insights, and opportunities from Kimberly Ryan.
-                </p>
-                <div className="flex flex-col gap-3">
-                  {socialLinks.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg border border-gray-100 text-[#181D27] hover:border-orange-300 hover:text-orange-500 transition-colors duration-200"
-                    >
-                      <span className="text-orange-500">{s.icon}</span>
-                      <span className="text-sm font-medium">{s.label}</span>
-                      <ExternalLink size={12} className="ml-auto text-gray-400" />
-                    </a>
-                  ))}
-                </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
+          )}
 
+          {/* ── Social media — branded buttons ── */}
+          <div>
+            <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
+              <span className="h-px flex-1 bg-white/10" />
+              Follow Us
+              <span className="h-px flex-1 bg-white/10" />
+            </h3>
+            <div className="flex flex-wrap justify-center gap-4">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 px-6 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+                >
+                  <span style={{ color: s.color }} className="transition-transform duration-200 group-hover:scale-110">
+                    {s.icon}
+                  </span>
+                  <span className="text-sm font-semibold text-white">{s.label}</span>
+                  <ExternalLink size={12} className="text-white/30 group-hover:text-white/60 transition-colors duration-200" />
+                </a>
+              ))}
+            </div>
+
+            {/* Website CTA */}
+            <div className="mt-12 text-center">
+              <p className="text-white/40 text-sm mb-4">Want to explore our full range of services?</p>
+              <a
+                href="https://www.kimberly-ryan.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#E87722] text-white rounded-xl text-sm font-bold hover:bg-[#F5A44A] transition-colors duration-200 shadow-lg shadow-[#E87722]/30"
+              >
+                Visit Kimberly Ryan
+                <ExternalLink size={14} />
+              </a>
+            </div>
           </div>
+
         </div>
       </section>
     </>
