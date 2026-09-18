@@ -4,6 +4,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,9 +15,10 @@ import {
   FileText,
   ExternalLink,
   ChevronDown,
+  PlayCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brochure, Publication } from "@/types/sanity";
+import { Brochure, Publication, Webinar } from "@/types/sanity";
 import { urlFor } from "@/lib/sanity";
 
 // ── Zod schema ──────────────────────────────────────────────────────────────
@@ -46,6 +48,7 @@ interface EventRegistrationFormProps {
   coverImageUrl?:    string;
   brochures?:        Brochure[];
   publications?:     Publication[];
+  webinars?:         Webinar[];
 }
 
 // ── Brochure download helper ─────────────────────────────────────────────────
@@ -157,13 +160,13 @@ export default function EventRegistrationForm({
   coverImageUrl,
   brochures = [],
   publications = [],
+  webinars = [],
 }: EventRegistrationFormProps) {
   const [isSubmitting,      setIsSubmitting]      = useState(false);
   const [submitStatus,      setSubmitStatus]      = useState<"idle" | "success" | "error">("idle");
   const [submitMessage,     setSubmitMessage]     = useState("");
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
 
-  // Ref for smooth scroll to resources
   const resourcesRef = useRef<HTMLElement>(null);
 
   const scrollToResources = () => {
@@ -187,13 +190,6 @@ export default function EventRegistrationForm({
     },
   });
 
-  const handleMakeAnotherEnquiry = () => {
-    reset();
-    setShowSuccessScreen(false);
-    setSubmitStatus("idle");
-    setSubmitMessage("");
-  };
-
   const onSubmit = async (data: RegistrationFormData) => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
@@ -208,7 +204,6 @@ export default function EventRegistrationForm({
         setSubmitStatus("success");
         setSubmitMessage(result.message);
         setShowSuccessScreen(true);
-        // Scroll to resources after short delay so success screen renders first
         setTimeout(() => scrollToResources(), 400);
       } else {
         setSubmitStatus("error");
@@ -225,6 +220,7 @@ export default function EventRegistrationForm({
 
   const activeBrochures    = brochures.filter((b) => b.active);
   const activePublications = publications.filter((p) => p.active);
+  const activeWebinars     = webinars.filter((w) => w.active);
 
   return (
     <>
@@ -307,23 +303,15 @@ export default function EventRegistrationForm({
                       {submitMessage}
                     </p>
                     <p className="text-[#535862] text-sm mb-8 leading-relaxed">
-                      While you wait to hear from us, explore our brochures, white papers and insights below.
+                      While you wait to hear from us, explore our brochures, webinars and insights below.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <button
-                        onClick={scrollToResources}
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium text-sm"
-                      >
-                        Explore Resources
-                        <ChevronDown size={16} />
-                      </button>
-                      <button
-                        onClick={handleMakeAnotherEnquiry}
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 text-[#181D27] rounded-lg hover:border-orange-300 hover:text-orange-500 transition-colors duration-200 font-medium text-sm"
-                      >
-                        Submit Another
-                      </button>
-                    </div>
+                    <button
+                      onClick={scrollToResources}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium text-sm"
+                    >
+                      Explore Resources
+                      <ChevronDown size={16} />
+                    </button>
                   </motion.div>
                 )}
 
@@ -560,7 +548,7 @@ export default function EventRegistrationForm({
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          RESOURCES SECTION — dark background, tall image cards
+          RESOURCES SECTION
       ══════════════════════════════════════════════════════ */}
       <section ref={resourcesRef} className="bg-[#3A3530] py-20 px-4 lg:px-8">
         <div className="container mx-auto">
@@ -574,11 +562,11 @@ export default function EventRegistrationForm({
               Everything You Need, In One Place
             </h2>
             <p className="text-white/60 max-w-xl mx-auto text-sm leading-relaxed">
-              Explore our training brochures, white papers, and connect with us across our social channels.
+              Explore our training brochures, webinars, white papers, and connect with us across our social channels.
             </p>
           </div>
 
-          {/* ── Brochures — tall image cards ── */}
+          {/* ── Brochures ── */}
           {activeBrochures.length > 0 && (
             <div className="mb-16">
               <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
@@ -594,7 +582,6 @@ export default function EventRegistrationForm({
                     transition={{ duration: 0.2 }}
                     className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E87722]/50 hover:shadow-[0_8px_32px_rgba(232,119,34,0.2)] transition-all duration-300"
                   >
-                    {/* Cover image — tall */}
                     <div className="relative h-52 overflow-hidden bg-white/10 flex-shrink-0">
                       {brochure.coverImage ? (
                         <Image
@@ -609,12 +596,10 @@ export default function EventRegistrationForm({
                           <span className="text-xs">Brochure</span>
                         </div>
                       )}
-                      {/* Year badge */}
                       <span className="absolute top-3 left-3 bg-[#E87722] text-white text-[0.65rem] font-bold px-2 py-0.5 rounded-full">
                         {brochure.year}
                       </span>
                     </div>
-                    {/* Card body */}
                     <div className="flex flex-col flex-1 p-4">
                       <p className="text-xs font-semibold text-white leading-snug line-clamp-2 mb-1 flex-1">
                         {brochure.title}
@@ -636,7 +621,88 @@ export default function EventRegistrationForm({
             </div>
           )}
 
-          {/* ── Publications — tall image cards ── */}
+          {/* ── Webinars ── */}
+          {activeWebinars.length > 0 && (
+            <div className="mb-16">
+              <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
+                <span className="h-px flex-1 bg-white/10" />
+                Webinar Series
+                <span className="h-px flex-1 bg-white/10" />
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {activeWebinars.map((webinar) => (
+                  <motion.div
+                    key={webinar._id}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.2 }}
+                    className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E87722]/50 hover:shadow-[0_8px_32px_rgba(232,119,34,0.2)] transition-all duration-300"
+                  >
+                    {/* Thumbnail */}
+                    <div className="relative h-52 overflow-hidden bg-white/10 flex-shrink-0">
+                      {webinar.image ? (
+                        <Image
+                          src={urlFor(webinar.image).width(400).height(280).url()}
+                          alt={webinar.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-full gap-3 text-white/30">
+                          <PlayCircle size={36} />
+                          <span className="text-xs">Webinar</span>
+                        </div>
+                      )}
+                      {/* Play overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
+                        <div className="w-12 h-12 rounded-full bg-[#E87722] flex items-center justify-center shadow-lg">
+                          <PlayCircle size={24} className="text-white" />
+                        </div>
+                      </div>
+                      {webinar.category && (
+                        <span className="absolute top-3 left-3 bg-[#E87722] text-white text-[0.65rem] font-bold px-2 py-0.5 rounded-full capitalize">
+                          {webinar.category.replace(/_/g, " ")}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col flex-1 p-4">
+                      <p className="text-xs font-semibold text-white leading-snug line-clamp-2 mb-1 flex-1">
+                        {webinar.title}
+                      </p>
+                      {webinar.presenter && (
+                        <p className="text-[0.65rem] text-white/40 mb-4">{webinar.presenter}</p>
+                      )}
+                      <div className="flex flex-col gap-2">
+                        {webinar.webinarUrl && (
+                          <a
+                            href={webinar.webinarUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#E87722] text-white rounded-lg text-xs font-semibold hover:bg-[#F5A44A] transition-colors duration-200"
+                          >
+                            <PlayCircle size={13} />
+                            Watch
+                          </a>
+                        )}
+                        {webinar.trainingSlidesPdf?.asset?.url && (
+                          <a
+                            href={webinar.trainingSlidesPdf.asset.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center justify-center gap-2 py-2 bg-white/10 text-white rounded-lg text-xs font-semibold hover:bg-white/20 transition-colors duration-200"
+                          >
+                            <Download size={13} />
+                            Slides
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Publications ── */}
           {activePublications.length > 0 && (
             <div className="mb-16">
               <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
@@ -652,7 +718,6 @@ export default function EventRegistrationForm({
                     transition={{ duration: 0.2 }}
                     className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E87722]/50 hover:shadow-[0_8px_32px_rgba(232,119,34,0.2)] transition-all duration-300"
                   >
-                    {/* Cover image — tall */}
                     <div className="relative h-52 overflow-hidden bg-white/10 flex-shrink-0">
                       {pub.image ? (
                         <Image
@@ -667,14 +732,12 @@ export default function EventRegistrationForm({
                           <span className="text-xs">Publication</span>
                         </div>
                       )}
-                      {/* Category badge */}
                       {pub.category && (
                         <span className="absolute top-3 left-3 bg-[#E87722] text-white text-[0.65rem] font-bold px-2 py-0.5 rounded-full capitalize">
                           {pub.category.replace(/_/g, " ")}
                         </span>
                       )}
                     </div>
-                    {/* Card body */}
                     <div className="flex flex-col flex-1 p-4">
                       <p className="text-xs font-semibold text-white leading-snug line-clamp-2 mb-1 flex-1">
                         {pub.title}
@@ -704,46 +767,69 @@ export default function EventRegistrationForm({
             </div>
           )}
 
-          {/* ── Social media — branded buttons ── */}
-          <div>
-            <h3 className="text-base font-semibold text-white/70 uppercase tracking-widest mb-6 flex items-center gap-3">
-              <span className="h-px flex-1 bg-white/10" />
-              Follow Us
-              <span className="h-px flex-1 bg-white/10" />
-            </h3>
-            <div className="flex flex-wrap justify-center gap-4">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-6 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
-                >
-                  <span style={{ color: s.color }} className="transition-transform duration-200 group-hover:scale-110">
-                    {s.icon}
-                  </span>
-                  <span className="text-sm font-semibold text-white">{s.label}</span>
-                  <ExternalLink size={12} className="text-white/30 group-hover:text-white/60 transition-colors duration-200" />
-                </a>
-              ))}
+          {/* ── KRSR + Social + Website row ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+
+            {/* KRSR card */}
+            <div className="md:col-span-1 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center hover:border-[#E87722]/40 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-[#E87722]/20 flex items-center justify-center mb-4">
+                <span className="text-xl">🌍</span>
+              </div>
+              <h4 className="text-white font-bold text-sm mb-2">Kimberly Ryan Social Responsibility</h4>
+              <p className="text-white/50 text-xs leading-relaxed mb-5">
+                Discover how we are shaping careers and building futures through the KRSR initiative.
+              </p>
+              <Link
+                href="/about/krsr"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#E87722] text-white rounded-lg text-xs font-bold hover:bg-[#F5A44A] transition-colors duration-200"
+              >
+                Learn About KRSR
+                <ExternalLink size={12} />
+              </Link>
             </div>
 
-            {/* Website CTA */}
-            <div className="mt-12 text-center">
-              <p className="text-white/40 text-sm mb-4">Want to explore our full range of services?</p>
+            {/* Social media */}
+            <div className="md:col-span-1 bg-white/5 border border-white/10 rounded-2xl p-6">
+              <h4 className="text-white font-bold text-sm mb-4 text-center">Follow Us</h4>
+              <div className="flex flex-col gap-2.5">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+                  >
+                    <span style={{ color: s.color }} className="transition-transform duration-200 group-hover:scale-110 flex-shrink-0">
+                      {s.icon}
+                    </span>
+                    <span className="text-sm font-semibold text-white">{s.label}</span>
+                    <ExternalLink size={11} className="text-white/30 group-hover:text-white/60 transition-colors duration-200 ml-auto" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Visit website CTA */}
+            <div className="md:col-span-1 bg-[#E87722] rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+              <h4 className="text-white font-bold text-lg mb-2 leading-tight">
+                Explore Our Full Range of Services
+              </h4>
+              <p className="text-white/80 text-xs leading-relaxed mb-6">
+                HR Advisory, Recruitment, Learning &amp; Development, Outsourcing and Digital Solutions — all in one place.
+              </p>
               <a
                 href="https://www.kimberly-ryan.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#E87722] text-white rounded-xl text-sm font-bold hover:bg-[#F5A44A] transition-colors duration-200 shadow-lg shadow-[#E87722]/30"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#E87722] rounded-xl text-sm font-bold hover:bg-white/90 transition-colors duration-200 shadow-lg"
               >
                 Visit Kimberly Ryan
                 <ExternalLink size={14} />
               </a>
             </div>
-          </div>
 
+          </div>
         </div>
       </section>
     </>
