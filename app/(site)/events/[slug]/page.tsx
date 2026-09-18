@@ -81,6 +81,14 @@ export default async function EventRegistrationPage({
         fileSize, pageCount, featured, active, tags, summary
       }`
     ),
+    client.fetch(
+      `*[_type == "webinar" && active == true] | order(displayOrder asc)[0...8]{
+        _id, title, slug, description, subHeading,
+        image{ asset->{ _id, url } },
+        webinarUrl, trainingSlidesPdf{ asset->{ _id, url, originalFilename } },
+        category, presenter, duration, featured, active, displayOrder
+      }`
+    ),
   ]);
 
   // Show 404 if event doesn't exist or isn't active
