@@ -11,7 +11,7 @@ import { notFound }               from "next/navigation";
 import { createClient }           from "@sanity/client";
 import imageUrlBuilder            from "@sanity/image-url";
 import EventRegistrationForm      from "@/components/specific/EventRegistrationForm";
-import { Brochure, Publication }  from "@/types/sanity";
+import { Brochure, Publication, Webinar } from "@/types/sanity";
 
 export const dynamic = "force-dynamic";
 
@@ -49,7 +49,7 @@ export default async function EventRegistrationPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;  const [event, brochures, publications] = await Promise.all([
+  const { slug } = await params; const [event, brochures, publications, webinars] = await Promise.all([
     client.fetch(
       `*[_type == "event" && slug.current == $slug && active == true][0]{
         _id,
@@ -111,6 +111,7 @@ export default async function EventRegistrationPage({
       coverImageUrl={coverImageUrl}
       brochures={brochures as Brochure[]}
       publications={publications as Publication[]}
+      webinars={webinars as Webinar[]}
     />
   );
 }
