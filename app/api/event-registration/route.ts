@@ -8,7 +8,15 @@
 import { NextResponse }  from "next/server";
 import { EmailService }  from "@/lib/email";
 import { google } from "googleapis";
+import { createClient } from "@sanity/client";
 
+const sanityClient = createClient({
+  projectId:  "h28ja2xu",
+  dataset:    "production",
+  apiVersion: "2024-01-01",
+  useCdn:     true,
+  // No token needed — just reading public event data
+});
 
 function getGoogleAuth() {
   const privateKey = (process.env.GOOGLE_PRIVATE_KEY ?? "").replace(/\\n/g, "\n");
