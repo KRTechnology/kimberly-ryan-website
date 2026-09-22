@@ -14,8 +14,8 @@ const sanityClient = createClient({
   projectId:  "h28ja2xu",
   dataset:    "production",
   apiVersion: "2024-01-01",
-  useCdn:     true,
-  // No token needed — just reading public event data
+  token:      process.env.SANITY_API_TOKEN,
+  useCdn:     false,
 });
 
 function getGoogleAuth() {
@@ -107,8 +107,28 @@ if (
       },
     });
 
-    // Fake submission object so the email section below still works
-    const submission = { _createdAt: new Date().toISOString(), _id: `${Date.now()}` };
+    // ── Write to Sanity ──
+    const submission = await sanityClient.create({
+      _type:                 "eventRegistrationSubmission",
+      event: {
+        _type: "reference",
+        _ref:  event._id,
+      },
+      firstName,
+      lastName,
+      email,
+      phone:                 phone || "",
+      organization,
+      designation,
+      howDidYouHear:         howDidYouHear || "",
+      peopleManagementAreas: peopleManagementAreas || [],
+      otherPeopleManagement: otherPeopleManagement || "",
+      consultationInterest:  consultationInterest  || "",
+      agreeToPrivacy,
+      submissionDate:        new Date().toISOString(),
+      status:                "new",
+      source:                "event_registration",
+    });
 
     // ── Send team notification email ──
     // Uses EmailService from your existing lib/email — same pattern as contact form.
