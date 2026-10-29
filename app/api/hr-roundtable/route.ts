@@ -21,10 +21,11 @@ const schema = z.object({
 async function appendToSheet(row: string[]) {
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-  const sheetId = process.env.GOOGLE_SHEET_ID;
+  // Use a dedicated sheet if GOOGLE_ROUNDTABLE_SHEET_ID is set, otherwise fall back to the existing GOOGLE_SHEET_ID.
+  const sheetId = process.env.GOOGLE_ROUNDTABLE_SHEET_ID || process.env.GOOGLE_SHEET_ID;
   const tab = process.env.GOOGLE_SHEET_TAB || "Registrations";
   if (!clientEmail || !privateKey || !sheetId) {
-    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY or GOOGLE_SHEET_ID");
+    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY or a sheet ID");
   }
 
   const auth = new google.auth.JWT({
