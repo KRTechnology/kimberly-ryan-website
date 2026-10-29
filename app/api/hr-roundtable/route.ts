@@ -12,8 +12,6 @@ const schema = z.object({
   phone: z.string().trim().max(50).optional().default(""),
   jobTitle: z.string().trim().max(150).optional().default(""),
   organization: z.string().trim().max(150).optional().default(""),
-  questions: z.string().trim().max(2000).optional().default(""),
-  updates: z.string().optional().default("false"),
   website: z.string().optional().default(""), // honeypot
 });
 
@@ -37,7 +35,7 @@ async function appendToSheet(row: string[]) {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId: sheetId,
-    range: `'${tab}'!A:I`,
+    range: `'${tab}'!A:G`,
     valueInputOption: "RAW", // stores text exactly as typed, so nothing is treated as a formula
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [row] },
@@ -75,8 +73,6 @@ export async function POST(req: Request) {
       d.phone,
       d.jobTitle,
       d.organization,
-      d.questions,
-      d.updates === "true" ? "Yes" : "No",
     ]);
   } catch (err) {
     sheetOk = false;
@@ -104,8 +100,6 @@ export async function POST(req: Request) {
           `Phone: ${d.phone || "-"}`,
           `Job title: ${d.jobTitle || "-"}`,
           `Organization: ${d.organization || "-"}`,
-          `Wants future event news: ${d.updates === "true" ? "Yes" : "No"}`,
-          `Questions for the panel: ${d.questions || "-"}`,
           sheetOk ? "" : "\nNOTE: this registration could NOT be saved to the Google Sheet. Please add it manually.",
         ].join("\n"),
       });
