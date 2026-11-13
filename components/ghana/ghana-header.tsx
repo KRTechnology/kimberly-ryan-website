@@ -30,16 +30,16 @@ const GhanaHeader = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+      className={`sticky top-0 z-50 border-b bg-white transition-all duration-300 ${
         isScrolled
-          ? "border-[#E4DCCF] bg-[#FCF9F4]/95 shadow-[0_10px_30px_-20px_rgba(24,23,22,0.5)] backdrop-blur"
-          : "border-transparent bg-[#FCF9F4]"
+          ? "border-[#EDECEB] shadow-[0_10px_30px_-24px_rgba(24,23,22,0.5)]"
+          : "border-transparent"
       }`}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-5 lg:px-8">
         <Link
           href="#top"
-          className="flex flex-shrink-0 items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FCF9F4]"
+          className="flex flex-shrink-0 items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-4 focus-visible:ring-offset-white"
           onClick={() => setIsMenuOpen(false)}
         >
           <Image
@@ -50,8 +50,8 @@ const GhanaHeader = () => {
             priority
             className="h-8 w-auto"
           />
-          <span className="h-6 w-px bg-[#DBD2C4]" aria-hidden="true" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#595553]">
+          <span className="h-6 w-px bg-[#D5D7DA]" aria-hidden="true" />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#535862]">
             Ghana
           </span>
         </Link>
@@ -64,7 +64,7 @@ const GhanaHeader = () => {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-[#414651] transition-colors duration-200 hover:text-[#A85A12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FCF9F4]"
+              className="text-sm font-medium text-[#535862] transition-colors duration-200 hover:text-[#EB821D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-4 focus-visible:ring-offset-white"
             >
               {item.label}
             </Link>
@@ -81,7 +81,7 @@ const GhanaHeader = () => {
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#DBD2C4] text-[#181716] transition-colors hover:border-[#181716] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#D5D7DA] text-[#181D27] transition-colors hover:border-[#181D27] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] lg:hidden"
             aria-expanded={isMenuOpen}
             aria-controls="ghana-mobile-menu"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -95,7 +95,7 @@ const GhanaHeader = () => {
       {isMenuOpen && (
         <div
           id="ghana-mobile-menu"
-          className="border-t border-[#E4DCCF] bg-[#FCF9F4] lg:hidden"
+          className="border-t border-[#EDECEB] bg-white lg:hidden"
         >
           <nav
             className="mx-auto flex max-w-6xl flex-col px-5 py-4"
@@ -106,7 +106,7 @@ const GhanaHeader = () => {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="border-b border-[#EDE6DA] py-4 text-base font-medium text-[#181716] last:border-b-0"
+                className="border-b border-[#EDECEB] py-4 text-base font-medium text-[#181D27] last:border-b-0"
               >
                 {item.label}
               </Link>

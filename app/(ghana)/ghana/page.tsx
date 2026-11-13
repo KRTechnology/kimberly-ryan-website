@@ -9,7 +9,6 @@ import GhanaServices from "@/components/ghana/ghana-services";
 import GhanaTrust from "@/components/ghana/ghana-trust";
 import GhanaWhyUs from "@/components/ghana/ghana-why-us";
 import {
-  GHANA_ADDRESS,
   GHANA_EMAIL,
   GHANA_PHONE_TEL,
   MAIN_SITE_URL,
@@ -74,12 +73,6 @@ const organisationSchema = {
     "Payroll, recruitment, learning and development and HR advisory services for employers in Ghana.",
   telephone: GHANA_PHONE_TEL,
   email: GHANA_EMAIL,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: GHANA_ADDRESS[0],
-    addressLocality: "Airport West, Accra",
-    addressCountry: "GH",
-  },
   areaServed: {
     "@type": "Country",
     name: "Ghana",
@@ -93,7 +86,7 @@ const organisationSchema = {
 
 export default function GhanaHomePage() {
   return (
-    <div className="min-h-screen bg-[#FCF9F4] font-plex text-[#181716] antialiased motion-safe:scroll-smooth">
+    <div className="min-h-screen bg-white font-plex text-[#181D27] antialiased motion-safe:scroll-smooth">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationSchema) }}

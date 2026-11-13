@@ -20,7 +20,7 @@ const LogoMark = ({ index }: { index: number }) => {
       stroke="currentColor"
       strokeWidth="1.6"
       aria-hidden="true"
-      className="text-[#C0B5A3]"
+      className="text-[#A39C99]"
     >
       {marks[index % marks.length]}
     </svg>
@@ -29,18 +29,18 @@ const LogoMark = ({ index }: { index: number }) => {
 
 const GhanaTrust = () => {
   return (
-    <section className="border-y border-[#EDE6DA] bg-white py-16 lg:py-20">
+    <section className="border-y border-[#D5D7DA] bg-[#EDECEB] py-16 lg:py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#A85A12]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#535862]">
               Our clients
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#181716] sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-[#181D27] sm:text-4xl">
               Trusted by organisations across Africa
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-[#6B6661] md:text-right">
+          <p className="max-w-xs text-sm leading-relaxed text-[#535862] md:text-right">
             Client names and logos are shown with permission.
           </p>
         </div>
@@ -49,18 +49,18 @@ const GhanaTrust = () => {
           {LOGO_PLACEHOLDERS.map((index) => (
             <li
               key={index}
-              className="flex h-24 items-center justify-center gap-2.5 rounded-md border border-dashed border-[#D9D1C4] bg-[#FBF7F1] px-4"
+              className="flex h-24 items-center justify-center gap-2.5 rounded-md border border-dashed border-[#C8C3C1] bg-white px-4"
               aria-label="Client logo placeholder"
             >
               <LogoMark index={index} />
-              <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#6B6661]">
+              <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#535862]">
                 Client logo
               </span>
             </li>
           ))}
         </ul>
 
-        <figure className="mt-10 grid gap-5 rounded-lg border border-[#E4DCCF] border-l-[3px] border-l-[#EB821D] bg-[#FCF9F4] p-6 sm:p-8 md:grid-cols-[auto_1fr] md:items-start md:gap-7">
+        <figure className="mt-10 grid gap-5 rounded-2xl bg-[#373433] p-6 sm:p-8 md:grid-cols-[auto_1fr] md:items-start md:gap-7">
           <Quote
             size={34}
             className="text-[#EB821D]"
@@ -68,13 +68,13 @@ const GhanaTrust = () => {
             strokeWidth={1.4}
           />
           <div>
-            <blockquote className="text-lg leading-relaxed text-[#3C3835] sm:text-xl">
+            <blockquote className="text-lg leading-relaxed text-[#EDECEB] sm:text-xl">
               “Add a short testimonial from a Ghana client here, describing the
               difference our team made to their organisation.”
             </blockquote>
-            <figcaption className="mt-4 text-sm font-medium text-[#6B6661]">
+            <figcaption className="mt-4 text-sm font-medium text-[#C8C3C1]">
               Client name, role, company
-              <span className="ml-2 rounded-sm bg-[#F1E8DA] px-2 py-0.5 text-[11px] uppercase tracking-wide text-[#8C5A2A]">
+              <span className="ml-2 rounded-sm bg-white/10 px-2 py-0.5 text-[11px] uppercase tracking-wide text-[#EDECEB]">
                 To be confirmed
               </span>
             </figcaption>

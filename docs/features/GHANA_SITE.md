@@ -17,6 +17,26 @@ The Ghana page does not use the main site's header, footer or Sanity-driven
 homepage sections, so it can evolve independently. It does share the root
 layout (fonts, analytics) and the global Tailwind configuration.
 
+## Design
+
+The page follows the main site's palette so the two do not look like different
+brands. Stick to these values:
+
+| Role | Value |
+| --- | --- |
+| Page background | `#FFFFFF` |
+| Card / subtle fill | `#FAFAFA` |
+| Section band and hairlines | `#EDECEB` |
+| Borders | `#D5D7DA` |
+| Headings | `#181D27` |
+| Body text | `#535862` |
+| Accent (buttons, links, quote mark) | `#EB821D`, hover `#B56314` |
+| Dark blocks | `#373433`; footer `#181716` |
+
+Avoid the cream and brown tints the first draft used (`#FCF9F4`, `#FBF7F1`,
+`#A85A12`, `#1B0E03`). Accent colour is for buttons, links and small
+highlights only; labels and body copy stay grey.
+
 ## Local preview
 
 ```bash
@@ -71,12 +91,18 @@ These items came from the draft and are intentionally marked as placeholders:
 - **Testimonial** — the quote in `ghana-trust.tsx` is placeholder copy with a
   “To be confirmed” label. Add an approved quote, name, role and company.
 - **Photos** — the hero and “Why us” images are existing Kimberly Ryan stock
-  photos. Swap in approved photos of the Accra office/team when available.
+  photos. Swap in approved photos of the Ghana team when available.
 - **Email address** — `info@kimberly-ryan.com` is used as the Ghana contact
   address. Change `GHANA_EMAIL` in `components/ghana/constants.ts` if Ghana
   has a dedicated inbox.
 - **CV link** — “Submit your CV” points to `https://www.kracada.com/jobs`
   (the careers destination used by the main site).
+- **Office address** — the Accra address has been removed from the page at the
+  client's request, together with the hero address card, the map embed, the
+  “Accra office / Airport West” stat and the JSON-LD `PostalAddress`. If a
+  public address is confirmed, add it back to `components/ghana/constants.ts`,
+  `ghana-hero.tsx`, `ghana-contact.tsx`, `ghana-footer.tsx` and the schema in
+  `app/(ghana)/ghana/page.tsx`.
 
 ## Enquiries
 

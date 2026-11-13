@@ -38,9 +38,9 @@ const ghanaContactSchema = z.object({
 type GhanaContactFormData = z.infer<typeof ghanaContactSchema>;
 
 const inputClasses =
-  "w-full rounded-md border border-[#D9D1C4] bg-white px-4 py-3 text-[15px] text-[#181716] placeholder:text-[#7D7570] transition-colors focus:border-[#EB821D] focus:outline-none focus:ring-2 focus:ring-[#EB821D]/30";
+  "w-full rounded-md border border-[#D5D7DA] bg-white px-4 py-3 text-[15px] text-[#181D27] placeholder:text-[#7D7775] transition-colors focus:border-[#EB821D] focus:outline-none focus:ring-2 focus:ring-[#EB821D]/30";
 
-const labelClasses = "mb-1.5 block text-sm font-medium text-[#3C3835]";
+const labelClasses = "mb-1.5 block text-sm font-medium text-[#535862]";
 
 const GhanaContactForm = () => {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -109,14 +109,14 @@ const GhanaContactForm = () => {
 
   if (status === "success") {
     return (
-      <div className="flex h-full flex-col items-start justify-center rounded-lg border border-[#E4DCCF] bg-white p-8 shadow-[0_20px_50px_-45px_rgba(27,14,3,0.55)] sm:p-10">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FEE7DE] text-[#A85A12]">
+      <div className="flex h-full flex-col items-start justify-center rounded-lg border border-[#D5D7DA] bg-white p-8 shadow-[0_20px_50px_-45px_rgba(24,23,22,0.45)] sm:p-10">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EDECEB] text-[#535862]">
           <CheckCircle2 size={26} />
         </span>
-        <h3 className="mt-5 text-2xl font-semibold text-[#181716]">
+        <h3 className="mt-5 text-2xl font-semibold text-[#181D27]">
           Message received
         </h3>
-        <p className="mt-2 text-[15px] leading-relaxed text-[#595553]">
+        <p className="mt-2 text-[15px] leading-relaxed text-[#535862]">
           {feedback}
         </p>
         <button
@@ -125,7 +125,7 @@ const GhanaContactForm = () => {
             setStatus("idle");
             setFeedback("");
           }}
-          className="mt-6 text-sm font-semibold text-[#A85A12] underline decoration-[#EB821D] decoration-2 underline-offset-4 hover:text-[#82450B]"
+          className="mt-6 text-sm font-semibold text-[#535862] underline decoration-[#EB821D] decoration-2 underline-offset-4 hover:text-[#181D27]"
         >
           Send another message
         </button>
@@ -137,12 +137,12 @@ const GhanaContactForm = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="rounded-lg border border-[#E4DCCF] bg-white p-6 shadow-[0_20px_50px_-45px_rgba(27,14,3,0.55)] sm:p-8"
+      className="rounded-lg border border-[#D5D7DA] bg-white p-6 shadow-[0_20px_50px_-45px_rgba(24,23,22,0.45)] sm:p-8"
     >
       <div className="space-y-4">
         <div>
           <label htmlFor="ghana-name" className={labelClasses}>
-            Name <span className="text-[#C26811]">*</span>
+            Name <span className="text-[#535862]">*</span>
           </label>
           <input
             id="ghana-name"
@@ -163,7 +163,7 @@ const GhanaContactForm = () => {
 
         <div>
           <label htmlFor="ghana-email" className={labelClasses}>
-            Work email <span className="text-[#C26811]">*</span>
+            Work email <span className="text-[#535862]">*</span>
           </label>
           <input
             id="ghana-email"
@@ -200,7 +200,7 @@ const GhanaContactForm = () => {
 
         <div>
           <label htmlFor="ghana-interest" className={labelClasses}>
-            I&rsquo;m interested in <span className="text-[#C26811]">*</span>
+            I&rsquo;m interested in <span className="text-[#535862]">*</span>
           </label>
           <div className="relative">
             <select
@@ -224,7 +224,7 @@ const GhanaContactForm = () => {
             <ChevronDown
               size={16}
               aria-hidden="true"
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#6B6661]"
+              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#535862]"
             />
           </div>
           {errors.interest && (
@@ -239,7 +239,7 @@ const GhanaContactForm = () => {
 
         <div>
           <label htmlFor="ghana-message" className={labelClasses}>
-            Message <span className="text-[#C26811]">*</span>
+            Message <span className="text-[#535862]">*</span>
           </label>
           <textarea
             id="ghana-message"
@@ -263,17 +263,17 @@ const GhanaContactForm = () => {
           <input
             id="ghana-privacy"
             type="checkbox"
-            className="mt-0.5 h-4 w-4 rounded border-[#C0B5A3] text-[#EB821D] accent-[#EB821D] focus:ring-[#EB821D]"
+            className="mt-0.5 h-4 w-4 rounded border-[#C8C3C1] text-[#EB821D] accent-[#EB821D] focus:ring-[#EB821D]"
             {...register("agreeToPrivacy")}
           />
           <label
             htmlFor="ghana-privacy"
-            className="text-sm leading-relaxed text-[#595553]"
+            className="text-sm leading-relaxed text-[#535862]"
           >
             I agree to the{" "}
             <a
               href={`${MAIN_SITE_URL}/privacy-policy`}
-              className="font-medium text-[#A85A12] underline decoration-[#EB821D] underline-offset-2 hover:text-[#82450B]"
+              className="font-medium text-[#535862] underline decoration-[#EB821D] decoration-2 underline-offset-2 hover:text-[#181D27]"
             >
               privacy policy
             </a>
@@ -310,7 +310,7 @@ const GhanaContactForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#EB821D] px-6 py-3.5 text-sm font-semibold text-[#181716] transition-colors duration-200 hover:bg-[#EB821D] hover:text-[#1B0E03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#EB821D] px-6 py-3.5 text-sm font-semibold text-[#181716] transition-colors duration-200 hover:bg-[#B56314] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EB821D] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting && (
             <Loader2 size={16} className="animate-spin" aria-hidden="true" />
@@ -318,7 +318,7 @@ const GhanaContactForm = () => {
           {isSubmitting ? "Sending message..." : "Send message"}
         </button>
 
-        <p className="text-center text-xs leading-relaxed text-[#6B6661]">
+        <p className="text-center text-xs leading-relaxed text-[#535862]">
           We use your details only to respond to this enquiry.
         </p>
       </div>
