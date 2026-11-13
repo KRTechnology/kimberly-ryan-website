@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Outfit } from "next/font/google";
+import { outfit } from "@/lib/fonts";
 import RegistrationForm from "./RegistrationForm";
 import styles from "./hr-roundtable.module.css";
-
-const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata: Metadata = {
   title: "KR Virtual Roundtable 3.0: Agile EX | Kimberly Ryan",

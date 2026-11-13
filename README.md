@@ -478,6 +478,13 @@ Two font families are used:
 
 - **Inter** - Primary font (`--font-inter`)
 - **IBM Plex Sans** - Secondary font (`--font-ibm-plex-sans`)
+- **Outfit** - Used by the HR roundtable landing page
+
+The woff2 files are self-hosted in `app/fonts` and loaded through
+`next/font/local` (see `lib/fonts.ts`), so `next build` never calls Google
+Fonts. Keep it that way: importing from `next/font/google` makes builds fail
+whenever Google is slow, rate-limiting or unreachable, with a `next/font`
+`Cannot read properties of null (reading '1')` error.
 
 ### Color System
 
