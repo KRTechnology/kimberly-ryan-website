@@ -150,6 +150,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // External pages
   const externalPages = [
     {
+      url: "https://ghana.kimberly-ryan.com",
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    },
+    {
       url: "https://www.kracada.com/",
       lastModified: currentDate,
       changeFrequency: "monthly" as const,
