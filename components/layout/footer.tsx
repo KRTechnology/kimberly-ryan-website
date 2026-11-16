@@ -6,9 +6,18 @@ import { FooterBlogPost } from "@/types/sanity";
 
 interface FooterProps {
   footerBlogPosts?: FooterBlogPost[];
+  /**
+   * Prefix for internal links. The Ghana subdomain serves the main site's
+   * pages from the main domain, so it passes MAIN_SITE_URL here; the main
+   * site leaves it empty and keeps relative links.
+   */
+  linkBase?: string;
 }
 
-const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
+const Footer = ({ footerBlogPosts = [], linkBase = "" }: FooterProps) => {
+  const withBase = (href: string) =>
+    /^https?:\/\//.test(href) ? href : `${linkBase}${href}`;
+
   const services = [
     { name: "HR Advisory", href: "/services/hr-advisory" },
     { name: "Learning & Development", href: "/services/learning-development" },
@@ -55,7 +64,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
               {services.map((service, index) => (
                 <li key={index}>
                   <Link
-                    href={service.href}
+                    href={withBase(service.href)}
                     className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                   >
                     {service.name}
@@ -72,7 +81,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
               {footerBlogPosts.map((post) => (
                 <li key={post._id}>
                   <Link
-                    href={`/insights/blogs/${post.slug.current}`}
+                    href={withBase(`/insights/blogs/${post.slug.current}`)}
                     className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                   >
                     {post.footerName}
@@ -89,7 +98,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
               {solutions.map((solution, index) => (
                 <li key={index}>
                   <Link
-                    href={solution.href}
+                    href={withBase(solution.href)}
                     className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
                   >
                     {solution.name}
@@ -109,7 +118,7 @@ const Footer = ({ footerBlogPosts = [] }: FooterProps) => {
                   </p>
                   <span className="hidden md:block text-gray-600">|</span>
                   <Link
-                    href="/privacy-policy"
+                    href={withBase("/privacy-policy")}
                     className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
                   >
                     Privacy Policy

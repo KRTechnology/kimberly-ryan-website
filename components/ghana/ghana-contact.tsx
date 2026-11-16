@@ -1,10 +1,8 @@
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import {
   GHANA_EMAIL,
   GHANA_PHONE_DISPLAY,
   GHANA_PHONE_TEL,
-  GHANA_WHATSAPP_URL,
-  GHANA_BTN_SECONDARY,
 } from "./constants";
 import GhanaContactForm from "./ghana-contact-form";
 
@@ -62,16 +60,6 @@ const GhanaContact = () => {
               </div>
             </div>
           </div>
-
-          <a
-            href={GHANA_WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${GHANA_BTN_SECONDARY} mt-7`}
-          >
-            <MessageCircle size={16} />
-            Chat on WhatsApp
-          </a>
         </div>
 
         <div className="lg:pt-2">

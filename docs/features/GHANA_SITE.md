@@ -9,12 +9,16 @@ The Ghana landing page is built from the draft in
 | Piece | Purpose |
 | --- | --- |
 | `app/(ghana)/ghana/page.tsx` | The Ghana homepage (URL: `/ghana`). |
-| `components/ghana/*` | Ghana-specific header, footer, sections and contact form. |
+| `components/ghana/*` | Ghana-specific header, sections and contact form. |
+| `components/layout/footer.tsx` | The main site's footer, reused verbatim on the Ghana page. |
 | `app/api/ghana-contact/route.ts` | Saves enquiries to the existing Sanity `contactSubmission` dataset and sends the existing Resend notification. |
 | `middleware.ts` | Rewrites `ghana.kimberly-ryan.com/*` to `/ghana/*` and redirects the main domain's `/ghana` URL to the Ghana domain. |
 
-The Ghana page does not use the main site's header, footer or Sanity-driven
-homepage sections, so it can evolve independently. It does share the root
+The Ghana page has its own header and sections, so they can evolve
+independently, but it renders the main site's footer so both domains end the
+same way. The footer is passed `linkBase={MAIN_SITE_URL}` because links such as
+`/services/outsourcing` or `/privacy-policy` would otherwise be rewritten to
+`/ghana/*` by `middleware.ts` and 404 on the subdomain. It also shares the root
 layout (fonts, analytics) and the global Tailwind configuration.
 
 ## Design
@@ -101,7 +105,7 @@ These items came from the draft and are intentionally marked as placeholders:
   client's request, together with the hero address card, the map embed, the
   “Accra office / Airport West” stat and the JSON-LD `PostalAddress`. If a
   public address is confirmed, add it back to `components/ghana/constants.ts`,
-  `ghana-hero.tsx`, `ghana-contact.tsx`, `ghana-footer.tsx` and the schema in
+  `ghana-hero.tsx`, `ghana-contact.tsx` and the schema in
   `app/(ghana)/ghana/page.tsx`.
 
 ## Enquiries

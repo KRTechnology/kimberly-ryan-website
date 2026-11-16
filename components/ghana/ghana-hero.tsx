@@ -14,15 +14,7 @@ const GhanaHero = () => {
       <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-12 lg:px-8 lg:pb-10 lg:pt-20">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div>
-            <p className="inline-flex items-center gap-2.5 rounded-full border border-[#D5D7DA] bg-[#FAFAFA] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#535862]">
-              <span
-                className="h-1.5 w-1.5 rounded-full bg-[#EB821D]"
-                aria-hidden="true"
-              />
-              Human capital partner since 1999
-            </p>
-
-            <h1 className="mt-6 text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] text-[#181D27] sm:text-5xl lg:text-[3.6rem]">
+            <h1 className="text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] text-[#181D27] sm:text-5xl lg:text-[3.6rem]">
               One accountable
               <br className="hidden sm:block" /> people partner for
               <br className="hidden sm:block" />{" "}

@@ -12,8 +12,6 @@ export const CV_SUBMISSION_URL = "https://www.kracada.com/jobs";
 
 export const GHANA_PHONE_DISPLAY = "+233 50 725 7601";
 export const GHANA_PHONE_TEL = "+233507257601";
-export const GHANA_WHATSAPP_URL =
-  "https://wa.me/233507257601?text=Hello%20Kimberly%20Ryan%20Ghana%2C%20I%27d%20like%20to%20talk%20about%20your%20services.";
 export const GHANA_EMAIL = "info@kimberly-ryan.com";
 
 export const GHANA_NAV = [
