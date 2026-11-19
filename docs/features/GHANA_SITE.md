@@ -10,6 +10,7 @@ The Ghana landing page is built from the draft in
 | --- | --- |
 | `app/(ghana)/ghana/page.tsx` | The Ghana homepage (URL: `/ghana`). |
 | `components/ghana/*` | Ghana-specific header, sections and contact form. |
+| `sanity/schemas/ghana-page.ts` | The “Ghana Page” document edited in Studio (client logos and testimonial). |
 | `components/layout/footer.tsx` | The main site's footer, reused verbatim on the Ghana page. |
 | `app/api/ghana-contact/route.ts` | Saves enquiries to the existing Sanity `contactSubmission` dataset and sends the existing Resend notification. |
 | `middleware.ts` | Rewrites `ghana.kimberly-ryan.com/*` to `/ghana/*` and redirects the main domain's `/ghana` URL to the Ghana domain. |
@@ -40,6 +41,30 @@ brands. Stick to these values:
 Avoid the cream and brown tints the first draft used (`#FCF9F4`, `#FBF7F1`,
 `#A85A12`, `#1B0E03`). Accent colour is for buttons, links and small
 highlights only; labels and body copy stay grey.
+
+## Editing the client logos and testimonial
+
+Studio has a **Ghana Page** item at the top of the sidebar. It is a singleton:
+one fixed document (`_type: "ghanaPage"`, `_id: "ghanaPage"`) rather than a
+list, so there is only ever one to edit. It holds:
+
+- **Client logos** — an ordered array. Each entry has a company name, a logo
+  image (transparent PNG or SVG works best) and an optional website URL. Drag
+  entries to reorder; the first five sit in one row on desktop, the rest wrap.
+  Logos with a URL become links that open in a new tab.
+- **Client testimonial** — quote, client name, job title and company, plus a
+  “Show on the website” switch so a quote can be hidden without deleting it.
+
+Everything is optional. While the logos list is empty the page keeps the five
+dashed “Client logo” placeholder tiles, and while there is no complete quote it
+keeps the “To be confirmed” placeholder. Once a quote exists, the placeholder
+is gone; switching the quote off hides the whole testimonial block instead of
+bringing the placeholder back.
+
+Changes are picked up within five minutes (the query is cached with the
+`ghana-page` tag). To publish immediately, point a Sanity webhook at
+`/api/revalidate`; the handler revalidates the tag and `/ghana` when it receives
+a `ghanaPage` document.
 
 ## Local preview
 
@@ -90,10 +115,12 @@ default Ghana host list in `middleware.ts`.
 
 These items came from the draft and are intentionally marked as placeholders:
 
-- **Client logos** — five tiles in `components/ghana/ghana-trust.tsx` are
-  labelled “Client logo”. Replace them with approved Ghana client logos.
-- **Testimonial** — the quote in `ghana-trust.tsx` is placeholder copy with a
-  “To be confirmed” label. Add an approved quote, name, role and company.
+- **Client logos** — published through the **Ghana Page** tab in Studio. Until
+  real logos are added, the page shows five dashed “Client logo” placeholder
+  tiles.
+- **Testimonial** — also edited in the **Ghana Page** tab. Until an approved
+  quote with a client name is added, the page shows placeholder copy with a
+  “To be confirmed” label.
 - **Photos** — the hero and “Why us” images are existing Kimberly Ryan stock
   photos. Swap in approved photos of the Ghana team when available.
 - **Email address** — `info@kimberly-ryan.com` is used as the Ghana contact

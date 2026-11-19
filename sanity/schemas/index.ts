@@ -18,6 +18,7 @@ import { trainingRegistrationForm } from "./training-registration-form";
 import { trainingRegistrationSubmission } from "./training-registration-submission";
 import { partnerSubmission } from "./partner-submission";
 import { eventRegistrationSubmission } from "./event-registration-submission";
+import ghanaPage from "./ghana-page";
 
 
 export const schemaTypes = [
@@ -41,4 +42,5 @@ export const schemaTypes = [
   trainingRegistrationSubmission,
   partnerSubmission,
   eventRegistrationSubmission,
+  ghanaPage,
 ];

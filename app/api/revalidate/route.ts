@@ -160,6 +160,15 @@ export async function POST(request: NextRequest) {
         console.log("Revalidated what's new section and home page");
         break;
 
+      case "ghanaPage":
+        // Revalidate the editable Ghana homepage content (client logos and
+        // testimonial). Internally the Ghana domain's homepage is /ghana.
+        revalidateTag("ghana-page");
+        revalidatePath("/ghana");
+        revalidatePath("/");
+        console.log("Revalidated the Ghana page");
+        break;
+
       default:
         // For any other content type, revalidate the home page
         revalidatePath("/");

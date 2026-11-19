@@ -128,6 +128,7 @@ const Footer = ({ footerBlogPosts = [], linkBase = "" }: FooterProps) => {
               <Link
                 key="facebook"
                 href="#"
+                aria-label="Kimberly Ryan on Facebook"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
                 <Facebook size={20} />
@@ -135,6 +136,7 @@ const Footer = ({ footerBlogPosts = [], linkBase = "" }: FooterProps) => {
               <Link
                 key="twitter"
                 href="#"
+                aria-label="Kimberly Ryan on X"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
                 {/* <Twitter size={20} /> */}
@@ -143,6 +145,7 @@ const Footer = ({ footerBlogPosts = [], linkBase = "" }: FooterProps) => {
               <Link
                 key="linkedin"
                 href="#"
+                aria-label="Kimberly Ryan on LinkedIn"
                 className="text-gray-400 hover:text-white transition-colors duration-200"
               >
                 <Linkedin size={20} />

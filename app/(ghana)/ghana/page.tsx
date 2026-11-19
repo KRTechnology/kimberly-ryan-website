@@ -13,7 +13,7 @@ import {
   GHANA_PHONE_TEL,
   MAIN_SITE_URL,
 } from "@/components/ghana/constants";
-import type { FooterBlogPost } from "@/types/sanity";
+import type { FooterBlogPost, GhanaPage } from "@/types/sanity";
 
 const SITE_URL = "https://ghana.kimberly-ryan.com";
 
@@ -86,15 +86,20 @@ const organisationSchema = {
 };
 
 export default async function GhanaHomePage() {
-  // Same footer as the main site. The Insights column is optional, so an
-  // unreachable or unconfigured Sanity project (as in local development)
-  // should leave it empty rather than take the whole page down.
+  // Footer insights and the editable client/testimonial content both come from
+  // Sanity. An unreachable or unconfigured project (as in local development)
+  // should leave them at their placeholders rather than take the page down.
   let footerBlogPosts: FooterBlogPost[] = [];
+  let ghanaPage: GhanaPage | null = null;
   try {
-    const { getFooterBlogPosts } = await import("@/lib/sanity");
-    footerBlogPosts = await getFooterBlogPosts();
+    const { getFooterBlogPosts, getGhanaPage } = await import("@/lib/sanity");
+    [footerBlogPosts, ghanaPage] = await Promise.all([
+      getFooterBlogPosts(),
+      getGhanaPage(),
+    ]);
   } catch {
     footerBlogPosts = [];
+    ghanaPage = null;
   }
 
   return (
@@ -118,7 +123,10 @@ export default async function GhanaHomePage() {
         <GhanaServices />
         <GhanaCompliance />
         <GhanaWhyUs />
-        <GhanaTrust />
+        <GhanaTrust
+          clientLogos={ghanaPage?.clientLogos}
+          testimonial={ghanaPage?.testimonial}
+        />
         <GhanaCtaPair />
         <GhanaContact />
       </main>

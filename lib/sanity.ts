@@ -172,6 +172,39 @@ export async function getFooterBlogPosts() {
   );
 }
 
+// Helper function to get the editable Ghana homepage content (client logos
+// and testimonial) with cache tags
+export async function getGhanaPage() {
+  return client.fetch(
+    `
+    *[_type == "ghanaPage"][0] {
+      _id,
+      clientLogos[]{
+        _key,
+        name,
+        "logoUrl": logo.asset->url,
+        "logoAlt": logo.alt,
+        websiteUrl
+      },
+      testimonial{
+        quote,
+        author,
+        position,
+        company,
+        active
+      }
+    }
+  `,
+    {},
+    {
+      next: {
+        revalidate: 300, // Cache for 5 minutes
+        tags: ["ghana-page"],
+      },
+    }
+  );
+}
+
 // Helper function to get single blog post with cache tags
 export async function getBlogPost(slug: string) {
   return client.fetch(

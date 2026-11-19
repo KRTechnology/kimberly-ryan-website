@@ -590,3 +590,32 @@ export interface TrainingRegistrationSubmission {
   internalNotes?: string;
   registrationDetails?: TrainingRegistrationDetails;
 }
+
+/**
+ * Content managed in Studio's "Ghana Page" tab (schemas/ghana-page.ts).
+ * Every field is optional: the page falls back to launch placeholders when a
+ * value has not been filled in yet.
+ */
+export interface GhanaClientLogo {
+  _key?: string;
+  name: string;
+  /** CDN URL for the uploaded logo, projected in getGhanaPage(). */
+  logoUrl?: string;
+  /** Alt text entered in Studio; falls back to the company name. */
+  logoAlt?: string;
+  websiteUrl?: string;
+}
+
+export interface GhanaTestimonial {
+  quote?: string;
+  author?: string;
+  position?: string;
+  company?: string;
+  active?: boolean;
+}
+
+export interface GhanaPage {
+  _id: string;
+  clientLogos?: GhanaClientLogo[] | null;
+  testimonial?: GhanaTestimonial | null;
+}
