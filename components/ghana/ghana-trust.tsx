@@ -108,9 +108,6 @@ const GhanaTrust = ({ clientLogos, testimonial }: GhanaTrustProps) => {
               Trusted by organisations across Africa
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-[#535862] md:text-right">
-            Client names and logos are shown with permission.
-          </p>
         </div>
 
         {hasLogos ? (
